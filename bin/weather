@@ -1,7 +1,8 @@
 #!/bin/bash 
 data=`curl "wttr.in?format=%t+%C" 2>/dev/null`
-if [ grep -q "Unknown location" <<< "$data" ] || \ 
-    [grep -q "</html>" <<< "$data"]; then
+if [ grep -q "Unknown location" <<< "$data" ] || \
+    [ grep -q "</html>" <<< "$data" ] || \
+    [ grep -q "Sorry, we are running out of" <<< "$data" ]; then
     echo
 else
     echo "$data"

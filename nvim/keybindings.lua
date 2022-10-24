@@ -50,7 +50,7 @@ vim.keymap.set("n", "<leader>ss", ":source $MYVIMRC<CR>")
 vim.keymap.set("n", "<A-n>", ":tabnew .<CR>")
 vim.keymap.set("n", "<A-t>", ":vsplit .<CR>")
 
---NerdTree
+-- NvimTree
 vim.keymap.set("n", "<leader>n", ":NvimTreeFocus<CR>")
 vim.keymap.set("n", "<A-Tab>", ":NERDTreeToggle | TagbarToggle <CR>")
 -- vim.keymap.set('n', "<A-f>", ":NERDTreeFind<CR>")
@@ -112,4 +112,3 @@ vim.keymap.set("v", "rr", ":SnipRun <CR>")
 -- Better multiple lines tabbing with < and >
 vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
-

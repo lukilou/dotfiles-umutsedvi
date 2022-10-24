@@ -40,13 +40,14 @@ set inccommand=nosplit
 set conceallevel=0
 
 set shiftwidth=4
+
 set expandtab
 set smarttab
 set smartindent
+set spell
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
 set termguicolors
-
 ]])
 o.termguicolors = true
 
@@ -103,6 +104,10 @@ o.wrap = true
 o.textwidth = 300
 o.list = true
 o.jumpoptions = "view"
+
+-- Last status = 0, removes the bottom line text after running a command
+o.ls = 0
+o.ch = 1
 
 require("plugins")
 require("keybindings")
