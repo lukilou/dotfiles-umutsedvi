@@ -1,6 +1,6 @@
 #!/bin/bash 
 PACKAGE_ICON=
-UPDATE=`dnf check-update | awk '{print $1}' | grep [.] | wc -l`
+UPDATE=`dnf check-update 2>/dev/null | awk '{print $1}' | grep [.] | wc -l`
 PKG=$UPDATE/`dnf list installed | wc -l`
 
 (( $UPDATE > 5 )) && notify-send --app-name="Package Manager" --category="Package Manager" "There are $UPDATE updates available." --icon="system-software-update"

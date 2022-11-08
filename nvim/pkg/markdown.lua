@@ -11,4 +11,4 @@ vim.g.instant_markdown_allow_external_content = 1
 --vim.g.instant_markdown_autoscroll = 0
 --vim.g.instant_markdown_port = 8888
 --vim.g.instant_markdown_python = 1
-vim.g.instant_markdown_browser = "epiphany"
+vim.g.instant_markdown_browser = "midori"

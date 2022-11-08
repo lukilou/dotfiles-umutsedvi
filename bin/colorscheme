@@ -113,14 +113,13 @@ else
     echo $write > /tmp/colorscheme
 fi
 
+echo $XDG_CURRENT_DESKTOP
 case $XDG_CURRENT_DESKTOP in
     X-Cinnamon)
         SetCinnamon
-        echo Session: Cinnamon
         ;;
     i3)
         SetI3
-        echo Session: i3
         ;;
 esac
 SetTerminal &

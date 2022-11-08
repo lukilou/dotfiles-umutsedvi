@@ -44,9 +44,19 @@ Install()
         echo "Added GitHub CLI Repository"
     dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo >> /tmp/install/rpm.logs &&  \
         echo "Added Docker Repository"
-    rpm --import https://packages.microsoft.com/keys/microsoft.asc
-    sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo' >> /tmp/install/rpm.logs && \
-        echo "Added VS Code Repository"
+    dnf copr enable agriffis/neovim-nightly -y && \
+        echo "Added COPR Repository for neovim-nightly"
+    tee -a /etc/yum.repos.d/vscodium.repo << 'EOF'
+[gitlab.com_paulcarroty_vscodium_repo]
+name=gitlab.com_paulcarroty_vscodium_repo
+baseurl=https://paulcarroty.gitlab.io/vscodium-deb-rpm-repo/rpms/
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg
+metadata_expire=1h
+EOF 
+&& echo "Added VS Codium Repository"
     echo "╭────────────────────────────────╮"
     echo "│ Updating programs and drivers  │"
     echo "╰────────────────────────────────╯"
@@ -54,10 +64,8 @@ Install()
     ## GRAPHIC UTILS ##
     echo "Installing and configuring Graphical Utility Tools"
     echo "Configuring SDDM"
-    dnf install sddm sddm-themes -y >> /tmp/install/graphic.logs
-    cp sddm/themes/sddm-chili-0.1.5 /usr/share/sddm/themes -r
-    cp sddm/sddm.conf /etc/sddm.conf
-    systemctl enable sddm >> /tmp/install/graphic.logs
+    dnf install lightdm -y >> /tmp/install/graphic.logs
+    systemctl enable lightdm >> /tmp/install/graphic.logs
     systemctl set-default graphical.target >> /tmp/install/graphic.logs
     ## Directories ##
     echo "Installing required programs"
@@ -82,13 +90,11 @@ Install()
 
     ## REQUIRED PROGRAMS ##
     echo "Installing basic programs"
-    dnf install -y firefox nemo gedit xarchiver
+    dnf install -y firefox xed thunar xarchiver
     ## CLI PROGRAMS ##
     echo "╭────────────────────────────────╮"
     echo "│  Installing Development Tools  │"
     echo "╰────────────────────────────────╯"
-    echo "from agriffis/neovim-nightly"
-    dnf copr enable agriffis/neovim-nightly -y
     echo "Installing NodeJS Pip Lua"
     dnf install neovim python3-neovim gh -y
     dnf module install nodejs:16/common -y
@@ -118,8 +124,8 @@ Install()
     systemctl enable docker
     ## neovim get_config ##
     echo "Configuring Neovim"
-    sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-           https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    git clone --depth 1 https://github.com/wbthomason/packer.nvim\
+     ~/.local/share/nvim/site/pack/packer/start/packer.nvim
     npm install -g neovim
     npm install -g coc-clangd
     npm install -g bash-language-server
@@ -129,19 +135,34 @@ Install()
         "\nvim.cmd('source /home/umutsevdi/.dotfiles/nvim/init.lua')" >> $HOME/.config/nvim/init.lua
     if [ "$get_common" = true ]; then
         echo "Installing Common Programs"
-        dnf install -y gnome-calculator gnome-font-viewer gnome-disk-utility \
-            geary gnome-calendar gnome-system-monitor eom dconf-edior
-        dnf install -y discord telegram obs-studio cheese epiphany evince gnome-software
+        echo "obs-studio midori btop telegram spotify discord teams libreoffice slack" \ 
+            "krita kdenlive zoom jetbrains-toolbox git-kraken VirtualBox"
+        dnf install -y elementary-calculator elementary-print gnome-disk-utility \
+            geary elementary gnome-system-monitor eom dconf-edior btop
+        dnf install -y telegram obs-studio cheese midori atril gnome-software
         dnf install -y flatpak >> /tmp/install/flatpak.logs
         flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo  
         flatpak update
-        flatpak install com.getpostman.Postman  com.spotify.Client io.github.shiftey.Desktop \
-            com.github.tchx84.Flatseal com.microsoft.Teams \
-            org.libreoffice.LibreOffice com.icons8.Lunacy \
-            com.slack.Slack  org.gimp.GIMP org.kde.kdenlive us.zoom.Zoom
-        fi
-    echo "Installing JetBrains Toolbox"
-    curl -fsSL https://raw.githubusercontent.com/nagygergo/jetbrains-toolbox-install/master/jetbrains-toolbox.sh | bash
+        flatpak install com.getpostman.Postman \
+            com.spotify.Client \
+            com.discordapp.Discord \
+            com.github.tchx84.Flatseal \
+            com.microsoft.Teams \
+            org.libreoffice.LibreOffice \
+            com.slack.Slack \
+            org.kde.krita \
+            org.kde.kdenlive \
+            us.zoom.Zoom
+        echo "Installing JetBrains Toolbox"
+        curl -fsSL https://raw.githubusercontent.com/nagygergo/jetbrains-toolbox-install/master/jetbrains-toolbox.sh | bash
+        echo "Installing Git Kraken"
+        cd /tmp/
+        wget https://release.gitkraken.com/linux/gitkraken-amd64.rpm
+        dnf install gitkraken-amd64.rpm -y
+        cd -
+        echo "Installing Virtual Box"
+        dnf install VirtualBox -y
+    fi
 
     echo "╭────────────────────────────────╮"
     echo "│      Installing KDEConnect     │"
@@ -213,10 +234,8 @@ Configure()
     rm -rf $HOME/.config/autostart
     ln -s $HOME/.dotfiles/autostart $HOME/.config/autostart
     $HOME/.dotfiles/bin/dotfetch --root
-    echo -e " For Neovim run following commands on install:\n\
-    - :PlugInstall\n\
-    - :TSInstall all\n"\
-    nvim -c ":PlugInstall | CocUpdate " "Neovim Installation is completed"
+    echo "Updating Neovim packages"
+    nvim -c ":PackerInstall | CocUpdate " "Neovim Installation is completed"
 }
 
 for arg in $@;do
