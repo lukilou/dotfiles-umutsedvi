@@ -6,18 +6,18 @@
 color_value=`cat /tmp/colorscheme 2>/dev/null`
 [ "$color_value" = "" ] && color_value=true
 
-GTK_THEME_LIGHT="Qogir-Light"
-GTK_THEME_DARK="Qogir-Dark"
+GTK_THEME_LIGHT="vimix-light-compact-doder"
+GTK_THEME_DARK="vimix-dark-compact-doder"
 CIN_THEME_DOCK_LIGHT="Colloid-Compact-Dracula"
 CIN_THEME_LIGHT="Colloid-Light-Compact-Dracula"
 CIN_THEME_DARK="Colloid-Dark-Compact-Dracula"
 
-VIM_THEME_DARK="mocha"
-VIM_THEME_LIGHT="latte"
-VIM_THEME_TYPE="catppuccin_flavour"
+VIM_THEME_DARK="default"
+VIM_THEME_LIGHT="lighter"
+VIM_THEME_TYPE="material_theme_style"
 
-GTK_ICON_LIGHT="Taru-Adw"
-GTK_ICON_DARK="Taru-Adw"
+GTK_ICON_LIGHT="Vector"
+GTK_ICON_DARK="Vector"
 CIN_ICON_LIGHT="Taru-Adw"
 CIN_ICON_DARK="Taru-Adw-dark"
 
@@ -118,7 +118,7 @@ case $XDG_CURRENT_DESKTOP in
     X-Cinnamon)
         SetCinnamon
         ;;
-    i3)
+    *)
         SetI3
         ;;
 esac

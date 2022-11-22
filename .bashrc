@@ -2,7 +2,7 @@
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
-	. /etc/bashrc
+    . /etc/bashrc
 fi
 # User specific environment
 if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
@@ -51,11 +51,11 @@ export TERMINAL=/bin/alacritty
 
 # User specific aliases and functions
 if [ -d $HOME/.bashrc.d ]; then
-	for rc in $HOME/.bashrc.d/*; do
-		if [ -f "$rc" ]; then
-			. "$rc"
-		fi
-	done
+    for rc in $HOME/.bashrc.d/*; do
+        if [ -f "$rc" ]; then
+            . "$rc"
+        fi
+    done
 fi
 
 unset rc
@@ -98,6 +98,10 @@ ps_dir="\[\e[33;3m\]\W"
 ps_git="\[\e[;0m\]\[\e[33;3m\]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')"
 ps_arrow=" → \[\e[39;0m\]"
 export PS1="$ps_t $ps_dir$ps_git $ps_arrow"
+
+
+# start graphical server
+(( `tty | grep tty1 -c` >= 1 )) && startx
 
 # ┌──────────────────────┐
 # │      Initialize      │

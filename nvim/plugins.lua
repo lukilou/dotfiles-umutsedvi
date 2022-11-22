@@ -29,12 +29,12 @@ require('packer').startup({
         use 'preservim/tagbar'                                                                 -- Tag bar displays functions, classes and variables of files on the left
         use 'junegunn/vim-easy-align'                                                          -- Auto align
         use 'LudoPinelli/comment-box.nvim'
-        use 'rakr/vim-one'
-        use {'fatih/vim-go', run = ':GoUpdateBinaries', ft = {'go', 'mod'} }                    -- Go official vim plugin
+        use {'kaicataldo/material.vim', branch = 'main' }
+        use {'fatih/vim-go', run = ':GoUpdateBinaries', ft = {'go', 'mod'}}                    -- Go official vim plugin
         use {'junegunn/fzf', dir = '~/.fzf', run = './install --all'}
         use {'SirVer/ultisnips', requires= {'honza/vim-snippets'}}                             -- Snippet support
-        use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }                            -- Syntax highlighting
-        use {'neoclide/coc.nvim', branch =   'release', run = 'coc#util#install()' }           -- Conqueror of Completions: Language server for any language
+        use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}                            -- Syntax highlighting
+        use {'neoclide/coc.nvim', branch = 'release', run = 'coc#util#install()'}           -- Conqueror of Completions: Language server for any language
         use {
           'weilbith/nvim-code-action-menu',
           after = 'coc.nvim',
@@ -53,7 +53,7 @@ require('packer').startup({
 
 -- import configurations
 require("pkg/colorscheme")
-vim.cmd("colorscheme one")
+vim.cmd('colorscheme material')
 
 require("pkg/markdown")
 require("pkg/nerdtree")

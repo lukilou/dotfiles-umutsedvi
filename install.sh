@@ -46,6 +46,8 @@ Install()
         echo "Added Docker Repository"
     dnf copr enable agriffis/neovim-nightly -y && \
         echo "Added COPR Repository for neovim-nightly"
+    dnf copr enable atim/lazygit -y && \
+        echo "Added COPR Repository for lazygit"
     tee -a /etc/yum.repos.d/vscodium.repo << 'EOF'
 [gitlab.com_paulcarroty_vscodium_repo]
 name=gitlab.com_paulcarroty_vscodium_repo
@@ -70,7 +72,7 @@ EOF
     ## Directories ##
     echo "Installing required programs"
     dnf install -y dbus-devel gcc git libconfig-devel libdrm-devel libev-devel libX11-devel libX11-xcb libXext-devel libxcb-devel mesa-libGL-devel meson pcre-devel pixman-devel uthash-devel xcb-util-image-devel xcb-util-renderutil-devel xorg-x11-proto-devel
-    dnf install -y playerctl scrot xdotool  xrandr xinput xclip mpv gnome-online-accounts
+    dnf install -y playerctl scrot xdotool  xrandr xinput xclip mpv gnome-online-accounts ImageMagick
     echo "Installing i3 window manager & compositor"
     dnf install -y --allowerasing i3-gaps rofi conky
     dnf install -y --allowerasing alacritty polybar
@@ -91,6 +93,7 @@ EOF
     ## REQUIRED PROGRAMS ##
     echo "Installing basic programs"
     dnf install -y firefox xed thunar xarchiver
+    dnf install -y lazygit btop
     ## CLI PROGRAMS ##
     echo "╭────────────────────────────────╮"
     echo "│  Installing Development Tools  │"
@@ -138,7 +141,7 @@ EOF
         echo "obs-studio midori btop telegram spotify discord teams libreoffice slack" \ 
             "krita kdenlive zoom jetbrains-toolbox git-kraken VirtualBox"
         dnf install -y elementary-calculator elementary-print gnome-disk-utility \
-            geary elementary gnome-system-monitor eom dconf-edior btop
+            geary elementary gnome-system-monitor eom dconf-edior
         dnf install -y telegram obs-studio cheese midori atril gnome-software
         dnf install -y flatpak >> /tmp/install/flatpak.logs
         flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo  
