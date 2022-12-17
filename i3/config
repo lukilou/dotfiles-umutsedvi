@@ -46,7 +46,7 @@ exec_always --no-startup-id killall picom; picom -b --config ~/.dotfiles/picom/p
 # initialize applets 
 exec --no-startup-id pasystray --notify=sink_default source_default 
 exec --no-startup-id xfce4-power-manager
-exec --no-startup-id blueberry-tray 
+exec --no-startup-id blueman-applet
 exec --no-startup-id nm-applet
 exec --no-startup-id xfce4-clipman
 exec --no-startup-id geary --gapplication-service
@@ -54,7 +54,7 @@ exec --no-startup-id geary --gapplication-service
 # anytime i3 wm restarts these processes
 exec_always --no-startup-id killall dunst; dunst -conf $HOME/.dotfiles/dunst/dunstrc
 exec_always --no-startup-id killall conky; sleep 0.1; conky --config=$HOME/.dotfiles/conky/.conkyrc --daemonize --pause=0
-exec_always --no-startup-id killall glava; sleep 1; glava --desktop;
+# exec_always --no-startup-id killall glava; sleep 1; glava --desktop;
 exec_always --no-startup-id killall polybar; sleep 0.1;  polybar bottom & polybar main; 
 # exec_always --no-startup-id protonvpn --gapplication-service
 

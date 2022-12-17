@@ -1,3 +1,32 @@
+--  ╭────────────────╮
+--  │ Coc Extensions │
+--  ╰────────────────╯
+vim.g.coc_global_extensions = {
+   "coc-clangd",
+   "coc-cmake",
+   "coc-css",
+   "coc-diagnostic",
+   "coc-docker",
+   "coc-emmet",
+   "coc-eslint",
+   "coc-explorer",
+   "coc-html-css-support",
+    "coc-java",
+   "coc-json",
+    "coc-lua",
+   "coc-markdown-preview-enhanced",
+   "coc-markdownlint",
+   "coc-prettier",
+   "coc-sh",
+   "coc-snippets",
+   "coc-stylelintplus",
+   "coc-sql",
+   "coc-tsserver",
+   "coc-vimlsp",
+   "coc-webview",
+   "coc-xml",
+   "coc-yaml",
+}
 -- Some servers have issues with backup files, see #649.
 vim.opt.backup = false
 vim.opt.writebackup = false

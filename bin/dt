@@ -35,7 +35,7 @@ MakeTerminal()
     case $session in
     
         *gnome-terminal* )
-            [ "$is_tab" = true ] && win_param="--tab" || win_param="--window"
+            [ $is_tab = true ] && win_param="--tab" || win_param="--window"
             dir_param="--working-directory=$(pwd)"
         ;;
         *kitty* )
@@ -43,7 +43,7 @@ MakeTerminal()
             dir_param="--directory $(pwd)"
         ;;
         *xfce4-terminal* )
-            [ "$is_tab" = true] && win_param="--tab" || win_param=
+            [ $is_tab = true] && win_param="--tab" || win_param=
             dir_param="--working-directory=$(pwd)"
         ;;
         *xterm* )
@@ -51,11 +51,11 @@ MakeTerminal()
             dir_param="'cd $(pwd);bash'"
         ;;
         *konsole* )
-            [ "$is_tab" = true] && win_param="--new-tab" || win_param=
+            [ $is_tab = true] && win_param="--new-tab" || win_param=
             dir_param="--workdir $(pwd)"
         ;;
         *)
-            [ "$is_tab" = true ] && win_param="--tab" || win_param=
+            [ $is_tab = true ] && win_param="--tab" || win_param=
             dir_param="--working-directory=$(pwd)"
         ;;
     esac
@@ -63,12 +63,12 @@ MakeTerminal()
 }
 
 for arg in $@;do
-    if   [ "$arg" = "-h" ] || [ "$arg" = "--help" ]; then
+    if   [ $arg = -h ] || [ $arg = --help ]; then
         Help
         exit
-    elif [ "$arg" = "-t" ] || [ "$arg" = "--tab" ]; then 
+    elif [ $arg = -t ] || [ $arg = --tab ]; then 
         is_tab=true
-    elif [ "$arg" = "-s" ] || [ "$arg" = "--session" ]; then
+    elif [ $arg = -s ] || [ $arg = --session ]; then
         custom_session=true
     elif [ "$custom_session" = true ]; then
         session=$arg

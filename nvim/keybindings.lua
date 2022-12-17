@@ -106,9 +106,13 @@ vim.keymap.set("n", "ff", ":Telescope find_files <CR>")
 vim.keymap.set("n", "<leader>fg", "<cmd>Telescope live_grep<cr>")
 vim.keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>")
 vim.keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>")
--- For C,  pressing K on the keyword will pull up the built-in manpage directly. For instance, place the cursor on the printf keyword:
+-- For C,  pressing K on the keyword will pull up the built-in
+-- manpage directly. For instance, place the cursor on the printf keyword:
 --Snippet runner
 vim.keymap.set("v", "rr", ":SnipRun <CR>")
 -- Better multiple lines tabbing with < and >
 vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
+
+-- undo tree run
+vim.keymap.set('n', '<A-u>', vim.cmd.UndotreeToggle)

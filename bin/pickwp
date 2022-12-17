@@ -45,7 +45,7 @@ Pick()
     new_img="$path/`ls $path/ | shuf -n 1  2> /dev/null`"
     old_img=`cat /tmp/pickwp_img  2> /dev/null`
 
-    while [ "$new_img" = "$old_img" ]; do
+    while [ $new_img = $old_img ]; do
         new_img="$path/`ls $path/ | shuf -n 1  2> /dev/null`"
     done
 
@@ -60,15 +60,14 @@ Pick()
 }
 
 for arg in $@; do
-    if [ "$arg" = "-h" ] || [ "$arg" = "--help" ]; then
+    if [ $arg = -h ] || [ $arg = --help ]; then
         Help
         exit
-    elif [ "$arg" = "-d" ] || [ "$arg" = "--directory" ]; then
+    elif [ $arg = -d ] || [ $arg = --directory ]; then
         get_dir=true
-    elif [ "$get_dir" = true ]; then
+    elif [ $get_dir = true ]; then
         path=$arg
-        Pick
-        exit
+        get_dir=false
     else
         echo -e "Error: Invalid arguments" 1>&2
         exit
