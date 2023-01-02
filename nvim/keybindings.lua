@@ -33,11 +33,7 @@ map <silent> <A-Left> :tabprevious<CR>
 map <silent> <A-Right> :tabnext<CR>
 map <silent> <A-1> :tabfirst <cr>
 map <silent> <A-0> :tablast<cr>
-
 " Jump definition
-nmap <silent> <nowait> gj :call CocAction('jumpDefinition',  'split')<CR>
-nmap <silent> <nowait> gd :call CocAction('jumpDefinition',  'vsplit')<CR>
-nmap <silent> <nowait> gt :call CocAction('jumpDefinition',  'tabe')<CR>
 ]])
 
 --quit without saving
@@ -55,33 +51,27 @@ vim.keymap.set("n", "<leader>n", ":NvimTreeFocus<CR>")
 vim.keymap.set("n", "<A-Tab>", ":NERDTreeToggle | TagbarToggle <CR>")
 -- vim.keymap.set('n', "<A-f>", ":NERDTreeFind<CR>")
 
---format code
-vim.keymap.set("n", "<A-f>", ":Format <CR>")
-vim.keymap.set("n", "<A-q>", ":CodeActionMenu <CR>")
+--  ┌─────────────────────────────────────────┐
+--  │ Language Server Protocol Configurations │
+--  └─────────────────────────────────────────┘
+-- gi: Lists all the implementations for the symbol under the cursor in the quickfix window.
+-- See :help vim.lsp.buf.implementation().
+-- go: Jumps to the definition of the type of the symbol under the cursor.
+-- See :help vim.lsp.buf.type_definition().
+-- gr: Lists all the references to the symbol under the cursor in the quickfix window.
+-- See :help vim.lsp.buf.references().
+
+
+-- Code Formatter
+vim.keymap.set("n", "<A-f>", ":LspZeroFormat <CR>")
+-- Code actions
+vim.keymap.set("n", "<A-q>", "v:lua vim.lsp.buf.code_action() <CR>")
+-- Bulk rename
+vim.keymap.set("n", "<A-r>", "v:lua vim.lsp.buf.rename() <CR>")
 --Coc Diagnostic Menu
-vim.keymap.set("n", "<silent> <A-d>", "<CR>  :CocDiagnostics <CR>")
+vim.keymap.set("n", "<A-d>", "v:lua vim.diagnostic.open_float() <CR>")
 
---Mappings for CoCList
---Show all diagnostics.
-vim.keymap.set("n", "<A-d>", ":CocDiagnostics <cr>")
 
-vim.keymap.set("n", "<silent><nowait> <space>a", ":<C-u>CocList diagnostics<cr>")
---Manage extensions.
-vim.keymap.set("n", "<silent><nowait> <space>e", ":<C-u>CocList extensions<cr>")
---Show commands.
-vim.keymap.set("n", "<silent><nowait> <space>c", ":<C-u>CocList commands<cr>")
---Find symbol of current document.
-vim.keymap.set("n", "<silent><nowait> <space>o", ":<C-u>CocList outline<cr>")
---Search workspace symbols.
-vim.keymap.set("n", "<silent><nowait> <space>s", ":<C-u>CocList -I symbols<cr>")
---Do default action for next item.
-vim.keymap.set("n", "<silent><nowait> <space>j", ":<C-u>CocNext<CR>")
---Do default action for previous item.
-vim.keymap.set("n", "<silent><nowait> <space>k", ":<C-u>CocPrev<CR>")
---Resume latest coc list.
-vim.keymap.set("n", "<silent><nowait> <space>p", ":<C-u>CocListResume<CR>")
---Git Status
-vim.keymap.set("n", "<silent> <space>g", ":<C-u>CocList --normal gstatus<CR>")
 -- autofill
 vim.keymap.set("i", '"', '""<left>')
 vim.keymap.set("i", "'", "''<left>")
