@@ -8,12 +8,6 @@
 -- @author umutsevdi
 
 vim.cmd([[
-" Go Compiler Settings
-autocmd BufWritePre *.go :silent call CocAction('runCommand',  'editor.action.organizeImport')
-autocmd FileType go nmap gtj :CocCommand go.tags.add json<cr>
-autocmd FileType go nmap gty :CocCommand go.tags.add yaml<cr>
-autocmd FileType go nmap gtx :CocCommand go.tags.clear<cr>n
-
 " Window Movement
 " Change vim window focus
 map <C-h> <C-w>h
@@ -45,11 +39,7 @@ vim.keymap.set("n", "<leader>ss", ":source $MYVIMRC<CR>")
 -- tab management
 vim.keymap.set("n", "<A-n>", ":tabnew .<CR>")
 vim.keymap.set("n", "<A-t>", ":vsplit .<CR>")
-
--- NvimTree
-vim.keymap.set("n", "<leader>n", ":NvimTreeFocus<CR>")
-vim.keymap.set("n", "<A-Tab>", ":NERDTreeToggle | TagbarToggle <CR>")
--- vim.keymap.set('n', "<A-f>", ":NERDTreeFind<CR>")
+vim.keymap.set("n", "<A-Tab>", ":NERDTreeToggle | TagbarToggle<CR>")
 
 --  ┌─────────────────────────────────────────┐
 --  │ Language Server Protocol Configurations │
@@ -103,6 +93,3 @@ vim.keymap.set("v", "rr", ":SnipRun <CR>")
 -- Better multiple lines tabbing with < and >
 vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
-
--- undo tree run
-vim.keymap.set('n', '<A-u>', vim.cmd.UndotreeToggle)

@@ -27,21 +27,17 @@ require('packer').startup({
         use 'lewis6991/gitsigns.nvim' -- git add, update, delete symbols
         use 'tpope/vim-fugitive' -- git Integration
         use 'airblade/vim-gitgutter' -- displays git diff
-        use 'preservim/nerdtree'
         use {
             'nvim-telescope/telescope.nvim',
             tag = '0.1.0',
             requires = { 'nvim-lua/plenary.nvim' }
         } -- fzf extension that displays preview
+        use 'preservim/nerdtree'
         use 'nvim-lualine/lualine.nvim' -- a bar on the bottom that displays elements
         use 'preservim/tagbar' -- a bar displays functions, classes and variables of files on the left
         use 'junegunn/vim-easy-align' -- auto align
         use 'LudoPinelli/comment-box.nvim'
         use 'marko-cerovac/material.nvim'
-        use { 'fatih/vim-go',
-            run = ':GoUpdateBinaries',
-            ft = { 'go', 'mod' }
-        } -- go official vim plugin
         use { 'junegunn/fzf',
             dir = '~/.fzf',
             run = './install --all'
@@ -63,8 +59,6 @@ require('packer').startup({
         use { 'michaelb/sniprun',
             run = 'bash install.sh'
         } -- instant code runner
-        use 'vim-test/vim-test' -- test plugin for Vim
-        use 'mbbill/undotree'
         use {
             'VonHeikemen/lsp-zero.nvim',
             requires = {
@@ -82,10 +76,12 @@ require('packer').startup({
                 { 'hrsh7th/cmp-nvim-lua' },
 
                 -- Snippets
-                { 'L3MON4D3/LuaSnip' },
                 { 'rafamadriz/friendly-snippets' },
+                { 'L3MON4D3/LuaSnip' },
+                { 'honza/vim-snippets' },
             }
         }
+
     end,
     config = {
         max_jobs = 30,
@@ -93,6 +89,9 @@ require('packer').startup({
         compile_on_sync = true
     }
 })
+-- Unless you are still migrating, remove the deprecated commands from v1.x
+vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
+
 
 --  ╭───────────────────────╮
 --  │ Color scheme settings │
@@ -108,18 +107,26 @@ vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 --  │ Import configurations │
 --  ╰───────────────────────╯
 
-require('pkg/tsitter')
-require('pkg/lline')
-require("pkg/nerdtree")
+require('pkg/tree-sitter-config')
+require('pkg/lualine-config')
 require("pkg/tagbar")
 require('pkg/lsp-config')
-require('pkg/sr')
-require("pkg/bracey")
+require('pkg/snip-runner-config')
+require("pkg/bracey-config")
 require("pkg/markdown")
-require("pkg/test")
+require("pkg/nerdtree-config")
 
 --  ╭─────────────────╮
 --  │ GitSigns Config │
 --  ╰─────────────────╯
 require('gitsigns').setup()
 vim.cmd(':Gitsigns toggle_current_line_blame')
+
+
+--  ╭───────────────────────╮
+--  │ Snippet Configuration │
+--  ╰───────────────────────╯
+require("luasnip.loaders.from_vscode").lazy_load()
+require("luasnip.loaders.from_snipmate").lazy_load({ paths = { "~/.dotfiles/nvim/pkg/snippets/" } })
+--require("luasnip.loaders.from_snipmate").lazy_load()
+require("luasnip.loaders.from_snipmate").lazy_load({ paths = { "~/.local/share/nvim/site/pack/packer/start/vim-snippets/" } })

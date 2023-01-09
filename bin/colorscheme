@@ -37,11 +37,11 @@ Help()
 SetTerminal()
 {
     if [ "$is_dark" = true ]; then
-        sed -i s/"vim.g.$VIM_THEME_TYPE = \"$VIM_THEME_DARK\""/"vim.g.$VIM_THEME_TYPE = \"$VIM_THEME_LIGHT\""/ $HOME/.dotfiles/nvim/pkg/colorscheme.lua
+ #       sed -i s/"vim.g.$VIM_THEME_TYPE = \"$VIM_THEME_DARK\""/"vim.g.$VIM_THEME_TYPE = \"$VIM_THEME_LIGHT\""/ $HOME/.dotfiles/nvim/pkg/colorscheme.lua
 #        sed -i s/"set background=dark"/"set background=light"/ $HOME/.dotfiles/nvim/pkg/colorscheme.lua
         cat $HOME/.dotfiles/alacritty/base.yaml $HOME/.dotfiles/alacritty/light.yaml > $HOME/.config/alacritty/alacritty.yml
     else
-        sed -i s/"vim.g.$VIM_THEME_TYPE = \"$VIM_THEME_LIGHT\""/"vim.g.$VIM_THEME_TYPE = \"$VIM_THEME_DARK\""/ $HOME/.dotfiles/nvim/pkg/colorscheme.lua
+#        sed -i s/"vim.g.$VIM_THEME_TYPE = \"$VIM_THEME_LIGHT\""/"vim.g.$VIM_THEME_TYPE = \"$VIM_THEME_DARK\""/ $HOME/.dotfiles/nvim/pkg/colorscheme.lua
 #        sed -i s/"set background=light"/"set background=dark"/ $HOME/.dotfiles/nvim/pkg/colorscheme.lua
         cat $HOME/.dotfiles/alacritty/base.yaml $HOME/.dotfiles/alacritty/dark.yaml > $HOME/.config/alacritty/alacritty.yml
     fi
