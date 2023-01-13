@@ -31,30 +31,29 @@ conky.config = {
 	use_xft = true,
 	xftalpha = 0,
 	text_buffer_size = 2048,
-	font = 'JetBrains Mono:size=11',
+	font = 'FiraMono:size=11',
 	uppercase = false,
-	default_color = '#ffffff',
-    color0 = '#C9CBFF',
-    color1 = '#D9E0EE',
-    color2 = '#89DCEB',
-    color3 = '#F2CDCD',
+    color0 = '#ebdbb2', -- default fg
+    color1 = '#FFCE51', -- selection
+    color2 = '#F15D22', -- red
     color4 = '#C3BAC6',
     color5 = '#ABE9B3',
     color6 = '#FAE3B0',
+	default_color = '#F2CDCD',
 };
 conky.text = [[
-${voffset 15}${color1}${font Roboto Regular:size=55}${time %b%e}${voffset -30} ${alignr}${color0}${font Roboto Bold:size=20}${time %A}
-${font JetBrains Mono Regular:italic:size=12}${color3}${voffset -10}  ${alignr}${texeci 3600 weather}${voffset -10}
-${color1}${font JetBrains Mono Regular:bold:size=100}${time %k:%M}${font}
+${voffset 15}${color0}${font FiraSans:size=75}${time %b%e}${voffset -30} ${alignr}${color1}${font FiraSans Bold:size=20}${time %A}
+${font FiraMono:size=12}${color2}${voffset -10}  ${alignr}${texeci 3600 weather}${voffset -10}
+${color0}${font FiraMono:bold:size=100}${time %k:%M}${font}
 ${voffset 600}
-${font JetBrains Mono Regular:bold:size=10}Memory  ${font JetBrains Mono :italic:size=9}  ${mem}  ${membar}
-${font JetBrains Mono Regular:bold:size=10}Disk           ${font JetBrains Mono :italic:size=9}  ${fs_used /}   ${fs_bar /}
-${font JetBrains Mono Regular:bold:size=10}CPU            ${font JetBrains Mono :italic:size=9}  ${cpu}%        ${cpubar}
-${font JetBrains Mono Regular :size=10}${color3}Name                                PID${alignr}CPU%           TIME${font JetBrains Mono :italic:size=9}
+${font FiraSans:bold:size=10}Memory    ${font FiraMono:italic:size=9}  ${mem}  ${membar}
+${font FiraSans:bold:size=10}Disk           ${font FiraMono:italic:size=9}  ${fs_used /}   ${fs_bar /}
+${font FiraSans:bold:size=10}CPU            ${font FiraMono:italic:size=9}  ${cpu}%        ${cpubar}
+${font FiraSans :size=10}${color1}Name                         PID${alignr}CPU%         TIME${font FiraMono :italic:size=9}
 ${voffset -10}$hr
-${voffset -3}${color3}${top name 1} ${top pid 1} ${alignr}${top cpu 1} ${top time 1}
-${voffset -3}${color3}${top name 2} ${top pid 2} ${alignr}${top cpu 2} ${top time 2}
-${voffset -3}${color3}${top name 3} ${top pid 3} ${alignr}${top cpu 3} ${top time 3}
-${voffset -3}${color3}${top name 4} ${top pid 4} ${alignr}${top cpu 4} ${top time 4}
-${voffset -3}${color3}${top name 5} ${top pid 5} ${alignr}${top cpu 5} ${top time 5}
+${voffset -3}${color0}${top name 1} ${top pid 1} ${alignr}${top cpu 1} ${top time 1}
+${voffset -3}${color0}${top name 2} ${top pid 2} ${alignr}${top cpu 2} ${top time 2}
+${voffset -3}${color0}${top name 3} ${top pid 3} ${alignr}${top cpu 3} ${top time 3}
+${voffset -3}${color0}${top name 4} ${top pid 4} ${alignr}${top cpu 4} ${top time 4}
+${voffset -3}${color0}${top name 5} ${top pid 5} ${alignr}${top cpu 5} ${top time 5}
 ]];

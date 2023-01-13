@@ -1,5 +1,4 @@
 # .bashrc
-
 # Source global definitions
 if [ -f /etc/bashrc ]; then
     . /etc/bashrc
@@ -46,9 +45,6 @@ export HISTFILE=$HOME/.config/history
 export TERMINAL=/bin/alacritty
 # sudo alternatives --config java
 
-# Uncomment the following line if you don't like systemctl's auto-paging feature:
-# export SYSTEMD_PAGER=
-
 # User specific aliases and functions
 if [ -d $HOME/.bashrc.d ]; then
     for rc in $HOME/.bashrc.d/*; do
@@ -80,6 +76,7 @@ alias ff='cd $(dirname $(fzf))'
 # Typo aliases
 alias sl=ls
 alias v=vi
+alias nvim='nvim --listen /tmp/$USER.pipe'
 alias n=nvim
 alias nivm=nvim
 alias nuvm=nvim
@@ -88,20 +85,18 @@ alias nvm=nvim
 alias vim=nvim
 alias cs=colorscheme
 
-
-# ps
-#PS1='[\u@\h \W]\$ '
-# PS1="\e[34;1m\A \e[33;3m\W\e[39;0m → "
-# wrap color sequences with \[ \]
+# ┌──────────────────────┐
+# │       Setup PS1      │
+# └──────────────────────┘
 ps_t="\[\e[34;1m\]\t"
 ps_dir="\[\e[33;3m\]\W"
 ps_git="\[\e[;0m\]\[\e[33;3m\]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')"
-ps_arrow=" → \[\e[39;0m\]"
+ps_arrow="❯ \[\e[39;0m\]"
 export PS1="$ps_t $ps_dir$ps_git $ps_arrow"
 
 
 # start graphical server
-(( `tty | grep tty1 -c` >= 1 )) && startx
+# (( `tty | grep tty1 -c` >= 1 )) && startx
 
 # ┌──────────────────────┐
 # │      Initialize      │

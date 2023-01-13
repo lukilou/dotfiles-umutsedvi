@@ -3,21 +3,17 @@
 # @author umutsevdi 
 # @requires i3, xsettingsd
 
-color_value=`cat /tmp/colorscheme 2>/dev/null`
+color_value=`cat /tmp/.cs 2>/dev/null`
 [ "$color_value" = "" ] && color_value=true
 
-GTK_THEME_LIGHT="vimix-light-compact-doder"
-GTK_THEME_DARK="vimix-dark-compact-doder"
+GTK_THEME_LIGHT="Gruvbox-Light-BL"
+GTK_THEME_DARK="Gruvbox-Dark-BL"
 CIN_THEME_DOCK_LIGHT="Colloid-Compact-Dracula"
 CIN_THEME_LIGHT="Colloid-Light-Compact-Dracula"
 CIN_THEME_DARK="Colloid-Dark-Compact-Dracula"
 
-VIM_THEME_DARK="default"
-VIM_THEME_LIGHT="lighter"
-VIM_THEME_TYPE="material_theme_style"
-
-GTK_ICON_LIGHT="Vector"
-GTK_ICON_DARK="Vector"
+GTK_ICON_LIGHT="gruvbox-plus-icon-pack"
+GTK_ICON_DARK="gruvbox-plus-icon-pack"
 CIN_ICON_LIGHT="Taru-Adw"
 CIN_ICON_DARK="Taru-Adw-dark"
 
@@ -37,15 +33,10 @@ Help()
 SetTerminal()
 {
     if [ "$is_dark" = true ]; then
- #       sed -i s/"vim.g.$VIM_THEME_TYPE = \"$VIM_THEME_DARK\""/"vim.g.$VIM_THEME_TYPE = \"$VIM_THEME_LIGHT\""/ $HOME/.dotfiles/nvim/pkg/colorscheme.lua
-#        sed -i s/"set background=dark"/"set background=light"/ $HOME/.dotfiles/nvim/pkg/colorscheme.lua
         cat $HOME/.dotfiles/alacritty/base.yaml $HOME/.dotfiles/alacritty/light.yaml > $HOME/.config/alacritty/alacritty.yml
     else
-#        sed -i s/"vim.g.$VIM_THEME_TYPE = \"$VIM_THEME_LIGHT\""/"vim.g.$VIM_THEME_TYPE = \"$VIM_THEME_DARK\""/ $HOME/.dotfiles/nvim/pkg/colorscheme.lua
-#        sed -i s/"set background=light"/"set background=dark"/ $HOME/.dotfiles/nvim/pkg/colorscheme.lua
         cat $HOME/.dotfiles/alacritty/base.yaml $HOME/.dotfiles/alacritty/dark.yaml > $HOME/.config/alacritty/alacritty.yml
     fi
-
 }
 
 # i3 uses Gnome Server in the background
@@ -60,14 +51,10 @@ SetI3()
         gtk_icon=$GTK_ICON_DARK
         gnome_prefer="prefer-dark"
     fi
-
     gsettings set org.gnome.desktop.interface gtk-theme "$gtk_theme"
     gsettings set org.gnome.desktop.interface icon-theme "$gtk_icon"
-    gsettings set org.gnome.desktop.interface color-scheme "$gnome_prefer"
     gsettings set org.gnome.desktop.wm.preferences theme "$gtk_theme"
-
-    #   rm -rf $HOME/.config/gtk-4.0/*
-    #   cp -r $HOME/.themes/$gtk_theme/gtk-4.0 ${HOME}/.config/ &
+    gsettings set org.gnome.desktop.interface color-scheme "$gnome_prefer"
 }
 
 # set cinnamon
@@ -88,9 +75,6 @@ SetCinnamon()
     gsettings set org.cinnamon.desktop.wm.preferences theme "$gtk_theme"
     gsettings set org.cinnamon.desktop.interface gtk-key-theme "$gtk_theme" 
     gsettings set org.cinnamon.theme name "$gtk_dock" 
-
-    #   rm -rf $HOME/.config/gtk-4.0/*
-    #   cp -r $HOME/.themes/$gtk_theme/gtk-4.0 ${HOME}/.config/ &
 }
 
 for arg in $@;do
@@ -110,7 +94,8 @@ if [ "$refresh" = true  ];then
 else
     is_dark=$color_value
     write=`[ "$color_value" = true ] && echo false || echo true`
-    echo $write > /tmp/colorscheme
+    echo $write > /tmp/.cs
+    nvim --server /tmp/$USER.pipe --remote-send ":lua SetColors() <CR>" > /dev/null
 fi
 
 echo $XDG_CURRENT_DESKTOP

@@ -42,8 +42,8 @@ vim.cmd('source /home/umutsevdi/.dotfiles/nvim/init.lua')" > ~/.config/nvim/init
         sudo cp $HOME/.dotfiles/.bashrc /root/.bashrc
     fi
     i3-msg restart
-    notify-send 'i3 Window Manager' 'WM has been restarted with updated configurations' \
-        --app-name="Resize Window" --icon=window_list --category='presence'
+    notify-send 'i3wm' 'The window manager has been restarted with updated configurations' \
+        --app-name="i3" --icon="remote" --category='presence'
     colorscheme -r
 }
 

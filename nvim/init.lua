@@ -37,8 +37,6 @@ set expandtab
 set smarttab
 set smartindent
 set spell
-let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
-set termguicolors
 ]])
 o.termguicolors = true
 -- Recommended by CoC

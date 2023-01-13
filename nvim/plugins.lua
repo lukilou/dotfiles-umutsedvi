@@ -37,7 +37,7 @@ require('packer').startup({
         use 'preservim/tagbar' -- a bar displays functions, classes and variables of files on the left
         use 'junegunn/vim-easy-align' -- auto align
         use 'LudoPinelli/comment-box.nvim'
-        use 'marko-cerovac/material.nvim'
+        use 'morhetz/gruvbox'
         use { 'junegunn/fzf',
             dir = '~/.fzf',
             run = './install --all'
@@ -89,19 +89,6 @@ require('packer').startup({
         compile_on_sync = true
     }
 })
--- Unless you are still migrating, remove the deprecated commands from v1.x
-vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
-
-
---  ╭───────────────────────╮
---  │ Color scheme settings │
---  ╰───────────────────────╯
-
-vim.cmd.colorscheme('material')
-vim.g.material_style = "default"
-
-vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 
 --  ╭───────────────────────╮
 --  │ Import configurations │
@@ -115,6 +102,18 @@ require('pkg/snip-runner-config')
 require("pkg/bracey-config")
 require("pkg/markdown")
 require("pkg/nerdtree-config")
+require("pkg/auto-dark-mode")
+
+--  ╭───────────────────────╮
+--  │ Color scheme settings │
+--  ╰───────────────────────╯
+vim.g.gruvbox_italic = 1
+vim.g.gruvbox_termcolors = 16
+vim.cmd 'colorscheme gruvbox'
+--  vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+--  vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+SetColors()
+
 
 --  ╭─────────────────╮
 --  │ GitSigns Config │
@@ -128,5 +127,4 @@ vim.cmd(':Gitsigns toggle_current_line_blame')
 --  ╰───────────────────────╯
 require("luasnip.loaders.from_vscode").lazy_load()
 require("luasnip.loaders.from_snipmate").lazy_load({ paths = { "~/.dotfiles/nvim/pkg/snippets/" } })
---require("luasnip.loaders.from_snipmate").lazy_load()
 require("luasnip.loaders.from_snipmate").lazy_load({ paths = { "~/.local/share/nvim/site/pack/packer/start/vim-snippets/" } })
