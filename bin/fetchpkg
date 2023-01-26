@@ -1,0 +1,37 @@
+#!/bin/bash 
+#******************************************************************************
+#
+# * File: fetchpkg
+#
+# * Author:  Umut Sevdi
+# * Created: 01/15/23
+# * Description: A script that displays available upgrades for the applications on 
+# DNF and Flatpak.
+# It will create a notification if the amount is greater than 5. Clicking to the
+# notification will prompt a password to upgrade the applications
+# * @require zenity, dnf, flatpak
+#*****************************************************************************
+PACKAGE_ICON=
+
+DNF=`dnf check-update 2>/dev/null | awk '{print $1}' | grep [.] | wc -l`
+
+FLATPAK=$(( `flatpak update <<< "n" | wc -l` - 5 ))
+(( $FLATPAK < 0 )) && FLATPAK=0
+
+UPDATE=$(( $FLATPAK + $DNF ))
+PKG=$UPDATE/`dnf list installed | wc -l`
+
+if (( $UPDATE > 5 )); then
+    clicked=`notify-send --app-name="Package Manager" --category="Package Manager" \
+        "There are $UPDATE updates available." --icon="software-update-available" \
+        --action="[ACTION]action"`
+    if [ "0" = "$clicked" ]; then
+        password=`zenity --password --title="Update $UPDATE applications." --ok-label="Update"`
+        if [ -n "$password" ]; then 
+            echo $password | sudo -S dnf update -y &
+            flatpak update <<< "Y"
+        fi
+    fi
+fi
+
+echo " $PACKAGE_ICON $PKG "

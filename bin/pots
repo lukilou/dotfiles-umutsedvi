@@ -1,8 +1,14 @@
 #!/bin/bash
-# pots.sh - Program of the Session
-# @author umutsevdi 
-#  Displays a random program in the /bin directory that has ${man}
-# and ${whatis}
+#******************************************************************************
+#
+# * File: pots
+#
+# * Author:  Umut Sevdi
+# * Created: 08/20/22
+# * Description: Program of the Session - Displays a random program in the
+# /bin directory that has ${man} and ${whatis}
+
+#*****************************************************************************
 
 Print() {
     line="$cmd\e[;0m${cmd_info//$cmd/}\e[36;1m"
@@ -15,11 +21,11 @@ Print() {
 for arg in $@;do
     cmd=$arg
     cmd_info=`whatis $cmd 2> /dev/null`
-    [ $cmd_info = ] && `echo -e "Error: No such file or directory." 1>&2` || Print
+    [ -z "$cmd_info"  ] && `echo -e "Error: $cmd No such file or directory." 1>&2` || Print
 done
 
-if [ $cmd = ]; then
-    while [ "$cmd_info" = "" ]; do
+if [ -z "$cmd" ]; then
+    while [ -z "$cmd_info" ]; do
         cmd="`ls /bin/ | shuf -n 1`"
         cmd_info=`whatis $cmd 2> /dev/null`
     done

@@ -1,9 +1,14 @@
 #! /bin/bash
-# lockscreen.sh - Screen locker based on i3lock
-# @author umutsevdi 
-#   A script that locks screen while blurring the active
+#******************************************************************************
+#
+# * File: lockscreen
+#
+# * Author:  Umut Sevdi
+# * Created: 08/20/22
+# * Description: A script that locks screen while blurring the active
 # desktop
-# @requires i3lock, scrot
+# * @require i3lock, scrot
+#*****************************************************************************
 
 if   ! command -v i3lock &> /dev/null ; then
     echo "i3lock doesn't exist" 1>&2

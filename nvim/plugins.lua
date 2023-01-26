@@ -52,6 +52,7 @@ require('packer').startup({
             run = 'yarn install',
             ft = 'markdown'
         } -- live markdown renderer server
+        use 'jakewvincent/mkdnflow.nvim' -- markdown extension
         use { 'turbio/bracey.vim',
             run = 'npm install --prefix server',
             ft = 'html'
@@ -128,3 +129,15 @@ vim.cmd(':Gitsigns toggle_current_line_blame')
 require("luasnip.loaders.from_vscode").lazy_load()
 require("luasnip.loaders.from_snipmate").lazy_load({ paths = { "~/.dotfiles/nvim/pkg/snippets/" } })
 require("luasnip.loaders.from_snipmate").lazy_load({ paths = { "~/.local/share/nvim/site/pack/packer/start/vim-snippets/" } })
+
+--  ╭───────────────╮
+--  │ Markdown Flow │
+--  ╰───────────────╯
+require('mkdnflow').setup({
+    links = {
+        transform_explicit = function(text)
+            -- Make lowercase, remove spaces, and reverse the string
+            return string.lower(text:gsub(' ', ''))
+        end
+    }
+})

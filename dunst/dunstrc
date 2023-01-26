@@ -43,7 +43,7 @@
     corner_radius = 8
     ignore_dbusclose = false
     force_xinerama = false
-    mouse_left_click = open_url, close_current
+    mouse_left_click = open_url, do_action, close_current
     mouse_middle_click = do_action, close_current
     mouse_right_click = close_current
 
@@ -59,9 +59,9 @@
     timeout = 10
 
 [urgency_critical]
-    background  =  "#f07178"
+    background  =  "#cc241d"
     foreground  =  "#333333"
-    frame_color = "#f07178"
+    frame_color = "#cc241d"
     highlight   =   "#f07178"
     timeout = 20
     default_icon = /usr/share/icons/gruvbox-plus-icon-pack/actions/16/dialog-warning.svg

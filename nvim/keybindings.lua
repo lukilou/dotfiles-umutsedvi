@@ -53,7 +53,8 @@ vim.keymap.set("n", "<A-Tab>", ":NERDTreeToggle | TagbarToggle<CR>")
 
 
 -- Code Formatter
-vim.keymap.set("n", "<A-f>", ":LspZeroFormat <CR>")
+vim.keymap.set("n", "<A-f>",
+    "::lua vim.lsp.buf.format({options = { tabSize = 4, insertSpaces= true, insertFinalNewline = true, }}) <CR>")
 -- Code actions
 vim.keymap.set("n", "<A-q>", "v:lua vim.lsp.buf.code_action() <CR>")
 -- Bulk rename

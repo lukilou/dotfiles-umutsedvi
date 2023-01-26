@@ -1,7 +1,13 @@
 #!/bin/bash
-# gcolorscheme.sh - Switch between light and dark mode
-# @author umutsevdi 
-# @requires i3, xsettingsd
+#******************************************************************************
+#
+# * File: colorscheme
+#
+# * Author:  Umut Sevdi
+# * Created: 08/20/22
+# * Description: Switch between light and dark mode
+# * @require i3, xsettingsd
+#*****************************************************************************
 
 color_value=`cat /tmp/.cs 2>/dev/null`
 [ "$color_value" = "" ] && color_value=true

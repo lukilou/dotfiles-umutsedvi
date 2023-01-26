@@ -1,9 +1,14 @@
 #!/bin/bash
-# pickwp.sh - Wallpaper picker
-# @author umutsevdi 
-# A script that randomly picks a wallpaper from a directory.
+#******************************************************************************
+#
+# * File: pickwp
+#
+# * Author:  Umut Sevdi
+# * Created: 08/20/22
+# * Description: A script that randomly picks a wallpaper from a directory.
 # Selects a different wallpaper on each use.
-# @requires nitrogen, xrandr
+# * @require nitrogen, xrandr
+#*****************************************************************************
 
 if ! command -v nitrogen &> /dev/null ; then
     echo "nitrogen doesn't exist" 1>&2

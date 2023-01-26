@@ -1,8 +1,14 @@
 #!/bin/bash
-# duppterm - Create a new terminal session on a tab or window at your working directory
-# @author umutsevdi 
-#   A script that creates a new terminal in your process working directory
-# @requires xdotool 
+#******************************************************************************
+#
+# * File: dt
+#
+# * Author:  Umut Sevdi
+# * Created: 08/20/22
+# * Description: Create a new terminal session on a tab or window at your
+# working directory
+# * @require xdotool
+#*****************************************************************************
 
 if ! command -v xdotool &> /dev/null ; then
     echo "xdotool doesn't exist" 1>&2

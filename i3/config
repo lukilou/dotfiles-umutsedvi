@@ -1,13 +1,17 @@
-# i3 config file (v4)
-# Configuration file for i3-wm
-# @author umutsevdi
+#*******************************************************************************
+#   * File:        config 
+#   * Author:      Umut Sevdi
+#   * Created:     31/03/22
+#   * Description: Configuration file for the i3wm
+#*******************************************************************************
 
-#****************
-#  DEFINITIONS  #
-#****************
+#*******************************************************************************
+#  Definitions
+#*******************************************************************************
 
-# mod key
+# Set Mod key
 set $mod Mod4
+# Set workspaces
 set $ws1 "1"
 set $ws2 "2"
 set $ws3 "3"
@@ -18,54 +22,51 @@ set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
+set $pm "eDP"
+set $sm "HDMI-A-0"
 set $bg-color            #ffce51
 set $inactive-bg-color   #333333
 set $text-color          #282828
 set $inactive-text-color #88807c
 set $urgent-bg-color     #f15d22
-
-set $pm "eDP"
-set $sm "HDMI-A-0"
-
-# global font
 font pango:FiraMono 10
+title_align center
+# Refresh i3
+set $refresh_i3status killall -SIGUSR1 i3status
 
-#****************
-#   EXECUTION   #
-#****************
+#*******************************************************************************
+#   Execution 
+#*******************************************************************************
 
 # Enable Tap to click
-exec  xinput set-prop "PNP0C50:0e 06CB:7E7E Touchpad" "libinput Tapping Enabled" 1
-
-exec_always --no-startup-id /usr/libexec/gsd-xsettings
-exec --no-startup-id colorscheme --refresh
-# Select a random wallpaper on start and save it for the future sessions
-exec --no-startup-id sleep 0.1;$HOME/.dotfiles/bin/pickwp
-# Initialize the compositor
-exec_always --no-startup-id killall picom; picom -b --config ~/.dotfiles/picom/picom.conf  --experimental-backends 
-# Initialize applets 
-exec --no-startup-id pasystray --notify=sink source
-exec --no-startup-id xfce4-power-manager
-exec --no-startup-id blueman-applet
-exec --no-startup-id nm-applet
-exec --no-startup-id xfce4-clipman
-exec --no-startup-id geary --gapplication-service
-# exec --no-startup-id kdeconnect-indicator 
+exec        --no-startup-id xinput set-prop "PNP0C50:0e 06CB:7E7E Touchpad" "libinput Tapping Enabled" 1
+exec        --no-startup-id /usr/libexec/gsd-xsettings
+exec        --no-startup-id colorscheme --refresh
+exec        --no-startup-id pickwp 
 
 # Following programs are restarted every time the wm is refreshed
+exec_always --no-startup-id killall picom; picom -b --config ~/.dotfiles/picom/picom.conf  --experimental-backends 
 exec_always --no-startup-id killall dunst; dunst -conf $HOME/.dotfiles/dunst/dunstrc
-exec_always --no-startup-id killall conky; sleep 0.1; conky --config=$HOME/.dotfiles/conky/.conkyrc --daemonize --pause=0
-# exec_always --no-startup-id killall glava; sleep 1; glava --desktop;
+exec_always --no-startup-id killall conky; sleep 0.1; conky --config=$HOME/.dotfiles/conky/.conkyrc --daemonize
 exec_always --no-startup-id killall polybar; sleep 0.1;  polybar bottom & polybar main; 
-# exec_always --no-startup-id protonvpn --gapplication-service
 
-#****************
-#     RULES     #
-#****************
+# Initialize applets once
+exec        --no-startup-id pasystray --notify=sink source
+exec        --no-startup-id xfce4-power-manager
+exec        --no-startup-id blueman-applet
+exec        --no-startup-id nm-applet
+exec        --no-startup-id xfce4-clipman
+exec        --no-startup-id geary   --gapplication-service
+exec        --no-startup-id liferea --gapplication-service
+# exec        --no-startup-id kdeconnect-indicator 
 
-# 
+
+#*******************************************************************************
+#    Rules
+#*******************************************************************************
+
 #********************************************************************************************
-# Color Table          |Border             |Background        |Text                |Indicator
+# Color Table           Border              Background         Text                 Indicator
 #********************************************************************************************
 client.focused          $bg-color           $bg-color          $text-color          #2e323d
 client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-color #2e323d
@@ -73,23 +74,17 @@ client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-co
 client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #2e323d
 #********************************************************************************************
 
+# Gaps
 gaps outer 5
 gaps top 25
 gaps bottom 20
 gaps inner 10
-# Smart_gaps on
 smart_borders on
 hide_edge_borders smart_no_gaps
 
-# Floating window exceptions
-for_window [class="^.*"] border pixel 3
-for_window [instance="gnome-calculator"] floating enable
-for_window [instance="Gnome-screenshot*"] floating enable
-for_window [instance="xfce4*"] floating enable
-for_window [instance="xfce-*"] floating enable
-for_window [instance="pavucontrol"] floating enable
-for_window [instance="blueman"] floating enable
-# Generated windows.
+# Floating Window Exceptions
+
+# Generic Windows
 for_window [title="(?:Open|Save) (?:File|Folder|As)"] floating enable;
 for_window [title="(?:Open|Save) (?:File|Folder|As)"] resize set 800 600
 for_window [window_role="pop-up"] floating enable
@@ -101,9 +96,18 @@ for_window [window_type="menu"] floating enable
 for_window [instance="*bout*"] floating enable
 for_window [instance="Reminders"] floating enable
 
-#****************
-#  KEYBINDINGS  #
-#****************
+# App Windows
+for_window [class="^.*"] border pixel 3
+for_window [instance="gnome-calculator"] floating enable
+for_window [instance="Gnome-screenshot*"] floating enable
+for_window [instance="xfce4*"] floating enable
+for_window [instance="xfce-*"] floating enable
+for_window [instance="pavucontrol"] floating enable
+for_window [instance="blueman"] floating enable
+
+#*******************************************************************************
+#    Keybindings
+#*******************************************************************************
 
 # Volume settings
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
@@ -112,15 +116,14 @@ bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
 bindsym $mod+space exec kbswap tr us
 bindsym Print exec gnome-screenshot --area --clipboard
-# Refresh i3
-set $refresh_i3status killall -SIGUSR1 i3status
-# Start a terminal
 bindsym $mod+Return exec alacritty 
-# Kill focused window
+
+
+# WM Keybindings
 bindsym $mod+Shift+q kill
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
-# Workspace control 
+
 bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
@@ -161,19 +164,23 @@ bindsym $mod+Shift+7 move container to workspace number $ws7
 bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
-# i3 reload
+
+# WM reload
 bindsym $mod+Shift+c exec dotfetch;
 
-# Applets
+# Program Shortcuts
+bindsym $mod+s            exec xdg-open $HOME
 bindsym $mod+Escape       exec applet -r powermenu
 bindsym $mod+d            exec applet -r launcher
-bindsym $mod+s            exec xdg-open $HOME
 bindsym $mod+m            exec applet -r player 
 bindsym $mod+semicolon    exec applet -r emoji
 bindsym $mod+Tab          exec applet -r tab
 bindsym $mod+Shift+Escape exec ~/.dotfiles/bin/lockscreen
 
-# resize window (you can also use the mouse for that)
+#*******************************************************************************
+#    Mods
+#*******************************************************************************
+
 bindsym $mod+r mode "resize mode" 
     mode "resize mode" {
         # These bindings trigger as soon as you enter the resize mode
@@ -188,8 +195,8 @@ bindsym $mod+r mode "resize mode"
         bindsym $mod+r mode "default"
 }
 
-bindsym $mod+w mode "layout mode w - stack | e - split"
-mode "layout mode w - stack | e - split" {
+bindsym $mod+w mode "layout mode (w)stack | (e)split"
+    mode "layout mode (w)stack | (e)split" {
         # change container layout (stacked, tabbed, toggle split)
         # bindsym $mod+q layout stacking
         # bindsym $mod+w layout tabbed
@@ -202,8 +209,9 @@ mode "layout mode w - stack | e - split" {
         bindsym Escape mode "default"
         bindsym $mod+w mode "default"
 }
-bindsym $mod+p mode "display mode: (1)auto, (2)extend-right, (3)extend-left, (4)set-primary, (5)set-secondary"
-mode "display mode: (1)auto, (2)extend-right, (3)extend-left, (4)set-primary, (5)set-secondary"  {
+
+bindsym $mod+p mode "display mode: (1)auto | (2)extend-right | (3)extend-left | (4)set-primary | (5)set-secondary"
+mode "display mode: (1)auto | (2)extend-right | (3)extend-left | (4)set-primary | (5)set-secondary"  {
         bindsym 1 exec xrandr --auto 
         bindsym 2 exec xrandr --output $pm --left-of $sm
         bindsym 3 exec xrandr --output $pm --right-of $sm
@@ -213,14 +221,3 @@ mode "display mode: (1)auto, (2)extend-right, (3)extend-left, (4)set-primary, (5
         bindsym Escape mode "default"
         bindsym $mod+w mode "default"
 }
-
-# KEYBINDINGS TEST 
-# Check with xmodmap -pke
-#   bindsym XF86Search exec notify-send "Search key pressed" --icon keyboard
-#   bindsym XF86Go exec notify-send "Go key pressed" --icon keyboard
-#   bindsym Find exec notify-send "Find key pressed" --icon keyboard
-#   bindsym Help exec notify-send "Help key pressed" --icon keyboard
-#   bindsym XF86LaunchA exec notify-send "Launch key pressed" --icon keyboard
-#   bindsym XF86MenuKB exec notify-send "Menu key pressed" --icon keyboard
-#   bindsym XF86Calculator exec notify-send "Calculator key pressed" --icon keyboard
-#   bindsym XF86Explorer exec notify-send "Explorer key pressed" --icon keyboard

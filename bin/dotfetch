@@ -1,8 +1,13 @@
 #! /bin/bash
-# dotfetch.sh - Restart and update your configs
-# @author umutsevdi 
-#   A script that updates the config files and restarts i3wm
-# @requires i3
+#******************************************************************************
+#
+# * File: dotfetch
+#
+# * Author:  Umut Sevdi
+# * Created: 08/20/22
+# * Description: A script that updates the configuration files and restarts 
+# the i3wm
+#*****************************************************************************
 
 Help()
 {
@@ -21,24 +26,15 @@ Help()
 Fetch()
 {
     cd $HOME/.config
-    rm -rf i3 polybar conky awesome dunst autostart
-    cp -rf $HOME/.dotfiles/autostart $HOME/.config/
+    rm -rf i3 polybar conky
     echo "package.path = package.path .. ';$HOME/.dotfiles/nvim/?.lua;$HOME/.dotfiles/nvim/pkg/?.lua'
 vim.cmd('source /home/umutsevdi/.dotfiles/nvim/init.lua')" > ~/.config/nvim/init.lua
-    cp -r $HOME/.dotfiles/conky $HOME/.config/conky
-    cp -r $HOME/.dotfiles/gtk/settings.ini $HOME/.config/gtk-3.0/
-    cp -r $HOME/.dotfiles/gtk/gtk.css $HOME/.config/gtk-3.0/
     cp -r $HOME/.dotfiles/gtk/bookmarks $HOME/.config/gtk-3.0/
-    cat $HOME/.dotfiles/alacritty/base.yaml $HOME/.dotfiles/alacritty/dark.yaml > $HOME/.config/alacritty/alacritty.yaml
-    cp -r $HOME/.dotfiles/gtk/.gtkrc-2.0 $HOME
     cp -r $HOME/.dotfiles/i3 $HOME/.config/
     cp -r $HOME/.dotfiles/polybar $HOME/.config/
-    cp -r $HOME/.dotfiles/dunst $HOME/.config/
     cp -r $HOME/.dotfiles/.bashrc $HOME/.bashrc
     cp -r $HOME/.dotfiles/nvim/coc-settings.json $HOME/.config/nvim/coc-settings.json
-    cp $HOME/.dotfiles/glava/rc.glsl $HOME/.config/glava/rc.glsl
-    cp $HOME/.dotfiles/glava/bars.glsl $HOME/.config/glava/bars.glava
-    if [[ "$root" = true ]]; then
+    if [ "$root" = true ]; then
         sudo cp $HOME/.dotfiles/.bashrc /root/.bashrc
     fi
     i3-msg restart
@@ -59,4 +55,3 @@ for arg in $@;do
     fi 
 done
 Fetch
-
