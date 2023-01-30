@@ -24,11 +24,11 @@ set $ws9 "9"
 set $ws10 "10"
 set $pm "eDP"
 set $sm "HDMI-A-0"
-set $bg-color            #ffce51
-set $inactive-bg-color   #333333
-set $text-color          #282828
-set $inactive-text-color #88807c
-set $urgent-bg-color     #f15d22
+set $bg-active     #ffce51
+set $bg-inactive   #333333
+set $text-active   #282828
+set $text-inactive #88807c
+set $bg-urgent     #f15d22
 font pango:FiraMono 10
 title_align center
 # Refresh i3
@@ -65,20 +65,20 @@ exec        --no-startup-id liferea --gapplication-service
 #    Rules
 #*******************************************************************************
 
-#********************************************************************************************
-# Color Table           Border              Background         Text                 Indicator
-#********************************************************************************************
-client.focused          $bg-color           $bg-color          $text-color          #2e323d
-client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-color #2e323d
-client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-color #2e323d
-client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #2e323d
-#********************************************************************************************
+#*******************************************************************************
+# Color Table           Border        Background     Text             Indicator
+#*******************************************************************************
+client.focused          $bg-active    $bg-active     $text-active     #2e323d
+client.unfocused        $bg-inactive  $bg-inactive   $text-inactive   #2e323d
+client.focused_inactive $bg-inactive  $bg-inactive   $text-inactive   #2e323d
+client.urgent           $bg-urgent    $bg-urgent     $text-active     #2e323d
+#*******************************************************************************
 
 # Gaps
-gaps outer 5
+gaps outer 15
 gaps top 25
 gaps bottom 20
-gaps inner 10
+gaps inner 5
 smart_borders on
 hide_edge_borders smart_no_gaps
 

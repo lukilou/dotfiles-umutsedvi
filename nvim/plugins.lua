@@ -82,7 +82,6 @@ require('packer').startup({
                 { 'honza/vim-snippets' },
             }
         }
-
     end,
     config = {
         max_jobs = 30,

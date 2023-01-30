@@ -84,7 +84,7 @@ EOF
     echo Installing i3 window manager & compositor
     dnf install -y --allowerasing i3 rofi conky
     dnf install -y --allowerasing alacritty polybar
-    dnf install -y --allowerasing pasystray blueman xfce4-power-manager nitrogen rofi xfce4-clipman-plugin glava 
+    dnf install -y --allowerasing pasystray blueman xfce4-power-manager nitrogen rofi xfce4-clipman-plugin 
     [ "$get_nvidia" = true ] && dnf install akmod-nvidia -y
     echo Compiling dccsillag/implement-window-animations
     cd /tmp
@@ -137,7 +137,7 @@ EOF
             krita kdenlive zoom jetbrains-toolbox git-kraken VirtualBox liferea
         dnf install -y elementary-calculator elementary-print gnome-disk-utility \
             geary gnome-system-monitor eom dconf-edior liferea
-        dnf install -y telegram obs-studio cheese atril gnome-software VirtualBox
+        dnf install -y telegram obs-studio cheese xreader gnome-software VirtualBox
         dnf install -y flatpak >> /tmp/install/flatpak.logs
         flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo  
         flatpak remote-delete fedora

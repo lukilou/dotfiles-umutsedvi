@@ -14,13 +14,13 @@ export PATH
 # │   Path  Management   │
 # └──────────────────────┘
 
-GOPATH=$HOME/go
-GOROOT=/lib/go
-JAVA_HOME="$(ls /lib/jvm | grep java-11-openjdk.)"
-GRDL_PATH=/usr/local/gradle/bin
-DOT_PATH=$HOME/.dotfiles/bin
-JBT_PATH=$HOME/.local/share/JetBrains/Toolbox/scripts
 APLT_PATH=/home/umutsevdi/src/linux/rofi-applets
+export GOPATH=$HOME/.config/go
+export GOROOT=/lib/go
+export JAVA_HOME="$(ls /lib/jvm | grep java-11-openjdk.)"
+export GRDL_PATH=/usr/local/gradle/bin
+export DOT_PATH=$HOME/.dotfiles/bin
+export JBT_PATH=$HOME/.local/share/JetBrains/Toolbox/scripts
 export PATH="$GRDL_PATH:$JAVA_HOME:$GOPATH/bin:$GOROOT/bin:$DOT_PATH:$JBT_PATH:$APLT_PATH:$PATH"
 export EDITOR=/usr/bin/nvim
 export ROFI_APPLETS_PATH=$APLT_PATH

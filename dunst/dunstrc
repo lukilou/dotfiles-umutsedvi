@@ -36,7 +36,7 @@
     show_indicators = yes
     icon_position = left
     max_icon_size = 32
-    icon_path = /usr/share/icons/gruvbox-plus-icon-pack/actions/24/:/usr/share/icons/gruvbox-plus-icon-pack/actions/symbolic/:/usr/share/icons/gruvbox-plus-icon-pack/apps/scalable/:/usr/share/icons/gruvbox-plus-icon-pack/categories/scalable/:/usr/share/icons/gruvbox-plus-icon-pack/devices/scalable/:/usr/share/icons/gruvbox-plus-icon-pack/emblems/48/:/usr/share/icons/gruvbox-plus-icon-pack/panel/24/:/usr/share/icons/gruvbox-plus-icon-pack/places/scalable/:/usr/share/icons/gruvbox-plus-icon-pack/status/symbolic/:/usr/share/icons/gruvbox-plus-icon-pack/status/48/:
+    icon_path = /usr/share/icons/kora-green/actions/24/:/usr/share/icons/kora-green/actions/symbolic/:/usr/share/icons/kora-green/apps/scalable/:/usr/share/icons/kora-green/categories/scalable/:/usr/share/icons/kora-green/devices/scalable/:/usr/share/icons/kora-green/emblems/48/:/usr/share/icons/kora-green/panel/24/:/usr/share/icons/kora-green/places/scalable/:/usr/share/icons/kora-green/status/symbolic/:/usr/share/icons/kora-green/status/48/
     sticky_history = yes
     history_length = 20
     always_run_script = true
