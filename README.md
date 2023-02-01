@@ -13,16 +13,15 @@
 
 ## About
 
-This repository contains all the configuration files and scripts that I've been using on my device. I use <a href="https://getfedora.org/en/server/download/">Fedora 36 Server Edition</a>. These are the base dotfiles that I start with
+This repository contains all the configuration files and scripts that I've been using on my device. I use <a href="https://getfedora.org/en/server/download/">Fedora 37 Server Edition</a>. These are the base dotfiles that I start with
 when I set up a new environment.
 
-I'm using Fedora 36 on my personal computer. I use a fork of
-<a href="https://github.com/i3/i3">i3 Window Manager</a> called <a href="https://github.com/Airblader/i3">i3-gaps</a>.
+I'm using Fedora 37 on my personal computer. I use the <a href="https://github.com/i3/i3">i3 Window Manager</a>.
 
 <details open="open">
   <summary>Table of Contents</summary>
   <ol>
-  <li><a href="applets/">Applets</a></li>
+  <li><a href="rofi-applets/">Applets</a></li>
   <li><a href="bin/">Scripts</a></li>
   <li><a href="nvim/">Neovim</a></li>
   <li><a href="polybar/">Polybar Configurations</a></li>
@@ -62,30 +61,20 @@ It will then download all required files and replace config files with my config
 
 ## Aditional Notes
 
-Neovim requires following packages to run seamless.
+Neovim uses LSP and the latest version available at nightly builds.
+* Run Neovim with the pipe argument to make it affected by dark/light mode changes.
 ```sh
- cd $HOME/.local/share/nvim/plugged/bracey.vim/
- npm install --prefix server
+alias nvim='nvim --listen /tmp/$USER.pipe'
+sudo npm -g install instant-markdown-d
 ```
-```sh
-22:35:24 $ ~ →  npm list -g
-/usr/local/lib
-├── bash-language-server@2.0.0
-├── coc-clangd@0.20.1
-├── instant-markdown-d@0.2.0
-├── live-server@1.2.2
-├── neovim@4.10.1
-├── npm-check-updates@12.4.0
-├── npm@8.5.2
-└── vls@0.7.6
-```
+
 <img src="screenshots/neovim.png">
 
 ## Credits
 
-- **Wallpaper**: [Pexels Wallpaper Packs](https://www.pexels.com)
+- **Wallpaper**: [Wallpaper Creave Packs](wallpapercave.com/)
 
-- **GTK**: [Qogir](https://www.gnome-look.org/p/1230631)
+- **GTK**: [Gruvbox](https://www.gnome-look.org/p/1681313)
 
-- **Icons**: [Kora](https://www.gnome-look.org/p/1256209/)
+- **Icons**: [Kora-Green](https://www.gnome-look.org/p/1256209/)
 
