@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------------
 -- File: pkg/basics.lua
--- 
+--
 -- Author: Umut Sevdi
 -- Created: 02/08/23
 -- Description: Generic Lua configurations
@@ -9,7 +9,7 @@
 --  ╭───────────────────────────────────────────────╮
 --  │ if NERDTree is the only window left remove it │
 --  ╰───────────────────────────────────────────────╯
-vim.cmd[[ autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif ]]
+vim.cmd [[ autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif ]]
 
 
 --  ╭─────────────────────────────────────╮
@@ -33,26 +33,26 @@ vim.g.instant_markdown_browser = "epiphany"
 --  ╭───────────────────────────╮
 --  │ Dark/Light Mode Selecting │
 --  ╰───────────────────────────╯
-function SetColors(is_dark)
-    if is_dark ~= true then
+
+-- Reads current color value
+local function get_color()
+    local gsettings = assert(
+        io.popen('/usr/bin/gsettings get org.gnome.desktop.interface color-scheme ', 'r'))
+    local v = gsettings:read('*all'):gsub("\n", ""):gsub("'", "")
+    gsettings:close()
+    return v == "prefer-dark"
+end
+
+-- Replaces the background color based on argument.
+-- If true switches to dark mode
+-- Else switches to light mode
+function SetColors()
+    if get_color() == true then
         vim.cmd [[ set background=dark ]]
     else
         vim.cmd [[ set background=light ]]
     end
 end
-
---  local function is_dark_mode()
---      local f = io.open("/tmp/.cs", "r")
---      if f == nil then
---          vim.cmd [[ set background=dark ]]
---          return true
---      end
---      io.input(f)
---      local str = io.read()
---      io.close(f)
---      return str == "true"
---  end
-
 
 --  ╭─────────────────╮
 --  │ GitSigns Config │

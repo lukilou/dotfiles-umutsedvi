@@ -57,6 +57,11 @@ unset rc
 
 [[ $- == *i* ]] && source "/home/umutsevdi/.fzf/shell/completion.bash" 2> /dev/null
 
+__nvim(){
+	f="/tmp/nvim/$((`ls /tmp/nvim | tail -n 1`+1))"
+    	nvim --listen $f $@
+}
+
 # ┌──────────────────────┐
 # │       Aliases        │
 # └──────────────────────┘
@@ -70,7 +75,8 @@ alias mv='mv -i'
 alias rm='rm -i'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias ff='cd $(dirname $(fzf))'
-alias nvim='nvim --listen /tmp/$USER.pipe'
+
+alias nvim='__nvim'
 alias tmux="tmux -f $HOME/.dotfiles/tmux/.tmux.conf"
 
 # Typo aliases
@@ -90,12 +96,11 @@ alias cs=colorscheme
 ps_t="\[\e[34;1m\]\t"
 ps_dir="\[\e[33;3m\]\W"
 ps_git="\[\e[;0m\]\[\e[33;3m\]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')"
-ps_arrow="❯ \[\e[39;0m\]"
+ps_arrow=" → \[\e[39;0m\]"
 export PS1="$ps_t $ps_dir$ps_git $ps_arrow"
 
-
-# start graphical server
-# (( `tty | grep tty1 -c` >= 1 )) && startx
+# create the neovim server directory on start 
+(( `tty | grep tty1 -c` >= 1 )) && mkdir /tmp/nvim
 
 # ┌──────────────────────┐
 # │      Initialize      │

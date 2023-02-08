@@ -43,6 +43,7 @@ SetTerminal()
     else
         cat $HOME/.dotfiles/alacritty/base.yaml $HOME/.dotfiles/alacritty/dark.yaml > $HOME/.config/alacritty/alacritty.yml
     fi
+    for i in `ls /tmp/nvim/`; do nvim --server /tmp/nvim/$i --remote-send ":lua SetColors() <CR>" > /dev/null; done
 }
 
 # i3 uses Gnome Server in the background
@@ -59,7 +60,7 @@ SetI3()
     fi
     gsettings set org.gnome.desktop.interface gtk-theme "$gtk_theme"
     gsettings set org.gnome.desktop.interface icon-theme "$gtk_icon"
-    gsettings get org.mate.interface gtk-key-theme "$gtk_theme"
+    gsettings set org.mate.interface gtk-key-theme "$gtk_theme"
     gsettings set org.gnome.desktop.interface color-scheme "$gnome_prefer"
 }
 
@@ -101,7 +102,6 @@ else
     is_dark=$color_value
     write=`[ "$color_value" = true ] && echo false || echo true`
     echo $write > /tmp/.cs
-    nvim --server /tmp/$USER.pipe --remote-send ":lua SetColors($is_dark) <CR>" > /dev/null
 fi
 
 echo $XDG_CURRENT_DESKTOP
