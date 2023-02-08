@@ -21,7 +21,7 @@ FLATPAK=$(( `flatpak update <<< "n" | wc -l` - 5 ))
 UPDATE=$(( $FLATPAK + $DNF ))
 PKG=$UPDATE/`dnf list installed | wc -l`
 
-if (( $UPDATE > 5 )); then
+if (( $UPDATE > 10 )); then
     clicked=`notify-send --app-name="Package Manager" --category="Package Manager" \
         "There are $UPDATE updates available." --icon="software-update-available" \
         --action="[ACTION]action"`

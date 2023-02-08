@@ -1,15 +1,14 @@
---
--- ╭────────────╮
--- │  init.lua  │
--- ╰────────────╯
--- ╭──────────────────────────────────────────────────────────────────────────────╮
--- │  init.lua is the primary configuration file that initializes                 │
--- │ basic settings and initializes basic Lua configurations.                     │
--- │ It also links the configuration files of plugins respectively.               │
--- │  - {@link plugins.lua} manages all plugins and their configuration.          │
--- │  - {@link keybinding.lua} manages most of the keybindings.                   │
--- ╰──────────────────────────────────────────────────────────────────────────────╯
--- @author umutsevdi
+-------------------------------------------------------------------------------
+-- File: init.lua
+-- 
+-- Author: Umut Sevdi
+-- Created: 04/07/22
+-- Description: init.lua is the primary configuration file that initializes
+-- basic settings and initializes basic Lua configurations.
+-- It also links the configuration files of plugins respectively.
+--- {@plugins.lua}  manages all plugins and their configuration.
+--- {@keybinding.lua} manages keybindings.
+-------------------------------------------------------------------------------
 
 local o = vim.o
 

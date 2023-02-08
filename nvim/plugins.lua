@@ -1,50 +1,39 @@
---
--- ╭─────────────╮
--- │ Plugins.lua │
--- ╰─────────────╯
--- ╭──────────────────────────────────────────────────────────────────────────────╮
--- │ Plugins.lua is the configuration file that imports necessary plugins.        │
--- │ It also links the configuration files of plugins respectively.               │
--- │  - {@link plug} contains the list of imported VimPlug plugins.               │
--- │  - {@link nvim-treesitter.configs} contains treesitter language support list.│
--- │  - {@link coc_global_extensions} includes Conqueror of Completions(CoC)      │
--- │  related configurations.                                                     │
--- │  - {@link sniprun} contains snippet runner configurations                    │
--- ╰──────────────────────────────────────────────────────────────────────────────╯
--- @author umutsevdi
+-------------------------------------------------------------------------------
+-- File: plugins.lua
+-- 
+-- Author: Umut Sevdi
+-- Created: 04/07/22
+-- Description: Plugins.lua is the configuration file that imports necessary
+-- plugins. It also links the configuration files of plugins respectively.
+-------------------------------------------------------------------------------
 
 --  ╭────────────────╮
 --  │ Packer Plugins │
 --  ╰────────────────╯
 
 vim.cmd [[packadd packer.nvim]]
-
 require('packer').startup({
     function(use)
         use 'wbthomason/packer.nvim' -- packer can manage itself
         use 'lewis6991/impatient.nvim' -- speedup Lua module load time
-        use 'ryanoasis/vim-devicons' -- vim NerdFont icons
-        use 'lewis6991/gitsigns.nvim' -- git add, update, delete symbols
+        use 'ryanoasis/vim-devicons' -- icons
+        use 'lewis6991/gitsigns.nvim' -- git symbols on the left
         use 'tpope/vim-fugitive' -- git Integration
-        use 'airblade/vim-gitgutter' -- displays git diff
         use {
             'nvim-telescope/telescope.nvim',
             tag = '0.1.0',
             requires = { 'nvim-lua/plenary.nvim' }
         } -- fzf extension that displays preview
-        use 'preservim/nerdtree'
-        use 'nvim-lualine/lualine.nvim' -- a bar on the bottom that displays elements
+        use 'preservim/nerdtree' -- nerdtree
+        use 'nvim-lualine/lualine.nvim' -- bottom bar
         use 'preservim/tagbar' -- a bar displays functions, classes and variables of files on the left
         use 'junegunn/vim-easy-align' -- auto align
-        use 'LudoPinelli/comment-box.nvim'
-        use 'morhetz/gruvbox'
+        use 'LudoPinelli/comment-box.nvim' -- comment box
+        use 'morhetz/gruvbox' -- theme
         use { 'junegunn/fzf',
             dir = '~/.fzf',
             run = './install --all'
-        }
-        use { 'SirVer/ultisnips',
-            requires = { 'honza/vim-snippets' }
-        } -- snippet support
+        } -- fzf
         use { 'nvim-treesitter/nvim-treesitter',
             run = ':TSUpdate'
         } -- syntax highlighting
@@ -53,13 +42,10 @@ require('packer').startup({
             ft = 'markdown'
         } -- live markdown renderer server
         use 'jakewvincent/mkdnflow.nvim' -- markdown extension
-        use { 'turbio/bracey.vim',
-            run = 'npm install --prefix server',
-            ft = 'html'
-        } -- run live server to test html
         use { 'michaelb/sniprun',
             run = 'bash install.sh'
         } -- instant code runner
+        use 'smithbm2316/centerpad.nvim' -- move window the center
         use {
             'VonHeikemen/lsp-zero.nvim',
             requires = {
@@ -99,10 +85,7 @@ require('pkg/lualine-config')
 require("pkg/tagbar")
 require('pkg/lsp-config')
 require('pkg/snip-runner-config')
-require("pkg/bracey-config")
-require("pkg/markdown")
-require("pkg/nerdtree-config")
-require("pkg/auto-dark-mode")
+require("pkg/basics")
 
 --  ╭───────────────────────╮
 --  │ Color scheme settings │
@@ -115,28 +98,3 @@ vim.cmd 'colorscheme gruvbox'
 SetColors()
 
 
---  ╭─────────────────╮
---  │ GitSigns Config │
---  ╰─────────────────╯
-require('gitsigns').setup()
-vim.cmd(':Gitsigns toggle_current_line_blame')
-
-
---  ╭───────────────────────╮
---  │ Snippet Configuration │
---  ╰───────────────────────╯
-require("luasnip.loaders.from_vscode").lazy_load()
-require("luasnip.loaders.from_snipmate").lazy_load({ paths = { "~/.dotfiles/nvim/pkg/snippets/" } })
-require("luasnip.loaders.from_snipmate").lazy_load({ paths = { "~/.local/share/nvim/site/pack/packer/start/vim-snippets/" } })
-
---  ╭───────────────╮
---  │ Markdown Flow │
---  ╰───────────────╯
-require('mkdnflow').setup({
-    links = {
-        transform_explicit = function(text)
-            -- Make lowercase, remove spaces, and reverse the string
-            return string.lower(text:gsub(' ', ''))
-        end
-    }
-})

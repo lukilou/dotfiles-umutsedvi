@@ -62,7 +62,7 @@ repo_gpgcheck=1
 gpgkey=https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg
 metadata_expire=1h
 EOF
-&& echo Added VS Codium Repository
+    echo Added VS Codium Repository
     echo Updating programs and drivers
     dnf update --refresh -y
 

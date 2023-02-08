@@ -1,14 +1,15 @@
---
--- ╭───────────────────╮
--- │  keybindings.lua  │
--- ╰───────────────────╯
--- ╭──────────────────────────────────────────────────────────────────────────────╮
--- │  keybindings.lua contains custom keybindings for various things.             │
--- ╰──────────────────────────────────────────────────────────────────────────────╯
--- @author umutsevdi
+-------------------------------------------------------------------------------
+-- File: keybindings.lua
+-- 
+-- Author: Umut Sevdi
+-- Created: 04/07/22
+-- Description: keybindings.lua contains custom keybindings for various things.
+-------------------------------------------------------------------------------
 
 vim.cmd([[
-" Window Movement
+"  ╭───────────────────╮
+"  │ " Window Movement │
+"  ╰───────────────────╯
 " Change vim window focus
 map <C-h> <C-w>h
 map <C-l> <C-w>l
@@ -40,10 +41,12 @@ vim.keymap.set("n", "<leader>ss", ":source $MYVIMRC<CR>")
 vim.keymap.set("n", "<A-n>", ":tabnew .<CR>")
 vim.keymap.set("n", "<A-t>", ":vsplit .<CR>")
 vim.keymap.set("n", "<A-Tab>", ":NERDTreeToggle | TagbarToggle<CR>")
+vim.keymap.set("n", "<A-Enter>", ":Centerpad<CR>")
 
---  ┌─────────────────────────────────────────┐
---  │ Language Server Protocol Configurations │
---  └─────────────────────────────────────────┘
+--  ╭─────────────────────────────────────────────╮
+--  │   Language Server Protocol Configurations   │
+--  ╰─────────────────────────────────────────────╯
+
 -- gi: Lists all the implementations for the symbol under the cursor in the quickfix window.
 -- See :help vim.lsp.buf.implementation().
 -- go: Jumps to the definition of the type of the symbol under the cursor.
@@ -52,7 +55,9 @@ vim.keymap.set("n", "<A-Tab>", ":NERDTreeToggle | TagbarToggle<CR>")
 -- See :help vim.lsp.buf.references().
 
 
--- Code Formatter
+--  ╭────────────────╮
+--  │ Code Formatter │
+--  ╰────────────────╯
 vim.keymap.set("n", "<A-f>",
     "::lua vim.lsp.buf.format({options = { tabSize = 4, insertSpaces= true, insertFinalNewline = true, }}) <CR>")
 -- Code actions
@@ -63,7 +68,9 @@ vim.keymap.set("n", "<A-r>", "v:lua vim.lsp.buf.rename() <CR>")
 vim.keymap.set("n", "<A-d>", "v:lua vim.diagnostic.open_float() <CR>")
 
 
--- autofill
+--  ╭──────────╮
+--  │ autofill │
+--  ╰──────────╯
 vim.keymap.set("i", '"', '""<left>')
 vim.keymap.set("i", "'", "''<left>")
 vim.keymap.set("i", "(", "()<left>")

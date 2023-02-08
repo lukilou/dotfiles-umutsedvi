@@ -45,10 +45,11 @@ exec        --no-startup-id colorscheme --refresh
 exec        --no-startup-id pickwp 
 
 # Following programs are restarted every time the wm is refreshed
+exec_always --no-startup-id killall conky polybar
 exec_always --no-startup-id killall picom; picom -b --config ~/.dotfiles/picom/picom.conf  --experimental-backends 
-exec_always --no-startup-id killall dunst; dunst -conf $HOME/.dotfiles/dunst/dunstrc
-exec_always --no-startup-id killall conky; sleep 0.1; conky --config=$HOME/.dotfiles/conky/.conkyrc --daemonize
-exec_always --no-startup-id killall polybar; sleep 0.1;  polybar bottom & polybar main; 
+exec_always --no-startup-id killall dunst mate-notification-daemon;dunst -conf $HOME/.dotfiles/dunst/dunstrc
+exec_always --no-startup-id conky --config=$HOME/.dotfiles/conky/.conkyrc --daemonize
+exec_always --no-startup-id polybar bottom & polybar main; 
 
 # Initialize applets once
 exec        --no-startup-id pasystray --notify=sink source
@@ -105,6 +106,8 @@ for_window [instance="xfce-*"] floating enable
 for_window [instance="pavucontrol"] floating enable
 for_window [instance="blueman"] floating enable
 for_window [instance="ffplay"] floating enable
+for_window [instance="file-roller"] floating enable
+
 
 #*******************************************************************************
 #    Keybindings

@@ -14,14 +14,14 @@ color_value=`cat /tmp/.cs 2>/dev/null`
 
 GTK_THEME_LIGHT="Gruvbox-Light-BL"
 GTK_THEME_DARK="Gruvbox-Dark-BL"
-CIN_THEME_DOCK_LIGHT="Lavanda-Light"
-CIN_THEME_LIGHT="Lavanda-Light"
-CIN_THEME_DARK="Lavanda-Dark"
+MATE_THEME_DOCK_LIGHT="Lavanda-Light"
+MATE_THEME_LIGHT="Colloid-Light-Compact"
+MATE_THEME_DARK="Colloid-Dark-Compact"
 
-GTK_ICON_LIGHT="kora-green"
-GTK_ICON_DARK="kora-green"
-CIN_ICON_LIGHT="Flat-Remix-Blue-Dark"
-CIN_ICON_DARK="Flat-Remix-Blue-Dark"
+GTK_ICON_LIGHT="gruvbox-plus-icon-pack"
+GTK_ICON_DARK="gruvbox-plus-icon-pack"
+MATE_ICON_LIGHT="Taru-Adw"
+MATE_ICON_DARK="Taru-Adw-dark"
 
 Help()
 {
@@ -59,28 +59,28 @@ SetI3()
     fi
     gsettings set org.gnome.desktop.interface gtk-theme "$gtk_theme"
     gsettings set org.gnome.desktop.interface icon-theme "$gtk_icon"
-    gsettings set org.gnome.desktop.wm.preferences theme "$gtk_theme"
+    gsettings get org.mate.interface gtk-key-theme "$gtk_theme"
     gsettings set org.gnome.desktop.interface color-scheme "$gnome_prefer"
 }
 
-# set cinnamon
-SetCinnamon()
+SetMate()
 {
     if [ "$is_dark" = true ]; then 
-        gtk_theme=$CIN_THEME_LIGHT
-        gtk_icon=$CIN_ICON_LIGHT
-        gtk_dock=$CIN_THEME_DOCK_LIGHT
+        gtk_theme=$MATE_THEME_LIGHT
+        gtk_icon=$MATE_ICON_LIGHT
+        gnome_prefer="prefer-light"
     else
-        gtk_theme=$CIN_THEME_DARK
-        gtk_icon=$CIN_ICON_DARK
-        gtk_dock=$CIN_THEME_DARK
+        gtk_theme=$MATE_THEME_DARK
+        gtk_icon=$MATE_ICON_DARK
+        gnome_prefer="prefer-dark"
     fi
 
-    gsettings set org.cinnamon.desktop.interface gtk-theme "$gtk_theme"
-    gsettings set org.cinnamon.desktop.interface icon-theme "$gtk_icon"
-    gsettings set org.cinnamon.desktop.wm.preferences theme "$gtk_theme"
-    gsettings set org.cinnamon.desktop.interface gtk-key-theme "$gtk_theme" 
-    gsettings set org.cinnamon.theme name "$gtk_dock" 
+    gsettings set org.mate.interface gtk-theme "$gtk_theme"
+    gsettings set org.mate.interface icon-theme "$gtk_icon"
+    gsettings set org.mate.interface gtk-key-theme "$gtk_theme" 
+    # gsettings set org.mate.theme name "$gtk_theme" 
+    gsettings set org.gnome.desktop.interface color-scheme "$gnome_prefer"
+
 }
 
 for arg in $@;do
@@ -101,13 +101,13 @@ else
     is_dark=$color_value
     write=`[ "$color_value" = true ] && echo false || echo true`
     echo $write > /tmp/.cs
-    nvim --server /tmp/$USER.pipe --remote-send ":lua SetColors() <CR>" > /dev/null
+    nvim --server /tmp/$USER.pipe --remote-send ":lua SetColors($is_dark) <CR>" > /dev/null
 fi
 
 echo $XDG_CURRENT_DESKTOP
 case $XDG_CURRENT_DESKTOP in
-    X-Cinnamon)
-        SetCinnamon
+    MATE)
+        SetMate
         ;;
     *)
         SetI3

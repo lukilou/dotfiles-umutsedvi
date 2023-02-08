@@ -70,11 +70,12 @@ alias mv='mv -i'
 alias rm='rm -i'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias ff='cd $(dirname $(fzf))'
+alias nvim='nvim --listen /tmp/$USER.pipe'
+alias tmux="tmux -f $HOME/.dotfiles/tmux/.tmux.conf"
 
 # Typo aliases
 alias sl=ls
 alias v=vi
-alias nvim='nvim --listen /tmp/$USER.pipe'
 alias n=nvim
 alias nivm=nvim
 alias nuvm=nvim
