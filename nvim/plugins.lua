@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------------
 -- File: plugins.lua
--- 
+--
 -- Author: Umut Sevdi
 -- Created: 04/07/22
 -- Description: Plugins.lua is the configuration file that imports necessary
@@ -43,7 +43,7 @@ require('packer').startup({
         } -- live markdown renderer server
         use 'jakewvincent/mkdnflow.nvim' -- markdown extension
         use { 'michaelb/sniprun',
-            run = 'bash install.sh'
+            run = 'bash install.sh',
         } -- instant code runner
         use 'smithbm2316/centerpad.nvim' -- move window the center
         use {
@@ -63,7 +63,6 @@ require('packer').startup({
                 { 'hrsh7th/cmp-nvim-lua' },
 
                 -- Snippets
-                { 'rafamadriz/friendly-snippets' },
                 { 'L3MON4D3/LuaSnip' },
                 { 'honza/vim-snippets' },
             }
@@ -80,21 +79,9 @@ require('packer').startup({
 --  │ Import configurations │
 --  ╰───────────────────────╯
 
+require("pkg/basics")
 require('pkg/tree-sitter-config')
 require('pkg/lualine-config')
 require("pkg/tagbar")
 require('pkg/lsp-config')
 require('pkg/snip-runner-config')
-require("pkg/basics")
-
---  ╭───────────────────────╮
---  │ Color scheme settings │
---  ╰───────────────────────╯
-vim.g.gruvbox_italic = 1
-vim.g.gruvbox_termcolors = 16
-vim.cmd 'colorscheme gruvbox'
---  vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
---  vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-SetColors()
-
-

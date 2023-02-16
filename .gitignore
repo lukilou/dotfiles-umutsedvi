@@ -4,3 +4,5 @@ package.json
 bin/hugo
 bin/picom
 bin/picom-trans
+bin/td
+todo/.todo.json

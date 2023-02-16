@@ -7,22 +7,25 @@ lsp.ensure_installed({
     'clangd',
     'cmake',
     'cssls',
+    'dockerls',
+    'docker_compose_language_service',
     'eslint',
     'diagnosticls',
     'gopls',
     'grammarly',
+    'html',
     'jsonls',
     'jdtls', -- Java
     'tsserver', -- JavaScript / Typescript
     'kotlin_language_server',
     'marksman',
-    'sumneko_lua',
+    'lua_ls',
     'perlnavigator',
+    'pylsp',
     'jedi_language_server',
     'rust_analyzer',
     'yamlls',
 })
-
 lsp.nvim_workspace()
 lsp.set_preferences({
     suggest_lsp_servers = true,

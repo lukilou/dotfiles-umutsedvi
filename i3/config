@@ -48,8 +48,9 @@ exec        --no-startup-id pickwp
 exec_always --no-startup-id killall conky polybar
 exec_always --no-startup-id killall picom; picom -b --config ~/.dotfiles/picom/picom.conf  --experimental-backends 
 exec_always --no-startup-id killall dunst mate-notification-daemon;dunst -conf $HOME/.dotfiles/dunst/dunstrc
-exec_always --no-startup-id conky --config=$HOME/.dotfiles/conky/.conkyrc --daemonize
 exec_always --no-startup-id polybar bottom & polybar main; 
+exec_always        --no-startup-id conky --config=$HOME/.dotfiles/todo/todo.rc --daemonize
+exec_always        --no-startup-id conky --config=$HOME/.dotfiles/conky/.conkyrc --daemonize
 
 # Initialize applets once
 exec        --no-startup-id pasystray --notify=sink source

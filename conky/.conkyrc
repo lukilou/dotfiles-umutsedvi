@@ -7,7 +7,6 @@ conky.config = {
     override_utf8_locale = true,
     double_buffer = true,
     no_buffers = true,
-    text_buffer_size = 2048,
 
 -- Window specifications
     own_window = true,
@@ -15,17 +14,9 @@ conky.config = {
     own_window_transparent = true,
     own_window_type = 'override',
     own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
-    border_inner_margin = 0,
-    border_outer_margin = 0,
-    alignment = 'center_left',
+    alignment = 'top_left',
     gap_x = 25,
-    gap_y = 0,
-
--- Graphics settings
-    draw_shades = false,
-    draw_outline = false,
-    draw_borders = false,
-    draw_graph_borders = false,
+    gap_y = 25,
 
 -- Text settings
     use_xft = true,
@@ -36,25 +27,21 @@ conky.config = {
     color0 = '#ebdbb2', -- default fg
     color1 = '#FFCE51', -- selection
     color2 = '#F15D22', -- red
-    color4 = '#C3BAC6',
-    color5 = '#ABE9B3',
-    color6 = '#FAE3B0',
     default_color = '#F2CDCD',
 };
 conky.text = [[
-${voffset 15}${color0}${font FiraSans:size=60}${time %b%e}${voffset -30} ${alignr}${color1}${font FiraSans Bold:size=18}${time %A}
-${voffset -10}${voffset -10}
-${color0}${font FiraMono:bold:size=80}${time %k:%M}${font}
+${color0}${font FiraSans:size=50}${time %b%e}${voffset -30} ${alignr}${color1}${font FiraSans Bold:size=20}${time %A}
+${voffset 10}${color0}${font FiraMono:bold:size=75}${time %k:%M}${font}
 ${font FiraSans:size=10}${color1}${alignr}${texeci 3600 weather}
-${voffset 650}
-${color0}${font FiraSans:bold:size=9}Memory    ${font FiraMono:italic:size=9}  ${mem}  ${membar}
-${font FiraSans:bold:size=9}Disk           ${font FiraMono:italic:size=9}  ${fs_used /}   ${fs_bar /}
-${font FiraSans:bold:size=9}CPU            ${font FiraMono:italic:size=9}  ${cpu}%        ${cpubar}
-${font FiraSans :size=9}${color1}Name                         PID${alignr}CPU%         TIME${font FiraMono :italic:size=9}
-${voffset -10}$hr
-${voffset -3}${color0}${top name 1} ${top pid 1} ${alignr}${top cpu 1} ${top time 1}
-${voffset -3}${color0}${top name 2} ${top pid 2} ${alignr}${top cpu 2} ${top time 2}
-${voffset -3}${color0}${top name 3} ${top pid 3} ${alignr}${top cpu 3} ${top time 3}
-${voffset -3}${color0}${top name 4} ${top pid 4} ${alignr}${top cpu 4} ${top time 4}
-${voffset -3}${color0}${top name 5} ${top pid 5} ${alignr}${top cpu 5} ${top time 5}
+${voffset 700}${color0}
+${font FiraMono:bold:size=9}RAM  ${font FiraMono:italic:size=9}  ${mem}  ${membar}
+${font FiraMono:bold:size=9}DISK ${font FiraMono:italic:size=9}  ${fs_used /}  ${fs_bar /}
+${font FiraMono:bold:size=9}CPU  ${font FiraMono:italic:size=9}  ${cpu}%        ${cpubar}
+${font FiraMono:bold:size=9}${color1}Name                PID${alignr}CPU%      Time
+${font FiraMono:italic:size=9}${voffset -10}$hr${color0}
+${voffset -3}${top name 1} ${top pid 1} ${alignr}${top cpu 1} ${top time 1}
+${voffset -3}${top name 2} ${top pid 2} ${alignr}${top cpu 2} ${top time 2}
+${voffset -3}${top name 3} ${top pid 3} ${alignr}${top cpu 3} ${top time 3}
+${voffset -3}${top name 4} ${top pid 4} ${alignr}${top cpu 4} ${top time 4}
+${voffset -3}${top name 5} ${top pid 5} ${alignr}${top cpu 5} ${top time 5}
 ]];

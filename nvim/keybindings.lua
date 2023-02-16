@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------------
 -- File: keybindings.lua
--- 
+--
 -- Author: Umut Sevdi
 -- Created: 04/07/22
 -- Description: keybindings.lua contains custom keybindings for various things.
@@ -22,7 +22,7 @@ map <C-Right> <C-w>l
 
 " Tabs
 " Move around tabs
-map <silent> <A-h> :tabprevious<CR> 
+map <silent> <A-h> :tabprevious<CR>
 map <silent> <A-l> :tabnext<CR>
 map <silent> <A-Left> :tabprevious<CR>
 map <silent> <A-Right> :tabnext<CR>

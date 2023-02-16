@@ -1,0 +1,37 @@
+-- Conky is a monitoring application that is displayed on the desktop
+-- @author umutsevdi 
+
+conky.config = {
+    update_interval = 1,
+    override_utf8_locale = true,
+    double_buffer = true,
+    no_buffers = true,
+    text_buffer_size = 2048,
+    own_window = true,
+    own_window_class = 'conky',
+    own_window_transparent = true,
+    own_window_type = 'override',
+    own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+    alignment = 'bottom_right',
+    gap_x = 25,
+    gap_y = 25,
+    draw_shades = true,
+    use_xft = true,
+    xftalpha = 0,
+    text_buffer_size = 2048,
+    font = 'FiraMono:size=11',
+    color0 = '#ebdbb2', -- default fg
+    color1 = '#FFCE51', -- selection
+    color2 = '#F15D22', -- red
+    default_color = '#F2CDCD',
+};
+conky.text = [[
+${font}${color0}${font FiraMono:size=11}${alignc}${execpi 3600 cal --color=never -m \
+| sed "s/`date +%d`/\${font FiraMono:bold:size=11}\${color green}`date +%d`\${font FiraMono:size=11}\${color $color0}/" \
+| sed "s/`date '+%B %Y'`"// }
+${color0}${font FiraSans:bold:size=15}To Do${font} $hr
+${color0}${font FiraMono:size=11}${execpi 10 td | sed "s/\x1b\[[^\x1b]*m//g" | sed "s/✕/[x]/g" | sed "s/. |//g"  | sed "s/      //g" }
+${color0}${font FiraSans:bold:size=15}Done${font} $hr
+${color0}${font FiraMono:size=11}${execpi 10 td --done | sed "s/\x1b\[[^\x1b]*m//g" | sed "s/✓/[+]/g" | sed "s/. |//g"  | sed "s/      //g" }
+]];
+-- ${texeci 3600 cat $HOME/a.cpp | tail }

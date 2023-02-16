@@ -6,34 +6,11 @@
 -- Description: Generic Lua configurations
 -------------------------------------------------------------------------------
 
---  ╭───────────────────────────────────────────────╮
---  │ if NERDTree is the only window left remove it │
---  ╰───────────────────────────────────────────────╯
-vim.cmd [[ autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif ]]
+require('impatient')
 
-
---  ╭─────────────────────────────────────╮
---  │ vim instant markdown configurations │
---  ╰─────────────────────────────────────╯
-vim.filetype.plugin = on
---Uncomment to override defaults:
-vim.g.instant_markdown_slow = 1
-vim.g.instant_markdown_autostart = 1
---vim.g.instant_markdown_open_to_the_world = 1
---vim.g.instant_markdown_allow_unsafe_content = 1
-vim.g.instant_markdown_allow_external_content = 1
---vim.g.instant_markdown_mathjax = 1
---vim.g.instant_markdown_mermaid = 1
---vim.g.instant_markdown_logfile = '/tmp/instant_markdown.log'
---vim.g.instant_markdown_autoscroll = 0
---vim.g.instant_markdown_port = 8888
---vim.g.instant_markdown_python = 1
-vim.g.instant_markdown_browser = "epiphany"
-
---  ╭───────────────────────────╮
---  │ Dark/Light Mode Selecting │
---  ╰───────────────────────────╯
-
+--  ╭───────────────────────╮
+--  │ Color scheme settings │
+--  ╰───────────────────────╯
 -- Reads current color value
 local function get_color()
     local gsettings = assert(
@@ -53,6 +30,37 @@ function SetColors()
         vim.cmd [[ set background=light ]]
     end
 end
+
+vim.g.gruvbox_italic = 1
+vim.g.gruvbox_termcolors = 16
+vim.cmd 'colorscheme gruvbox'
+--  vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+--  vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+SetColors()
+
+--  ╭───────────────────────────────────────────────╮
+--  │ if NERDTree is the only window left remove it │
+--  ╰───────────────────────────────────────────────╯
+vim.cmd [[ autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif ]]
+
+
+--  ╭─────────────────────────────────────╮
+--  │ vim instant markdown configurations │
+--  ╰─────────────────────────────────────╯
+vim.filetype.plugin = on
+--Uncomment to override defaults:
+vim.g.instant_markdown_slow = 1
+vim.g.instant_markdown_autostart = 0
+--vim.g.instant_markdown_open_to_the_world = 1
+--vim.g.instant_markdown_allow_unsafe_content = 1
+vim.g.instant_markdown_allow_external_content = 1
+--vim.g.instant_markdown_mathjax = 1
+--vim.g.instant_markdown_mermaid = 1
+--vim.g.instant_markdown_logfile = '/tmp/instant_markdown.log'
+vim.g.instant_markdown_autoscroll = 1
+--vim.g.instant_markdown_port = 8888
+--vim.g.instant_markdown_python = 1
+vim.g.instant_markdown_browser = "epiphany"
 
 --  ╭─────────────────╮
 --  │ GitSigns Config │
@@ -85,5 +93,6 @@ require('mkdnflow').setup({
             -- Make lowercase, remove spaces, and reverse the string
             return string.lower(text:gsub(' ', ''))
         end
-    }
+    },
+    filetypes = {md = true, rmd = true, markdown = true}
 })
