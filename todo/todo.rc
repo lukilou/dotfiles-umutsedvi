@@ -30,8 +30,8 @@ ${font}${color0}${font FiraMono:size=11}${alignc}${execpi 3600 cal --color=never
 | sed "s/`date +%d`/\${font FiraMono:bold:size=11}\${color green}`date +%d`\${font FiraMono:size=11}\${color $color0}/" \
 | sed "s/`date '+%B %Y'`"// }
 ${color0}${font FiraSans:bold:size=15}To Do${font} $hr
-${color0}${font FiraMono:size=11}${execpi 10 td | sed "s/\x1b\[[^\x1b]*m//g" | sed "s/✕/[x]/g" | sed "s/. |//g"  | sed "s/      //g" }
+${color0}${font FiraMono:size=11}${execpi 10 td | sed "s/\x1b\[[^\x1b]*m//g" | sed "s/✕/[x]/g" | sed "s/. |//g"  | sed "s/      //" | sed "s/⏱/\t-/g" }
 ${color0}${font FiraSans:bold:size=15}Done${font} $hr
-${color0}${font FiraMono:size=11}${execpi 10 td --done | sed "s/\x1b\[[^\x1b]*m//g" | sed "s/✓/[+]/g" | sed "s/. |//g"  | sed "s/      //g" }
+${color0}${font FiraMono:size=11}${execpi 10 td --done | sed "s/\x1b\[[^\x1b]*m//g" | sed "s/✓/[+]/g" | sed "s/. |//g"  | sed "s/      //" | sed "s/⏱/\t-/g" }
 ]];
 -- ${texeci 3600 cat $HOME/a.cpp | tail }
