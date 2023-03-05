@@ -3,42 +3,42 @@
 
 conky.config = {
 -- Conky settings
-    update_interval = 1,
+    update_interval = 2,
     override_utf8_locale = true,
     double_buffer = true,
     no_buffers = true,
+    draw_shades = false,
 
 -- Window specifications
     own_window = true,
     own_window_class = 'conky',
-    own_window_transparent = true,
+    own_window_transparent = false,
+    own_window_argb_visual = true,
+    own_window_argb_value = 200,
+    own_window_colour = '#282828',
     own_window_type = 'override',
     own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
-    alignment = 'top_left',
-    gap_x = 25,
-    gap_y = 25,
+    alignment = 'bottom_right',
+    gap_x = 35,
+    gap_y = 35,
 
 -- Text settings
     use_xft = true,
     xftalpha = 0,
     text_buffer_size = 2048,
-    font = 'FiraMono:size=11',
+    font = 'FiraCode:size=11',
     uppercase = false,
     color0 = '#ebdbb2', -- default fg
     color1 = '#FFCE51', -- selection
     color2 = '#F15D22', -- red
-    default_color = '#F2CDCD',
-};
+    default_color = '#ffffff',
+}
 conky.text = [[
-${color0}${font FiraSans:size=50}${time %b%e}${voffset -30} ${alignr}${color1}${font FiraSans Bold:size=20}${time %A}
-${voffset 10}${color0}${font FiraMono:bold:size=75}${time %k:%M}${font}
-${font FiraSans:size=10}${color1}${alignr}${texeci 3600 weather}
-${voffset 700}${color0}
-${font FiraMono:bold:size=9}RAM  ${font FiraMono:italic:size=9}  ${mem}  ${membar}
-${font FiraMono:bold:size=9}DISK ${font FiraMono:italic:size=9}  ${fs_used /}  ${fs_bar /}
-${font FiraMono:bold:size=9}CPU  ${font FiraMono:italic:size=9}  ${cpu}%        ${cpubar}
-${font FiraMono:bold:size=9}${color1}Name                PID${alignr}CPU%      Time
-${font FiraMono:italic:size=9}${voffset -10}$hr${color0}
+${color0}${font FiraCode:bold:size=9}RAM ${font FiraCode:italic:size=9}  ${mem}  ${membar}
+${font FiraCode:bold:size=9}DISK${font FiraCode:italic:size=9}  ${fs_used /}   ${fs_bar /}
+${font FiraCode:bold:size=9}CPU ${font FiraCode:italic:size=9}  ${cpu}%        ${cpubar}
+${font FiraCode:bold:size=9}${color1}Name                PID${alignr}CPU%      Time
+${font FiraCode:italic:size=9}${voffset -10}$hr${color0}
 ${voffset -3}${top name 1} ${top pid 1} ${alignr}${top cpu 1} ${top time 1}
 ${voffset -3}${top name 2} ${top pid 2} ${alignr}${top cpu 2} ${top time 2}
 ${voffset -3}${top name 3} ${top pid 3} ${alignr}${top cpu 3} ${top time 3}

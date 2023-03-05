@@ -29,7 +29,7 @@ set $bg-inactive   #333333
 set $text-active   #282828
 set $text-inactive #88807c
 set $bg-urgent     #f15d22
-font pango:FiraMono 10
+font pango:FiraSans 10
 title_align center
 # Refresh i3
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -39,27 +39,29 @@ set $refresh_i3status killall -SIGUSR1 i3status
 #*******************************************************************************
 
 # Enable Tap to click
-exec        --no-startup-id xinput set-prop "PNP0C50:0e 06CB:7E7E Touchpad" "libinput Tapping Enabled" 1
-exec        --no-startup-id /usr/libexec/gsd-xsettings
-exec        --no-startup-id colorscheme --refresh
-exec        --no-startup-id pickwp 
+exec --no-startup-id xinput set-prop "PNP0C50:0e 06CB:7E7E Touchpad" "libinput Tapping Enabled" 1
+exec --no-startup-id /usr/libexec/gsd-xsettings
+exec --no-startup-id colorscheme --refresh
+exec --no-startup-id pickwp 
 
 # Following programs are restarted every time the wm is refreshed
 exec_always --no-startup-id killall conky polybar
 exec_always --no-startup-id killall picom; picom -b --config ~/.dotfiles/picom/picom.conf  --experimental-backends 
 exec_always --no-startup-id killall dunst mate-notification-daemon;dunst -conf $HOME/.dotfiles/dunst/dunstrc
-exec_always --no-startup-id polybar bottom & polybar main; 
-exec_always        --no-startup-id conky --config=$HOME/.dotfiles/todo/todo.rc --daemonize
-exec_always        --no-startup-id conky --config=$HOME/.dotfiles/conky/.conkyrc --daemonize
+# exec_always --no-startup-id polybar bottom & polybar main
+exec_always --no-startup-id polybar main;
+exec_always        --no-startup-id conky --config=$HOME/.dotfiles/conky/todo.rc --daemonize
+exec_always        --no-startup-id conky --config=$HOME/.dotfiles/conky/monitor.rc --daemonize
 
 # Initialize applets once
-exec        --no-startup-id pasystray --notify=sink source
+# exec        --no-startup-id pasystray --notify=sink source
+exec        --no-startup-id mate-volume-control-status-icon
 exec        --no-startup-id xfce4-power-manager
 exec        --no-startup-id blueman-applet
 exec        --no-startup-id nm-applet
 exec        --no-startup-id xfce4-clipman
-exec        --no-startup-id geary   --gapplication-service
-exec        --no-startup-id liferea --gapplication-service
+# exec        --no-startup-id geary   --gapplication-service
+# exec        --no-startup-id liferea --gapplication-service
 # exec        --no-startup-id kdeconnect-indicator 
 
 
@@ -79,7 +81,7 @@ client.urgent           $bg-urgent    $bg-urgent     $text-active     #2e323d
 # Gaps
 gaps outer 15
 gaps top 25
-gaps bottom 20
+gaps bottom 10
 gaps inner 5
 smart_borders on
 hide_edge_borders smart_no_gaps
@@ -99,7 +101,7 @@ for_window [window_type="menu"] floating enable
 for_window [instance="Reminders"] floating enable
 
 # App Windows
-for_window [class="^.*"] border pixel 3
+for_window [class="^.*"] border pixel 2
 for_window [instance="gnome-calculator"] floating enable
 for_window [instance="Gnome-screenshot*"] floating enable
 for_window [instance="xfce4*"] floating enable

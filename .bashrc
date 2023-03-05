@@ -34,6 +34,8 @@ export XDG_CACHE_HOME=$HOME/.cache
 export QT_QPA_PLATFORMTHEME=gnome
 export HISTFILE=$HOME/.config/history
 export TERMINAL=/bin/alacritty
+export QT_QPA_PLATFORMTHEME=gnome
+export QUOTE_PATH=$HOME/Documents/quotes
 # sudo alternatives --config java
 
 # User specific aliases and functions
@@ -62,7 +64,7 @@ alias gs='git status'
 alias mv='mv -i'
 alias rm='rm -i'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-alias ff='cd $(dirname $(fzf))'
+alias ff='x=$(fzf);cd $(dirname $x); nvim $(basename $x)'
 
 alias nvim='nvim --listen /tmp/nvim/$((`ls /tmp/nvim | tail -n 1`+1))'
 alias tmux="tmux -f $HOME/.dotfiles/tmux/.tmux.conf"

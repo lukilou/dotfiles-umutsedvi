@@ -64,7 +64,8 @@ require('packer').startup({
 
                 -- Snippets
                 { 'L3MON4D3/LuaSnip' },
-                { 'honza/vim-snippets' },
+                { 'honza/vim-snippets' }, 
+                { 'rafamadriz/friendly-snippets' },
             }
         }
     end,

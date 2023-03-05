@@ -1,0 +1,44 @@
+-- Conky is a monitoring application that is displayed on the desktop
+-- @author umutsevdi 
+
+conky.config = {
+    update_interval = 1,
+    override_utf8_locale = true,
+    double_buffer = true,
+    no_buffers = true,
+    text_buffer_size = 2048,
+    own_window = true,
+    own_window_class = 'conky',
+    own_window_transparent = false,
+    own_window_argb_visual = true,
+    own_window_argb_value = 200,
+    own_window_colour = '#282828',
+    own_window_type = 'override',
+    own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+    alignment = 'bottom_left',
+    gap_x = 35,
+    gap_y = 35,
+    draw_shades = false,
+    use_xft = true,
+    text_buffer_size = 2048,
+    font = 'FiraCode:size=11',
+    color0 = '#ebdbb2', -- default fg
+    color1 = '#FFCE51', -- selection
+    color2 = '#F15D22', -- red
+    font1 = 'FiraSans:bold:size=15',
+    font1 = 'FiraCode:size=11',
+    default_color = '#F2CDCD',
+};
+conky.text = [[
+${color0}${font FiraSans:size=50}${time %b%e}${voffset -25}${alignr}${color1}${font :size=20}${time %A}
+${voffset -20}${font :italic:size=10}${alignr}${texeci 3600 weather}
+${voffset -10}${color0}${font FiraCode:bold:size=75}${time %k:%M}${color0}${font FiraCode:size=11}
+${alignr}${execpi 3600  cal --color=never -m  | sed 1d  | sed -z 's/\n/ \n ${alignr}/g' | sed "s/ `date +%e` / \${color green}`date +%d`\${color $color0} /" \
+| sed "s/`date +%a | head --bytes 2`/\${color green}`date +%a | head --bytes 2`\${color $color0}/"}
+${voffset -50}${color1}${font FiraSans:bold:size=15}To Do${font} $hr
+${color0}${font FiraCode:size=10}${execpi 10 td | sed "s/\x1b\[[^\x1b]*m//g" | sed "s/✕/◉/g" | sed "s/. |//g" \
+| sed "s/      //" | sed "s/⏱/\t◷/g" | sed "s/00:00//g" | sed "s/`date \"+%a, %d %b\"`//g" | sed "s/🗘/x/g"}
+${color1}${font FiraSans:bold:size=15}Done${font} $hr
+${color0}${font FiraCode:size=10}${execpi 10 td --done | sed "s/\x1b\[[^\x1b]*m//g" | sed "s/. |//g" \
+| sed "s/      //" | sed "s/⏱/\t◷/g" | sed "s/00:00//g" | sed "s/`date \"+%a, %d %b\"`//g" | sed "s/🗘/x/g"}${voffset -100}
+]];

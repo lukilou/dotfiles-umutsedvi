@@ -4,10 +4,8 @@
 [global]
     monitor = 0
     follow = mouse
-    width = 320
-    height = 320
     origin = top-right
-    offset = 15x35
+    offset = 20x30
     scale = 0
     notification_limit = 0
     progress_bar = true 
@@ -25,7 +23,7 @@
     font = FiraSans 10
     line_height = 0
     markup = full
-    format = "<span foreground='#ebdbb2'><b>%s %p</b></span>\n%b\n<span foreground='#ebdbb2'><i>%a</i></span>"
+    format = "<span foreground='#ebdbb2'><b>%s %p\n</b></span>%b"
     alignment = left
     vertical_alignment = center
     show_age_threshold = 60
@@ -37,12 +35,12 @@
     icon_position = left
     max_icon_size = 32
     enable_recursive_icon_lookup=true
-    icon_theme = "gruvbox-plus-icon-pack"
-#    icon_path = /usr/share/icons/kora-green/actions/24/:/usr/share/icons/kora-green/actions/symbolic/:/usr/share/icons/kora-green/apps/scalable/:/usr/share/icons/kora-green/categories/scalable/:/usr/share/icons/kora-green/devices/scalable/:/usr/share/icons/kora-green/emblems/48/:/usr/share/icons/kora-green/panel/24/:/usr/share/icons/kora-green/places/scalable/:/usr/share/icons/kora-green/status/symbolic/:/usr/share/icons/kora-green/status/48/
+    icon_theme=Tela-green-dark
+#    icon_path =/usr/share/icons/gruvbox_dark/actions/24/:/usr/share/icons/gruvbox_dark/actions/symbolic/:/usr/share/icons/gruvbox_dark/apps/scalable/:/usr/share/icons/gruvbox_dark/categories/scalable/:/usr/share/icons/gruvbox_dark/devices/scalable/:/usr/share/icons/gruvbox_dark/emblems/48/:/usr/share/icons/gruvbox_dark/panel/24/:/usr/share/icons/gruvbox_dark/places/scalable/:/usr/share/icons/gruvbox_dark/status/symbolic/:/usr/share/icons/gruvbox_dark/status/48/
     sticky_history = yes
     history_length = 20
     always_run_script = true
-    corner_radius = 8
+    corner_radius = 6
     ignore_dbusclose = false
     force_xinerama = false
     mouse_left_click = open_url, do_action, close_current

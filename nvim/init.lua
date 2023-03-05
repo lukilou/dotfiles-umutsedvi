@@ -24,7 +24,7 @@ set t_Co=256                         " Enable 256 colors
 " Recommended by CoC
 set cmdheight=1 " height of command-line at the bottom
 set shortmess+=c
-set showtabline=2
+set showtabline=0
 " set manual folding for functions, conditions etc.
 set foldmethod=manual
 " set mouse=extend

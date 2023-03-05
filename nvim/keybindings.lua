@@ -58,14 +58,14 @@ vim.keymap.set("n", "<A-Enter>", ":Centerpad<CR>")
 --  ╭────────────────╮
 --  │ Code Formatter │
 --  ╰────────────────╯
-vim.keymap.set("n", "<A-f>",
-    "::lua vim.lsp.buf.format({options = { tabSize = 4, insertSpaces= true, insertFinalNewline = true, }}) <CR>")
+vim.keymap.set("n", "<A-f>", ":lua vim.lsp.buf.format() <CR>")
 -- Code actions
-vim.keymap.set("n", "<A-q>", "v:lua vim.lsp.buf.code_action() <CR>")
+vim.keymap.set("n", "<A-q>", ":lua vim.lsp.buf.code_action() <CR>")
 -- Bulk rename
-vim.keymap.set("n", "<A-r>", "v:lua vim.lsp.buf.rename() <CR>")
+vim.keymap.set("n", "<A-r>", ":lua vim.lsp.buf.rename() <CR>")
 --Coc Diagnostic Menu
-vim.keymap.set("n", "<A-d>", "v:lua vim.diagnostic.open_float() <CR>")
+vim.keymap.set("n", "<A-d>", ":lua vim.diagnostic.open_float() <CR>")
+vim.keymap.set("n", "<C-d>", ":Telescope diagnostics<CR>")
 
 
 --  ╭──────────╮
