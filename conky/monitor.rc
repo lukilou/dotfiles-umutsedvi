@@ -19,8 +19,8 @@ conky.config = {
     own_window_type = 'override',
     own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
     alignment = 'bottom_right',
-    gap_x = 35,
-    gap_y = 35,
+    gap_x = 45,
+    gap_y = 45,
 
 -- Text settings
     use_xft = true,

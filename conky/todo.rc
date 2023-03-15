@@ -16,8 +16,8 @@ conky.config = {
     own_window_type = 'override',
     own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
     alignment = 'bottom_left',
-    gap_x = 35,
-    gap_y = 35,
+    gap_x = 45,
+    gap_y = 45,
     draw_shades = false,
     use_xft = true,
     text_buffer_size = 2048,
@@ -36,9 +36,9 @@ ${voffset -10}${color0}${font FiraCode:bold:size=75}${time %k:%M}${color0}${font
 ${alignr}${execpi 3600  cal --color=never -m  | sed 1d  | sed -z 's/\n/ \n ${alignr}/g' | sed "s/ `date +%e` / \${color green}`date +%d`\${color $color0} /" \
 | sed "s/`date +%a | head --bytes 2`/\${color green}`date +%a | head --bytes 2`\${color $color0}/"}
 ${voffset -50}${color1}${font FiraSans:bold:size=15}To Do${font} $hr
-${color0}${font FiraCode:size=10}${execpi 10 td | sed "s/\x1b\[[^\x1b]*m//g" | sed "s/✕/◉/g" | sed "s/. |//g" \
+${color0}${font FiraCode:size=10}${execpi 10 td | sed "s/\x1b\[[^\x1b]*m//g" | sed "s/✕/◉/g" | sed "s/.. |//g" \
 | sed "s/      //" | sed "s/⏱/\t◷/g" | sed "s/00:00//g" | sed "s/`date \"+%a, %d %b\"`//g" | sed "s/🗘/x/g"}
 ${color1}${font FiraSans:bold:size=15}Done${font} $hr
-${color0}${font FiraCode:size=10}${execpi 10 td --done | sed "s/\x1b\[[^\x1b]*m//g" | sed "s/. |//g" \
+${color0}${font FiraCode:size=10}${execpi 10 td --done | sed "s/\x1b\[[^\x1b]*m//g" | sed "s/.. |//g" \
 | sed "s/      //" | sed "s/⏱/\t◷/g" | sed "s/00:00//g" | sed "s/`date \"+%a, %d %b\"`//g" | sed "s/🗘/x/g"}${voffset -100}
 ]];

@@ -33,14 +33,10 @@ vim.cmd('source /home/umutsevdi/.dotfiles/nvim/init.lua')" > ~/.config/nvim/init
     cp -r $HOME/.dotfiles/i3 $HOME/.config/
     cp -r $HOME/.dotfiles/polybar $HOME/.config/
     cp -r $HOME/.dotfiles/.bashrc $HOME/.bashrc
-    cp -r $HOME/.dotfiles/nvim/coc-settings.json $HOME/.config/nvim/coc-settings.json
-    if [ "$root" = true ]; then
-        sudo cp $HOME/.dotfiles/.bashrc /root/.bashrc
-    fi
+    [ "$root" = true ] && sudo cp $HOME/.dotfiles/.bashrc /root/.bashrc
     i3-msg restart
-    notify-send 'i3wm' 'The window manager has been restarted with updated configurations' \
-        --app-name="i3" --icon="remote" --category='presence'
     colorscheme -r
+    notify-send 'Window Manager' 'i3wm has been restarted with updated configurations' --app-name="i3" --icon="workspace-overview" --category='window'
 }
 
 for arg in $@;do

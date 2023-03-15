@@ -19,7 +19,7 @@ elif ! command -v xrandr &> /dev/null ; then
 fi
 
 # Default wallpaper search path
-path="$HOME/Pictures/wallpapers"
+path="/usr/share/backgrounds/"
 # Default monitor count
 head=`xrandr -q | grep ' connected' | awk '{print $1}' | tr '\n' ' '`
 head_count=`xrandr -q | grep ' connected' | awk '{print $1}' | tr '\n' ' ' | wc -w`
@@ -47,20 +47,19 @@ Pick()
         exit
     fi
 
-    new_img="$path/`ls $path/ | shuf -n 1  2> /dev/null`"
-    old_img=`cat /tmp/pickwp_img  2> /dev/null`
+    new_img=`find $path/  ! -name '*.xml' -type f  | shuf -n 1  2> /dev/null`
+    old_img=`cat /tmp/.img  2> /dev/null`
 
-    while [ $new_img = $old_img ]; do
-        new_img="$path/`ls $path/ | shuf -n 1  2> /dev/null`"
+    while [ $new_img = "$old_img" ]; do
+        new_img=`find $path/  ! -name '*.xml' -type f | shuf -n 1  2> /dev/null`
     done
 
-    echo $new_img > /tmp/pickwp_img
+    echo $new_img > /tmp/.img
     echo "selected wallpaper: $new_img"
+
     for (( i=0; i < $head_count; i++ )); do 
         nitrogen --set-scaled --head=$i $new_img --save 2>/dev/null
-    done
-    for i in $head; do
-        echo wallpaper applied to $i
+        echo wallpaper applied to `cut -d " " -f $(($i+1)) <<< $head`
     done
 }
 

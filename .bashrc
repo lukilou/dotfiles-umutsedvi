@@ -20,7 +20,7 @@ export JAVA_HOME="$(ls /lib/jvm | grep java-11-openjdk.)"
 export DOT_PATH=$HOME/.dotfiles/bin
 export PATH="$JAVA_HOME:$GOPATH/bin:$GOROOT/bin:$DOT_PATH::$PATH"
 export EDITOR=/usr/bin/nvim
-export TODO_DB_PATH=$HOME/.dotfiles/todo/.todo.json
+export TODO_DB_PATH=$HOME/.config/todo.json
 # ┌──────────────────────┐
 # │ Directory Management │
 # └──────────────────────┘

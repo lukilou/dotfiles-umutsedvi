@@ -10,7 +10,7 @@
 # * @require i3lock, scrot
 #*****************************************************************************
 
-if   ! command -v i3lock &> /dev/null ; then
+if ! command -v i3lock &> /dev/null ; then
     echo "i3lock doesn't exist" 1>&2
     exit
 elif ! command -v scrot &> /dev/null; then

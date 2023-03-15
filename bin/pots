@@ -10,15 +10,24 @@
 
 #*****************************************************************************
 
+# Set default border size. Border size is 80 or terminal_size
+terminal_size=$(tput cols)
+max_length=$((terminal_size > 80 ? 80 : terminal_size))
+
 Print() {
-    line="$cmd\e[;0m${cmd_info//$cmd/}\e[36;1m"
+    # Update length to length-length_of_command
+    max_length=$(($max_length-`wc -m <<< $cmd`))
+    # Fold the text
+    cmd_info=`fold -w $max_length <<< $cmd_info`
+    line=`echo "$cmd\e[;0m${cmd_info//$cmd/}\e[36;1m"`
     line_count=$((`echo $line | wc -m ` -13 )) 
     echo -e "\e[36;1m┌`seq -s─ $line_count | tr -d '[:digit:]'`┐"
     echo -e │$line │
     echo -e "└`seq -s─ $line_count | tr -d '[:digit:]'`┘\e[0m"
 }
 
-for arg in $@;do
+# Get command with a related info
+for arg in $@; do
     cmd=$arg
     cmd_info=`whatis $cmd 2> /dev/null`
     [ -z "$cmd_info"  ] && `echo -e "Error: $cmd No such file or directory." 1>&2` || Print

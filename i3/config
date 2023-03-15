@@ -29,7 +29,7 @@ set $bg-inactive   #333333
 set $text-active   #282828
 set $text-inactive #88807c
 set $bg-urgent     #f15d22
-font pango:FiraSans 10
+font pango:FiraSans 9
 title_align center
 # Refresh i3
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -62,7 +62,7 @@ exec        --no-startup-id nm-applet
 exec        --no-startup-id xfce4-clipman
 # exec        --no-startup-id geary   --gapplication-service
 # exec        --no-startup-id liferea --gapplication-service
-# exec        --no-startup-id kdeconnect-indicator 
+exec        --no-startup-id kdeconnect-indicator 
 
 
 #*******************************************************************************
@@ -81,8 +81,8 @@ client.urgent           $bg-urgent    $bg-urgent     $text-active     #2e323d
 # Gaps
 gaps outer 15
 gaps top 25
-gaps bottom 10
-gaps inner 5
+gaps bottom 5
+gaps inner 15
 smart_borders on
 hide_edge_borders smart_no_gaps
 
@@ -101,7 +101,7 @@ for_window [window_type="menu"] floating enable
 for_window [instance="Reminders"] floating enable
 
 # App Windows
-for_window [class="^.*"] border pixel 2
+for_window [class="^.*"] border pixel 1.5
 for_window [instance="gnome-calculator"] floating enable
 for_window [instance="Gnome-screenshot*"] floating enable
 for_window [instance="xfce4*"] floating enable
@@ -110,6 +110,7 @@ for_window [instance="pavucontrol"] floating enable
 for_window [instance="blueman"] floating enable
 for_window [instance="ffplay"] floating enable
 for_window [instance="file-roller"] floating enable
+for_window [title="zoom"] floating enable
 
 
 #*******************************************************************************
