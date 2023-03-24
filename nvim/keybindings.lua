@@ -64,9 +64,9 @@ vim.keymap.set("n", "<A-q>", ":lua vim.lsp.buf.code_action() <CR>")
 -- Bulk rename
 vim.keymap.set("n", "<A-r>", ":lua vim.lsp.buf.rename() <CR>")
 --Coc Diagnostic Menu
-vim.keymap.set("n", "<A-d>", ":lua vim.diagnostic.open_float() <CR>")
-vim.keymap.set("n", "<C-d>", ":Telescope diagnostics<CR>")
-
+vim.keymap.set("n", "<C-d>", ":lua vim.diagnostic.open_float() <CR>")
+vim.keymap.set("n", "<A-d>", "<cmd>TroubleToggle document_diagnostics<cr>", { silent = true, noremap = true })
+vim.keymap.set("n", "<A-D>", "<cmd>TroubleToggle workspace_diagnostics<cr>", { silent = true, noremap = true })
 
 --  ╭──────────╮
 --  │ autofill │

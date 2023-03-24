@@ -46,6 +46,7 @@ require('packer').startup({
             run = 'bash install.sh',
         } -- instant code runner
         use 'smithbm2316/centerpad.nvim' -- move window the center
+
         use {
             'VonHeikemen/lsp-zero.nvim',
             requires = {
@@ -64,9 +65,20 @@ require('packer').startup({
 
                 -- Snippets
                 { 'L3MON4D3/LuaSnip' },
-                { 'honza/vim-snippets' }, 
+                { 'honza/vim-snippets' },
                 { 'rafamadriz/friendly-snippets' },
             }
+        }
+        use {
+            "folke/trouble.nvim",
+            requires = "nvim-tree/nvim-web-devicons",
+            config = function()
+                require("trouble").setup {
+                    -- your configuration comes here
+                    -- or leave it empty to use the default settings
+                    -- refer to the configuration section below
+                }
+            end -- diagnostics window
         }
     end,
     config = {

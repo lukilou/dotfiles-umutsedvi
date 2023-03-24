@@ -68,6 +68,8 @@ alias ff='x=$(fzf);cd $(dirname $x); nvim $(basename $x)'
 
 alias nvim='nvim --listen /tmp/nvim/$((`ls /tmp/nvim | tail -n 1`+1))'
 alias tmux="tmux -f $HOME/.dotfiles/tmux/.tmux.conf"
+xhost +local:docker >> /dev/null
+# alias docker-run='docker run -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix/'
 
 # Typo aliases
 alias sl=ls
@@ -91,3 +93,5 @@ export PS1="$ps_t $ps_dir$ps_git $ps_arrow"
 echo -e "\e[33;1m`whoami`@`hostname` - \e[36m`date +%a' '%d' '%b' '%Y`"
 echo -e "\e[33;1m──────────────────────────────────\e[39;0m"
 $HOME/.dotfiles/bin/pots
+
+

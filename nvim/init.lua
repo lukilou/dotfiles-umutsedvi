@@ -81,5 +81,8 @@ o.jumpoptions = "view"
 o.ls = 0
 o.ch = 1
 
+
 require("plugins")
 require("keybindings")
+
+

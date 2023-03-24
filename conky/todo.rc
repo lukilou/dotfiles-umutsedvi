@@ -31,8 +31,8 @@ conky.config = {
 };
 conky.text = [[
 ${color0}${font FiraSans:size=50}${time %b%e}${voffset -25}${alignr}${color1}${font :size=20}${time %A}
-${voffset -20}${font :italic:size=10}${alignr}${texeci 3600 weather}
-${voffset -10}${color0}${font FiraCode:bold:size=75}${time %k:%M}${color0}${font FiraCode:size=11}
+${voffset -20} ${font :italic:size=10}${alignr}${execpi 3600 weather  | fold --width=20 | sed -z 's/\n/\n${alignr}/g'}
+${voffset -30}${color0}${font FiraCode:bold:size=75}${time %k:%M}${color0}${font FiraCode:size=11}
 ${alignr}${execpi 3600  cal --color=never -m  | sed 1d  | sed -z 's/\n/ \n ${alignr}/g' | sed "s/ `date +%e` / \${color green}`date +%d`\${color $color0} /" \
 | sed "s/`date +%a | head --bytes 2`/\${color green}`date +%a | head --bytes 2`\${color $color0}/"}
 ${voffset -50}${color1}${font FiraSans:bold:size=15}To Do${font} $hr

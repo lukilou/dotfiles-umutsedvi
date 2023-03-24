@@ -12,16 +12,16 @@
 color_value=`cat /tmp/.cs 2>/dev/null`
 [ "$color_value" = "" ] && color_value=true
 
-GTK_THEME_LIGHT="vimix-compact-jade"
+GTK_THEME_LIGHT="vimix-light-compact-jade"
 GTK_THEME_DARK="vimix-dark-compact-jade"
-MATE_THEME_DOCK_LIGHT="Lavanda-Light"
+MATE_THEME_DOCK_LIGHT="Colloid-Compact"
 MATE_THEME_LIGHT="Colloid-Light-Compact"
 MATE_THEME_DARK="Colloid-Dark-Compact"
 
 GTK_ICON_LIGHT="Tela-green"
 GTK_ICON_DARK="Tela-green-dark"
-MATE_ICON_LIGHT="Pop-Extended"
-MATE_ICON_DARK="Pop-Extended-dark"
+MATE_ICON_LIGHT="Fantasy-blue"
+MATE_ICON_DARK="Fantasy-blue"
 
 Help()
 {

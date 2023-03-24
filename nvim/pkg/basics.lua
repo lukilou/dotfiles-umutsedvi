@@ -42,12 +42,13 @@ SetColors()
 --  │ if NERDTree is the only window left remove it │
 --  ╰───────────────────────────────────────────────╯
 vim.cmd [[ autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif ]]
+vim.cmd [[ let NERDTreeBookmarksFile="$HOME/.dotfiles/nvim/.NERDTreeBookmarksFile" ]]
 
 
 --  ╭─────────────────────────────────────╮
 --  │ vim instant markdown configurations │
 --  ╰─────────────────────────────────────╯
-vim.filetype.plugin = on
+vim.filetype.plugin = true
 --Uncomment to override defaults:
 vim.g.instant_markdown_slow = 1
 vim.g.instant_markdown_autostart = 0

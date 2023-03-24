@@ -3,7 +3,7 @@ window:
   dynamic_padding: true
   padding:
     x: 5
-    y: 3
+    y: 5
   decorations: full
   decorations_theme_variant: Dark
   title: Alacritty
