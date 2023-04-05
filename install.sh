@@ -20,14 +20,15 @@ Help()
    echo
    echo "Example: sudo sh install.sh --common --nvidia --install"
    echo "Example: sh install.sh --configure"
-   echo "Syntax: [-h/C/i [c|n]]"
+   echo "Syntax: [-h/C/i [c|n|m]]"
    echo
    echo "Options:"
    echo "-h/--help            Prints this menu."
    echo "-i/--install         Starts installation. Requires sudo."
    echo "-C/--config          Configures system files."
-   echo "-c/--common          Installs common programs."
-   echo "-n/--nvidia          Installs Nvidia softwares."
+   echo "-c/--common          Enable install of common programs."
+   echo "-m/--mate            Enable install of Mate desktop environment."
+   echo "-n/--nvidia          Enable install of Nvidia modules."
    echo
 }
 
@@ -50,8 +51,6 @@ Install()
         echo Added Docker Repository
     dnf copr enable agriffis/neovim-nightly -y && \
         echo Added COPR Repository for neovim-nightly
-    dnf copr enable atim/lazygit -y && \
-        echo Added COPR Repository for lazygit
     tee -a /etc/yum.repos.d/vscodium.repo << 'EOF'
 [gitlab.com_paulcarroty_vscodium_repo]
 name=gitlab.com_paulcarroty_vscodium_repo
@@ -75,16 +74,16 @@ EOF
     systemctl enable lightdm >> /tmp/install/graphic.logs
     systemctl set-default graphical.target >> /tmp/install/graphic.logs
 
-    echo Installing required programs
-    dnf install -y dbus-devel gcc git libconfig-devel libdrm-devel libev-devel \
+    echo Installing C/C++ development tools
+    dnf install -y dbus-devel gcc g++ git libconfig-devel libdrm-devel libev-devel \
         libX11-devel libX11-xcb libXext-devel libxcb-devel mesa-libGL-devel    \
         meson pcre-devel pixman-devel uthash-devel xcb-util-image-devel \
-        xcb-util-renderutil-devel xorg-x11-proto-devel
-    dnf install -y playerctl scrot xdotool  xrandr xinput xclip mpv ImageMagick
+        xcb-util-renderutil-devel xorg-x11-proto-devel cmake make
+    dnf install -y playerctl scrot  xrandr xinput xclip mpv ImageMagick ffmpeg
     echo Installing i3 window manager & compositor
     dnf install -y --allowerasing i3 rofi conky
     dnf install -y --allowerasing alacritty polybar
-    dnf install -y --allowerasing pasystray blueman xfce4-power-manager nitrogen rofi xfce4-clipman-plugin 
+    dnf install -y --allowerasing pasystray blueman xfce4-power-manager nitrogen xfce4-clipman-plugin
     [ "$get_nvidia" = true ] && dnf install akmod-nvidia -y
     echo Compiling dccsillag/implement-window-animations
     cd /tmp
@@ -96,15 +95,14 @@ EOF
     ninja -C build
 
     echo "Installing basic programs"
-    dnf install -y firefox xed thunar xarchiver
-    dnf install -y lazygit htop
+    dnf install -y firefox xed caja engrampa xreader htop
 
     echo Installing Development Tools
-    dnf install neovim python3-neovim gh g++ fzf pip -y
+    dnf install neovim python3-neovim gh fzf pip -y
     dnf module install nodejs:16/common -y
     dnf install lua luarocks -y
     echo Installing Java Development Kit 1.8/11/latest
-    dnf install -y java-1.8.0-openjdk-devel.x86_64 java-11-openjdk-devel.x86_64 java-latest-openjdk-devel.x86_64 maven
+    dnf install -y java-1.8.0-openjdk-devel.x86_64 maven
     echo Installing Lombok
     sudo mkdir /usr/local/share/lombok
     sudo wget https://projectlombok.org/downloads/lombok.jar -O /usr/local/share/lombok/lombok.jar
@@ -134,10 +132,9 @@ EOF
     if [ "$get_common" = true ]; then
         echo Installing Common Programs
         echo obs-studio telegram spotify discord teams libreoffice slack \ 
-            krita kdenlive zoom jetbrains-toolbox git-kraken VirtualBox liferea
-        dnf install -y elementary-calculator elementary-print gnome-disk-utility \
-            geary gnome-system-monitor eom dconf-edior liferea
-        dnf install -y telegram obs-studio cheese xreader gnome-software VirtualBox
+            krita kdenlive zoom jetbrains-toolbox git-kraken virt-manager
+        dnf install -y mate-calculator gnome-disk-utility \
+            thunderbird gnome-system-monitor eom dconf-edior telegram obs-studio cheese
         dnf install -y flatpak >> /tmp/install/flatpak.logs
         flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo  
         flatpak remote-delete fedora
@@ -146,7 +143,6 @@ EOF
             com.spotify.Client \
             com.discordapp.Discord \
             com.github.tchx84.Flatseal \
-            com.microsoft.Teams \
             org.libreoffice.LibreOffice \
             com.slack.Slack \
             org.kde.krita \
@@ -160,16 +156,21 @@ EOF
         dnf install gitkraken-amd64.rpm -y
         cd -
     fi
-
     echo Installing KDEConnect
     dnf install kdeconnectd
     firewall-cmd --zone=public --permanent --add-port=1714-1764/tcp
     firewall-cmd --zone=public --permanent --add-port=1714-1764/udp
     systemctl restart firewalld.service
+    if [ "$mate" = true ]; then 
+        echo "Installing mate-desktop-environment"
+        dnf groupinstall -y mate-desktop
+    fi
+
 #******************************************************************************
 #                          Setup Fonts and Misc
 #******************************************************************************
 
+    # Theme, update this section later
     echo Setting Fonts and Themes
     mkdir /usr/share/fonts/jetbrains-mono
     cd  /usr/share/fonts/jetbrains-mono
@@ -241,6 +242,10 @@ for arg in $@;do
         -c | --common)
             echo "Common software install is enabled"
             get_common=true
+        ;;
+        -m | --mate)
+            echo "Mate desktop environment will be installed alongside i3wm."
+            mate=true
         ;;
         -i | --install)
             get_install=true

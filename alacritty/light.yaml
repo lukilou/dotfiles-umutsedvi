@@ -1,30 +1,27 @@
-# Colors (Gruvbox light)
 colors:
   # Default colors
   primary:
-    # hard contrast: background = '#f9f5d7'
-    background: '#fbf1c7'
-    # soft contrast: background = '#f2e5bc'
-    foreground: '#3c3836'
+    background: '#f2ecbc'
+    foreground: '#545464'
 
   # Normal colors
   normal:
-    black:   '#fbf1c7'
-    red:     '#cc241d'
-    green:   '#4E9A06'
-    yellow:  '#C4A000'
-    blue:    '#3465A4'
-    magenta: '#75507B'
-    cyan:    '#06989A'
-    white:   '#7c6f64'
+    black:   '#1F1F28'
+    red:     '#c84053'
+    green:   '#6f894e'
+    yellow:  '#77713f'
+    blue:    '#4d699b'
+    magenta: '#b35b79'
+    cyan:    '#597b75'
+    white:   '#545464'
 
   # Bright colors
   bright:
-    black:   '#928374'
-    red:     '#9d0006'
-    green:   '#73C48F'
-    yellow:  '#FFCE51'
-    blue:    '#48B9C7'
-    magenta: '#AD7FA8'
-    cyan:    '#34E2E2'
-    white:   '#3c3836'
+    black:   '#8a8980'
+    red:     '#d7474b'
+    green:   '#6e915f'
+    yellow:  '#836f4a'
+    blue:    '#6693bf'
+    magenta: '#624c83'
+    cyan:    '#5e857a'
+    white:   '#43436c'

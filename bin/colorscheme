@@ -43,6 +43,7 @@ SetTerminal()
     else
         cat $HOME/.dotfiles/alacritty/base.yaml $HOME/.dotfiles/alacritty/dark.yaml > $HOME/.config/alacritty/alacritty.yml
     fi
+    # Change themes of all actively running NeoVim instances
     for i in `ls /tmp/nvim/`; do nvim --server /tmp/nvim/$i --remote-send ":lua SetColors() <CR>" > /dev/null; done
 }
 
@@ -114,4 +115,3 @@ case $XDG_CURRENT_DESKTOP in
         ;;
 esac
 SetTerminal &
-

@@ -53,6 +53,7 @@ vim.keymap.set("n", "<A-Enter>", ":Centerpad<CR>")
 -- See :help vim.lsp.buf.type_definition().
 -- gr: Lists all the references to the symbol under the cursor in the quickfix window.
 -- See :help vim.lsp.buf.references().
+-- Go to reference Ctrl + ]
 
 
 --  ╭────────────────╮

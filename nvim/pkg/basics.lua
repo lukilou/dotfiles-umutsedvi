@@ -6,8 +6,6 @@
 -- Description: Generic Lua configurations
 -------------------------------------------------------------------------------
 
-require('impatient')
-
 --  ╭───────────────────────╮
 --  │ Color scheme settings │
 --  ╰───────────────────────╯
@@ -24,16 +22,41 @@ end
 -- If true switches to dark mode
 -- Else switches to light mode
 function SetColors()
-    if get_color() == true then
+    if get_color() then
         vim.cmd [[ set background=dark ]]
     else
         vim.cmd [[ set background=light ]]
     end
 end
 
-vim.g.gruvbox_italic = 1
-vim.g.gruvbox_termcolors = 16
-vim.cmd 'colorscheme gruvbox'
+--  ╭───────╮
+--  │ Theme │
+--  ╰───────╯
+require('kanagawa').setup({
+    compile = true, -- enable compiling the colorscheme
+    undercurl = true, -- enable undercurls
+    commentStyle = { italic = true },
+    functionStyle = { bold = true, italic = true },
+    keywordStyle = { italic = false, bold = true },
+    statementStyle = { bold = false, italic = true },
+    string = { italic = true },
+    typeStyle = { bold = true },
+    transparent = true, -- do not set background color
+    dimInactive = false, -- dim inactive window `:h hl-NormalNC`
+    terminalColors = true, -- define vim.g.terminal_color_{0,17}
+    colors = { -- add/modify theme and palette colors
+        palette = {},
+        theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
+    },
+    theme = "wave", -- Load "wave" theme when 'background' option is not set
+    background = { -- map the value of 'background' option to a theme
+        dark = "wave", -- try "dragon" !
+        light = "lotus"
+    },
+})
+
+
+vim.cmd([[colorscheme kanagawa-lotus]])
 --  vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 --  vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 SetColors()
@@ -67,7 +90,7 @@ vim.g.instant_markdown_browser = "epiphany"
 --  │ GitSigns Config │
 --  ╰─────────────────╯
 require('gitsigns').setup {
-    signs = {
+    signs              = {
         add          = { text = '│' },
         change       = { text = '│' },
         delete       = { text = '_' },
@@ -76,24 +99,38 @@ require('gitsigns').setup {
         untracked    = { text = '┆' },
     },
     current_line_blame = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
+    signcolumn         = true, -- Toggle with `:Gitsigns toggle_signs`
+    numhl              = false, -- Toggle with `:Gitsigns toggle_numhl`
+    linehl             = false, -- Toggle with `:Gitsigns toggle_linehl`
+    word_diff          = false, -- Toggle with `:Gitsigns toggle_word_diff`
+    watch_gitdir       = {
+        interval = 1000,
+        follow_files = true
+    },
 }
-
 --  ╭───────────────────────╮
 --  │ Snippet Configuration │
 --  ╰───────────────────────╯
 require("luasnip.loaders.from_vscode").lazy_load()
 require("luasnip.loaders.from_snipmate").lazy_load({ paths = { "~/.dotfiles/nvim/pkg/snippets/" } })
-require("luasnip.loaders.from_snipmate").lazy_load({ paths = { "~/.local/share/nvim/site/pack/packer/start/vim-snippets/" } })
+require("luasnip.loaders.from_snipmate").lazy_load({
+    paths = { "~/.local/share/nvim/site/pack/packer/start/vim-snippets/" } })
 
---  ╭───────────────╮
---  │ Markdown Flow │
---  ╰───────────────╯
-require('mkdnflow').setup({
-    links = {
-        transform_explicit = function(text)
-            -- Make lowercase, remove spaces, and reverse the string
-            return string.lower(text:gsub(' ', ''))
-        end
+
+--  ╭─────────╮
+--  │ Trouble │
+--  ╰─────────╯
+
+require("trouble").setup {
+    -- your configuration comes here
+    -- or leave it empty to use the default settings
+    -- refer to the configuration section below
+    signs = {
+        -- icons / text used for a diagnostic
+        error = "⊗",
+        warning = "⚠",
+        hint = "⚑",
+        information = "🛈",
+        other = "﫠"
     },
-    filetypes = {md = true, rmd = true, markdown = true}
-})
+}

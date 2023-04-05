@@ -12,17 +12,17 @@ scrolling:
 font:
   normal:
     # Font family
-    family: FiraMono
+    family: IBMPlexMono
     style: Regular
   bold:
-    family: FiraMono
+    family: IBMPlexMono
     style: Bold
 
   italic:
-    family: FiraMono
+    family: IBMPlexMono
     style: Italic
   bold_italic:
-    family: FiraMono
+    family: IBMPlexMono
     style: Bold Italic
   size: 9.0
   # Offset is the extra space around each character. `offset.y` can be thought of

@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------------
 -- File: init.lua
--- 
+--
 -- Author: Umut Sevdi
 -- Created: 04/07/22
 -- Description: init.lua is the primary configuration file that initializes
@@ -49,7 +49,7 @@ o.writebackup = false
 o.signcolumn = "yes"
 -- show line numbers
 o.number = true
-o.cursorline = false
+o.cursorline = true
 o.cursorcolumn = false
 o.ignorecase = true
 o.smartcase = true
@@ -84,5 +84,3 @@ o.ch = 1
 
 require("plugins")
 require("keybindings")
-
-

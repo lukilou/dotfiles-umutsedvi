@@ -25,13 +25,16 @@ export TODO_DB_PATH=$HOME/.config/todo.json
 # │ Directory Management │
 # └──────────────────────┘
 
-export LESSHISTFILE=$HOME/.config/.lesshst
 alias wget=wget --hsts-file="$HOME/.config/.wget-hsts"
+export QT_QPA_PLATFORMTHEME=gnome
+export LESSHISTFILE=$HOME/.config/.lesshst
 export XDG_DATA_HOME=$HOME/.local/share/
 export XDG_CONFIG_HOME=$HOME/.config/
 export XDG_STATE_HOME=$HOME/.local/state
 export XDG_CACHE_HOME=$HOME/.cache
-export QT_QPA_PLATFORMTHEME=gnome
+export ANDROID_HOME="$XDG_CONFIG_HOME/android"
+export GRADLE_USER_HOME="$XDG_CONFIG_HOME/gradle"
+export XCURSOR_PATH=/usr/share/icons:${XDG_DATA_HOME}/icons
 export HISTFILE=$HOME/.config/history
 export TERMINAL=/bin/alacritty
 export QT_QPA_PLATFORMTHEME=gnome

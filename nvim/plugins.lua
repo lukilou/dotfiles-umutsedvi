@@ -6,7 +6,6 @@
 -- Description: Plugins.lua is the configuration file that imports necessary
 -- plugins. It also links the configuration files of plugins respectively.
 -------------------------------------------------------------------------------
-
 --  ╭────────────────╮
 --  │ Packer Plugins │
 --  ╰────────────────╯
@@ -15,7 +14,6 @@ vim.cmd [[packadd packer.nvim]]
 require('packer').startup({
     function(use)
         use 'wbthomason/packer.nvim' -- packer can manage itself
-        use 'lewis6991/impatient.nvim' -- speedup Lua module load time
         use 'ryanoasis/vim-devicons' -- icons
         use 'lewis6991/gitsigns.nvim' -- git symbols on the left
         use 'tpope/vim-fugitive' -- git Integration
@@ -29,7 +27,7 @@ require('packer').startup({
         use 'preservim/tagbar' -- a bar displays functions, classes and variables of files on the left
         use 'junegunn/vim-easy-align' -- auto align
         use 'LudoPinelli/comment-box.nvim' -- comment box
-        use 'morhetz/gruvbox' -- theme
+        use "rebelot/kanagawa.nvim"
         use { 'junegunn/fzf',
             dir = '~/.fzf',
             run = './install --all'
@@ -41,12 +39,10 @@ require('packer').startup({
             run = 'yarn install',
             ft = 'markdown'
         } -- live markdown renderer server
-        use 'jakewvincent/mkdnflow.nvim' -- markdown extension
         use { 'michaelb/sniprun',
             run = 'bash install.sh',
         } -- instant code runner
         use 'smithbm2316/centerpad.nvim' -- move window the center
-
         use {
             'VonHeikemen/lsp-zero.nvim',
             requires = {
@@ -72,13 +68,6 @@ require('packer').startup({
         use {
             "folke/trouble.nvim",
             requires = "nvim-tree/nvim-web-devicons",
-            config = function()
-                require("trouble").setup {
-                    -- your configuration comes here
-                    -- or leave it empty to use the default settings
-                    -- refer to the configuration section below
-                }
-            end -- diagnostics window
         }
     end,
     config = {
@@ -87,14 +76,11 @@ require('packer').startup({
         compile_on_sync = true
     }
 })
-
 --  ╭───────────────────────╮
 --  │ Import configurations │
 --  ╰───────────────────────╯
-
 require("pkg/basics")
-require('pkg/tree-sitter-config')
 require('pkg/lualine-config')
-require("pkg/tagbar")
 require('pkg/lsp-config')
 require('pkg/snip-runner-config')
+require("pkg/tagbar")
