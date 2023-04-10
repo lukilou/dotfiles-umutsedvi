@@ -24,12 +24,12 @@ set $ws9 "9"
 set $ws10 "10"
 set $pm "eDP"
 set $sm "HDMI-A-0"
-set $bg-active     #ffce51
-set $bg-inactive   #333333
-set $text-active   #282828
-set $text-inactive #88807c
-set $bg-urgent     #f15d22
-font pango:FiraSans 9
+set $bg-active     #5fafd7
+set $bg-inactive   #1c1c1c
+set $text-active   #333333
+set $text-inactive #808080
+set $bg-urgent     #5faf5f
+font pango:IBMPlexSans 9
 title_align center
 # Refresh i3
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -60,9 +60,9 @@ exec        --no-startup-id xfce4-power-manager
 exec        --no-startup-id blueman-applet
 exec        --no-startup-id nm-applet
 exec        --no-startup-id xfce4-clipman
-# exec        --no-startup-id geary   --gapplication-service
+exec        --no-startup-id geary   --gapplication-service
 # exec        --no-startup-id liferea --gapplication-service
-exec        --no-startup-id kdeconnect-indicator 
+exec        --no-startup-id kdeconnect-indicator
 
 
 #*******************************************************************************

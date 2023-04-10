@@ -5,4 +5,4 @@ file:///home/umutsevdi/Music
 file:///home/umutsevdi/Pictures
 file:///home/umutsevdi/Videos
 file:///home/umutsevdi/Downloads
-sftp://pi@home.local/ Pi
+sftp://pi@192.168.1.10/home/pi Pi

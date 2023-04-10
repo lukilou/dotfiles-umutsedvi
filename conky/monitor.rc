@@ -12,10 +12,10 @@ conky.config = {
 -- Window specifications
     own_window = true,
     own_window_class = 'conky',
-    own_window_transparent = false,
-    own_window_argb_visual = true,
-    own_window_argb_value = 200,
-    own_window_colour = '#282828',
+    own_window_transparent = true,
+    own_window_argb_visual = false,
+    own_window_argb_value = 0,
+    own_window_colour = '#1c1c1c',
     own_window_type = 'override',
     own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
     alignment = 'bottom_right',
@@ -26,19 +26,20 @@ conky.config = {
     use_xft = true,
     xftalpha = 0,
     text_buffer_size = 2048,
-    font = 'FiraCode:size=11',
+    font = 'Blex Mono Nerd Font:size=11',
     uppercase = false,
-    color0 = '#ebdbb2', -- default fg
-    color1 = '#FFCE51', -- selection
-    color2 = '#F15D22', -- red
-    default_color = '#ffffff',
+    color0 = '#808080', -- default fg
+    color3 = '#d0d0d0', -- default fg
+    color1 = '#5fafd7', -- selection
+    color2 = '#af005f', -- red
+    default_color = '#808080',
 }
 conky.text = [[
-${color0}${font FiraCode:bold:size=9}RAM ${font FiraCode:italic:size=9}  ${mem}  ${membar}
-${font FiraCode:bold:size=9}DISK${font FiraCode:italic:size=9}  ${fs_used /}   ${fs_bar /}
-${font FiraCode:bold:size=9}CPU ${font FiraCode:italic:size=9}  ${cpu}%        ${cpubar}
-${font FiraCode:bold:size=9}${color1}Name                PID${alignr}CPU%      Time
-${font FiraCode:italic:size=9}${voffset -10}$hr${color0}
+${color3}${font Blex Mono Nerd Font:bold:size=9.5}RAM ${font Blex Mono Nerd Font:italic:size=9.5}  ${mem}  ${membar}
+${font Blex Mono Nerd Font:bold:size=9.5}DISK${font Blex Mono Nerd Font:italic:size=9.5}  ${fs_used /}   ${fs_bar /}
+${font Blex Mono Nerd Font:bold:size=9.5}CPU ${font Blex Mono Nerd Font:italic:size=9.5}  ${cpu}%        ${cpubar}
+${font Blex Mono Nerd Font:bold:size=9.5}${color1}Name                PID${alignr}CPU%      Time
+${font Blex Mono Nerd Font:italic:size=9.5}${voffset -10}$hr${color3}
 ${voffset -3}${top name 1} ${top pid 1} ${alignr}${top cpu 1} ${top time 1}
 ${voffset -3}${top name 2} ${top pid 2} ${alignr}${top cpu 2} ${top time 2}
 ${voffset -3}${top name 3} ${top pid 3} ${alignr}${top cpu 3} ${top time 3}

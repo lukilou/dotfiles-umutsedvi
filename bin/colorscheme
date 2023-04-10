@@ -14,14 +14,14 @@ color_value=`cat /tmp/.cs 2>/dev/null`
 
 GTK_THEME_LIGHT="vimix-light-compact-jade"
 GTK_THEME_DARK="vimix-dark-compact-jade"
-MATE_THEME_DOCK_LIGHT="Colloid-Compact"
-MATE_THEME_LIGHT="Colloid-Light-Compact"
-MATE_THEME_DARK="Colloid-Dark-Compact"
+CINNAMON_THEME_DOCK_LIGHT="Colloid-Compact"
+CINNAMON_THEME_LIGHT="Colloid-Light-Compact"
+CINNAMON_THEME_DARK="Colloid-Dark-Compact"
 
 GTK_ICON_LIGHT="Tela-green"
 GTK_ICON_DARK="Tela-green-dark"
-MATE_ICON_LIGHT="Fantasy-blue"
-MATE_ICON_DARK="Fantasy-blue"
+CINNAMON_ICON_LIGHT="Paper"
+CINNAMON_ICON_DARK="Paper-Mono-Dark"
 
 Help()
 {
@@ -65,22 +65,24 @@ SetI3()
     gsettings set org.gnome.desktop.interface color-scheme "$gnome_prefer"
 }
 
-SetMate()
+SetCinnamon()
 {
     if [ "$is_dark" = true ]; then 
-        gtk_theme=$MATE_THEME_LIGHT
-        gtk_icon=$MATE_ICON_LIGHT
+        gtk_theme=$CINNAMON_THEME_LIGHT
+        dock_theme=$CINNAMON_THEME_DOCK_LIGHT
+        gtk_icon=$CINNAMON_ICON_LIGHT
         gnome_prefer="prefer-light"
     else
-        gtk_theme=$MATE_THEME_DARK
-        gtk_icon=$MATE_ICON_DARK
+        gtk_theme=$CINNAMON_THEME_DARK
+        dock_theme=$CINNAMON_THEME_DARK
+        gtk_icon=$CINNAMON_ICON_DARK
         gnome_prefer="prefer-dark"
     fi
 
-    gsettings set org.mate.interface gtk-theme "$gtk_theme"
-    gsettings set org.mate.interface icon-theme "$gtk_icon"
-    gsettings set org.mate.interface gtk-key-theme "$gtk_theme" 
-    # gsettings set org.mate.theme name "$gtk_theme" 
+    gsettings set org.cinnamon.theme name "$dock_theme"
+    gsettings set org.cinnamon.desktop.interface icon-theme "$gtk_icon"
+    gsettings set org.cinnamon.desktop.interface gtk-theme "$gtk_theme" 
+    gsettings set org.cinnamon.desktop.wm.preferences theme "$dock_theme"
     gsettings set org.gnome.desktop.interface color-scheme "$gnome_prefer"
 
 }
@@ -107,8 +109,8 @@ fi
 
 echo $XDG_CURRENT_DESKTOP
 case $XDG_CURRENT_DESKTOP in
-    MATE)
-        SetMate
+    X-Cinnamon)
+        SetCinnamon
         ;;
     *)
         SetI3
