@@ -1,4 +1,4 @@
-$HOME/src/active Active
-$HOME/src Source
-$HOME/.dotfiles/ Dotfiles
-$HOME/Lectures
+dots ~/.dotfiles
+source ~/src
+active ~/src/active
+

@@ -2,34 +2,38 @@
 -- @author umutsevdi 
 
 conky.config = {
-    update_interval = 1,
+-- Conky settings
+    update_interval = 2,
     override_utf8_locale = true,
     double_buffer = true,
     no_buffers = true,
-    text_buffer_size = 2048,
+    draw_shades = false,
+
+-- Window specifications
     own_window = true,
     own_window_class = 'conky',
     own_window_transparent = true,
     own_window_argb_visual = false,
     own_window_argb_value = 0,
-    own_window_colour = '#282828',
+    own_window_colour = '#1c1c1c',
     own_window_type = 'override',
     own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
     alignment = 'bottom_left',
-    gap_x = 45,
-    gap_y = 45,
-    draw_shades = false,
+    gap_x = 35,
+    gap_y = 35,
+
+-- Text settings
     use_xft = true,
+    xftalpha = 0,
     text_buffer_size = 2048,
-    font = 'Blex Mono Nerd Font:size=9.5',
---    color0 = '#808080', -- default fg
-    color0 = '#d0d0d0', -- default fg
+    font = 'Blex Mono Nerd Font:size=11',
+    uppercase = false,
+    color0 = '#f0f0f0', -- default fg
+    color3 = '#d0d0d0', -- default fg
     color1 = '#5fafd7', -- selection
     color2 = '#af005f', -- red
-    font1 = 'IBMPlexSans:bold:size=15',
-    font1 = 'Blex Mono Nerd Font:size=11',
     default_color = '#808080',
-};
+}
 conky.text = [[
 ${color0}${font IBMPlexSans:size=50}${time %b%e}${voffset -25}${alignr}${color1}${font :size=20}${time %A}
 ${voffset -20} ${font :italic:size=9.5}${alignr}${execpi 3600 weather  | fold --width=20 | sed -z 's/\n/\n${alignr}/g'}
@@ -37,9 +41,9 @@ ${voffset -10}${color0}${font Blex Mono Nerd Font:bold:size=75}${time %k:%M}${co
 ${alignr}${execpi 3600  cal --color=never -m  | sed 1d  | sed -z 's/\n/ \n ${alignr}/g' | sed "s/ `date +%e` / \${color color1}`date +%d`\${color white} /" \
 | sed "s/`date +%a | head --bytes 2`/\${color color1}`date +%a | head --bytes 2`\${color white}/"}
 ${voffset -50}${color1}${font IBMPlexSans:bold:size=15}To Do${font} $hr
-${color0}${font Blex Mono Nerd Font:size=9.5}${execpi 10 td | sed "s/\x1b\[[^\x1b]*m//g" | sed "s/✕/󱍪  /g" | sed "s/✓/󱍧  /g" | sed "s/ |//g" \
-| sed "s/      //" | sed "s/⏱/\t/g" | sed "s/00:00//g" | sed "s/`date \"+%a, %d %b\"`//g" | sed "s/🗘/󰕇/g"}
+${color0}${font Blex Mono Nerd Font:size=9.5}${execpi 10 td |  sed "s/✕/󱍪  /g" | sed "s/✓/󱍧  /g" | sed "s/ |//g" \
+| sed "s/00:00//g" | sed "s/      //" | sed "s/⏱/\t/g"  | sed "s/`date \"+%a, %d %b\"`//g" | sed "s/🗘/󰕇/g"}
 ${color1}${font IBMPlexSans:bold:size=15}Done${font} $hr
-${color0}${font Blex Mono Nerd Font:size=9.5}${execpi 10 td --past | sed "s/\x1b\[[^\x1b]*m//g" | sed "s/ |//g" | sed "s/✕/󱍦  /g" | sed "s/✓/󱍧  /g" \
-| sed "s/      //" | sed "s/⏱/\t/g" | sed "s/00:00//g" | sed "s/`date \"+%a, %d %b\"`//g" | sed "s/🗘/󰕇/g"}${voffset -100}
+${color0}${font Blex Mono Nerd Font:size=9.5}${execpi 10 echo -e "`td --done`\n`td --past`" | sort -u | sed "s/✕/󱍦  /g" | sed "s/✓/󱍧  /g" | sed "s/ |//g"  \
+| sed "s/00:00//g" | sed "s/      //" | sed "s/⏱/\t/g" |  sed "s/`date \"+%a, %d %b\"`//g" | sed "s/🗘/󰕇/g"}${voffset -100}
 ]];

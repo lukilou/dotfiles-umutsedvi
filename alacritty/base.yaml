@@ -12,19 +12,19 @@ scrolling:
 font:
   normal:
     # Font family
-    family: IBMPlexMono
+    family: BlexMonoNerdFont
     style: Regular
   bold:
-    family: IBMPlexMono
+    family: BlexMonoNerdFont
     style: Bold
 
   italic:
-    family: IBMPlexMono
+    family: BlexMonoNerdFont
     style: Italic
   bold_italic:
-    family: IBMPlexMono
+    family: BlexMonoNerdFont
     style: Bold Italic
-  size: 9.0
+  size: 9.5
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
   offset:

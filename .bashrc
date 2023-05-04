@@ -20,7 +20,7 @@ export JAVA_HOME="$(ls /lib/jvm | grep java-11-openjdk.)"
 export DOT_PATH=$HOME/.dotfiles/bin
 export PATH="$JAVA_HOME:$GOPATH/bin:$GOROOT/bin:$DOT_PATH::$PATH"
 export EDITOR=/usr/bin/nvim
-export TODO_DB_PATH=$HOME/.config/todo.json
+export TODO_DB_PATH=$HOME/.config/umutsevdi/env/todo.json
 # ┌──────────────────────┐
 # │ Directory Management │
 # └──────────────────────┘
@@ -68,6 +68,7 @@ alias mv='mv -i'
 alias rm='rm -i'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias ff='x=$(fzf);cd $(dirname $x); nvim $(basename $x)'
+alias open='xdg-open "$(fzf)"'
 
 alias nvim='nvim --listen /tmp/nvim/$((`ls /tmp/nvim | tail -n 1`+1))'
 alias tmux="tmux -f $HOME/.dotfiles/tmux/.tmux.conf"

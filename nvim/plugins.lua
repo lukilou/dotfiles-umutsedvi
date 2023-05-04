@@ -14,13 +14,12 @@ vim.cmd [[packadd packer.nvim]]
 require('packer').startup({
     function(use)
         use 'wbthomason/packer.nvim' -- packer can manage itself
-        use 'ryanoasis/vim-devicons' -- icons
         use 'lewis6991/gitsigns.nvim' -- git symbols on the left
         use 'tpope/vim-fugitive' -- git Integration
         use {
             'nvim-telescope/telescope.nvim',
             tag = '0.1.0',
-            requires = { 'nvim-lua/plenary.nvim' }
+            requires = { 'nvim-lua/plenary.nvim' },
         } -- fzf extension that displays preview
         use 'preservim/nerdtree' -- nerdtree
         use 'nvim-lualine/lualine.nvim' -- bottom bar
@@ -67,7 +66,6 @@ require('packer').startup({
         }
         use {
             "folke/trouble.nvim",
-            requires = "nvim-tree/nvim-web-devicons",
         }
     end,
     config = {

@@ -29,6 +29,7 @@ Fetch()
     rm -rf i3 polybar conky
     echo "package.path = package.path .. ';$HOME/.dotfiles/nvim/?.lua;$HOME/.dotfiles/nvim/pkg/?.lua'
 vim.cmd('source /home/umutsevdi/.dotfiles/nvim/init.lua')" > ~/.config/nvim/init.lua
+    cp $HOME/.NERDTreeBookmarks $HOME/.dotfiles/nvim/
     cp -r $HOME/.dotfiles/gtk/bookmarks $HOME/.config/gtk-3.0/
     cp -r $HOME/.dotfiles/i3 $HOME/.config/
     cp -r $HOME/.dotfiles/polybar $HOME/.config/

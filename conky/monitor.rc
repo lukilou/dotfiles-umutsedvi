@@ -28,7 +28,7 @@ conky.config = {
     text_buffer_size = 2048,
     font = 'Blex Mono Nerd Font:size=11',
     uppercase = false,
-    color0 = '#808080', -- default fg
+    color0 = '#f0f0f0', -- default fg
     color3 = '#d0d0d0', -- default fg
     color1 = '#5fafd7', -- selection
     color2 = '#af005f', -- red

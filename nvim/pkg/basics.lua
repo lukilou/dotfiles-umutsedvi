@@ -65,7 +65,12 @@ SetColors()
 --  │ if NERDTree is the only window left remove it │
 --  ╰───────────────────────────────────────────────╯
 vim.cmd [[ autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif ]]
-vim.cmd [[ let NERDTreeBookmarksFile="$HOME/.dotfiles/nvim/.NERDTreeBookmarksFile" ]]
+-- vim.g.NERDTreeBookmarksFile = "$HOME/.dotfiles/nvim/.NERDTreeBookmarks"
+vim.g.NERDTreeShowBookmarks = 1
+vim.g.NERDTreeShowLineNumbers = 1
+vim.g.NERDTreeDirArrowExpandable = ""
+vim.g.NERDTreeDirArrowCollapsible = ""
+
 
 
 --  ╭─────────────────────────────────────╮
@@ -122,15 +127,45 @@ require("luasnip.loaders.from_snipmate").lazy_load({
 --  ╰─────────╯
 
 require("trouble").setup {
+    icons = false,
+    fold_open = "", -- icon used for open folds
+    fold_closed = "", -- icon used for closed folds
     -- your configuration comes here
     -- or leave it empty to use the default settings
     -- refer to the configuration section below
     signs = {
         -- icons / text used for a diagnostic
         error = "⊗",
-        warning = "⚠",
+        warning = "",
         hint = "⚑",
         information = "🛈",
         other = "﫠"
     },
 }
+
+
+-- ╭───────────╮
+-- │ Telescope │
+-- ╰───────────╯
+require('telescope').setup {
+    pickers = {
+        find_files = {
+            theme = "dropdown",
+        },
+
+        treesitter = {
+            theme = "dropdown",
+        },
+
+        buffers = {
+            theme = "dropdown",
+        },
+        help_tags = {
+            theme = "dropdown",
+        }
+    },
+}
+vim.keymap.set("n", "ff", ":Telescope find_files <CR>")
+vim.keymap.set("n", "fd", ":Telescope treesitter <CR>")
+vim.keymap.set("n", "fg", "<cmd>Telescope buffers<CR>")
+vim.keymap.set("n", "fh", "<cmd>Telescope help_tags<CR>")

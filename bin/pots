@@ -18,8 +18,8 @@ Print() {
     # Update length to length-length_of_command
     max_length=$(($max_length-`wc -m <<< $cmd`))
     # Fold the text
-    cmd_info=`fold -w $max_length <<< $cmd_info`
-    line=`echo "$cmd\e[;0m${cmd_info//$cmd/}\e[36;1m"`
+#    cmd_info="`fold -w $max_length <<< $cmd_info`"
+    line="$cmd\e[;0m${cmd_info//$cmd/}\e[36;1m"
     line_count=$((`echo $line | wc -m ` -13 )) 
     echo -e "\e[36;1m┌`seq -s─ $line_count | tr -d '[:digit:]'`┐"
     echo -e │$line │

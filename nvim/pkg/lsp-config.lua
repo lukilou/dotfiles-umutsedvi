@@ -15,7 +15,7 @@ lsp.ensure_installed({
     'grammarly',
     'html',
     'jsonls',
-    'jdtls', -- Java
+    --    'jdtls', -- Java
     'tsserver', -- JavaScript / Typescript
     'kotlin_language_server',
     'marksman',
@@ -37,28 +37,37 @@ lsp.set_preferences({
     call_servers = 'local',
     sign_icons = {
         error = '⊗',
-        warn = '⚠',
+        warn = ' ',
         hint = '⚑',
         info = '🛈'
     }
 })
 
+lsp.configure('clangd', {
+    cmd = { "clangd", "--fallback-style=Webkit" }
+})
+
 lsp.setup()
 
 vim.diagnostic.config({
-    virtual_text = false,
+    --    virtual_text = true,
+    virtual_text = {
+        prefix = ' ',
+        spacing = 0,
+    },
     signs = true,
     update_in_insert = false,
     underline = true,
     severity_sort = true,
-    float = {
-        focusable = true,
-        style = 'minimal',
-        border = 'rounded',
-        source = 'always',
-        header = '',
-        prefix = '',
-    },
+    float = false,
+    --  {
+    --      focusable = true,
+    --      style = 'minimal',
+    --      border = 'rounded',
+    --      source = 'always',
+    --      header = '',
+    --      prefix = '',
+    --  },
 })
 
 
@@ -105,13 +114,39 @@ require("nvim-treesitter.configs").setup({
     sync_install = false,
     ignore_install = {},
     highlight = {
-       enable = true,
-       -- list of language that will be disabled
-       disable = {},
-       -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-       -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-       -- Using this option may slow down your editor, and you may see some duplicate highlights.
-       -- Instead of true it can also be a list of languages
-       additional_vim_regex_highlighting = false,
+        enable = true,
+        -- list of language that will be disabled
+        disable = {},
+        -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+        -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+        -- Using this option may slow down your editor, and you may see some duplicate highlights.
+        -- Instead of true it can also be a list of languages
+        additional_vim_regex_highlighting = false,
     },
 })
+
+
+--  ╭─────────────────────────────────────────────╮
+--  │   Language Server Protocol Configurations   │
+--  ╰─────────────────────────────────────────────╯
+
+-- gi: Lists all the implementations for the symbol under the cursor in the quickfix window.
+-- See :help vim.lsp.buf.implementation().
+-- go: Jumps to the definition of the type of the symbol under the cursor.
+-- See :help vim.lsp.buf.type_definition().
+-- gr: Lists all the references to the symbol under the cursor in the quickfix window.
+-- See :help vim.lsp.buf.references().
+-- Go to reference Ctrl + ]
+--  ╭────────────────╮
+--  │ Code Formatter │
+--  ╰────────────────╯
+vim.keymap.set("n", "<A-f>", ":lua vim.lsp.buf.format() <CR>")
+-- Code actions
+vim.keymap.set("n", "<A-q>", ":lua vim.lsp.buf.code_action() <CR>")
+-- Bulk rename
+vim.keymap.set("n", "<A-r>", ":lua vim.lsp.buf.rename() <CR>")
+--Coc Diagnostic Menu
+vim.keymap.set("n", "<C-d>", ":lua vim.diagnostic.open_float() <CR>")
+vim.keymap.set("n", "<A-d>", "<cmd>TroubleToggle document_diagnostics<cr>", { silent = true, noremap = true })
+vim.keymap.set("n", "<A-D>", "<cmd>TroubleToggle workspace_diagnostics<cr>", { silent = true, noremap = true })
+

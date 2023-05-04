@@ -12,11 +12,14 @@
 color_value=`cat /tmp/.cs 2>/dev/null`
 [ "$color_value" = "" ] && color_value=true
 
-GTK_THEME_LIGHT="vimix-light-compact-jade"
-GTK_THEME_DARK="vimix-dark-compact-jade"
-CINNAMON_THEME_DOCK_LIGHT="Colloid-Compact"
-CINNAMON_THEME_LIGHT="Colloid-Light-Compact"
-CINNAMON_THEME_DARK="Colloid-Dark-Compact"
+GKT_THEME_LIB="Colloid-Teal-Compact-Nord"
+GTK_THEME_LIGHT="Colloid-Teal-Light-Compact-Nord"
+GTK_THEME_DARK="Colloid-Teal-Dark-Compact-Nord"
+
+CINNAMON_THEME_LIB="Colloid-Teal-Compact-Nord"
+CINNAMON_THEME_DOCK_LIGHT="Colloid-Teal-Compact-Nord"
+CINNAMON_THEME_LIGHT="Colloid-Teal-Light-Compact-Nord"
+CINNAMON_THEME_DARK="Colloid-Teal-Dark-Compact-Nord"
 
 GTK_ICON_LIGHT="Tela-green"
 GTK_ICON_DARK="Tela-green-dark"
@@ -34,6 +37,17 @@ Help()
    echo "-h/--help          Prints this menu."
    echo "-r/--refresh       Refreshes the display"
    echo
+}
+
+Libadwaita()
+{
+    rm -rf "$HOME/.config/assets"
+    rm -rf "$HOME/.config/gtk-4.0/"{assets,windows-assets,gtk.css,gtk-dark.css}
+    ln -s "$HOME/.themes/${lib_themeT}/gtk-4.0/gtk.css" "$HOME/.config/gtk-4.0/gtk.css"
+    ln -s "$HOME/.themes/${lib_theme}/gtk-4.0/gtk-dark.css" "$HOME/.config/gtk-4.0/gtk-dark.css"
+    ln -s "$HOME/.themes/${lib_theme}/gtk-4.0/assets" "$HOME/.config/gtk-4.0/assets"
+    ln -s "$HOME/.themes/${lib_theme}/assets" "$HOME/.config/assets"
+    
 }
 
 SetTerminal()
@@ -59,6 +73,8 @@ SetI3()
         gtk_icon=$GTK_ICON_DARK
         gnome_prefer="prefer-dark"
     fi
+    lib_theme=$GTK_THEME_LIB
+    Libadwaita
     gsettings set org.gnome.desktop.interface gtk-theme "$gtk_theme"
     gsettings set org.gnome.desktop.interface icon-theme "$gtk_icon"
     gsettings set org.mate.interface gtk-key-theme "$gtk_theme"
@@ -79,12 +95,13 @@ SetCinnamon()
         gnome_prefer="prefer-dark"
     fi
 
+    lib_theme=$GTK_THEME_LIB
+    Libadwaita
     gsettings set org.cinnamon.theme name "$dock_theme"
     gsettings set org.cinnamon.desktop.interface icon-theme "$gtk_icon"
     gsettings set org.cinnamon.desktop.interface gtk-theme "$gtk_theme" 
     gsettings set org.cinnamon.desktop.wm.preferences theme "$dock_theme"
     gsettings set org.gnome.desktop.interface color-scheme "$gnome_prefer"
-
 }
 
 for arg in $@;do

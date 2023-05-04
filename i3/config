@@ -33,6 +33,7 @@ font pango:IBMPlexSans 9
 title_align center
 # Refresh i3
 set $refresh_i3status killall -SIGUSR1 i3status
+workspace_layout tabbed
 
 #*******************************************************************************
 #   Execution 
@@ -40,6 +41,7 @@ set $refresh_i3status killall -SIGUSR1 i3status
 
 # Enable Tap to click
 exec --no-startup-id xinput set-prop "PNP0C50:0e 06CB:7E7E Touchpad" "libinput Tapping Enabled" 1
+exec --no-startup-id touchegg
 exec --no-startup-id /usr/libexec/gsd-xsettings
 exec --no-startup-id colorscheme --refresh
 exec --no-startup-id pickwp 
@@ -63,6 +65,7 @@ exec        --no-startup-id xfce4-clipman
 exec        --no-startup-id geary   --gapplication-service
 # exec        --no-startup-id liferea --gapplication-service
 exec        --no-startup-id kdeconnect-indicator
+exec        --no-startup-id flatpak run me.kozec.syncthingtk -m
 
 
 #*******************************************************************************
@@ -82,7 +85,7 @@ client.urgent           $bg-urgent    $bg-urgent     $text-active     #2e323d
 gaps outer 15
 gaps top 25
 gaps bottom 5
-gaps inner 10
+gaps inner 6
 smart_borders on
 hide_edge_borders smart_no_gaps
 
@@ -132,14 +135,26 @@ bindsym $mod+Shift+q kill
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+# for gestures
+bindsym $mod+bracketright workspace next
+bindsym $mod+bracketleft workspace prev
+
 bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
+bindsym $mod+Left  focus left
+bindsym $mod+Down  focus down
+bindsym $mod+Up    focus up
+bindsym $mod+Right focus right
 bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
+bindsym $mod+Shift+Left   move left
+bindsym $mod+Shift+Down   move down
+bindsym $mod+Shift+Up     move up
+bindsym $mod+Shift+Right  move right
 bindsym $mod+b split h
 bindsym $mod+v split v
 # Toggle fullscreen
