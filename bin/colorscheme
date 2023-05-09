@@ -16,15 +16,15 @@ GKT_THEME_LIB="Colloid-Teal-Compact-Nord"
 GTK_THEME_LIGHT="Colloid-Teal-Light-Compact-Nord"
 GTK_THEME_DARK="Colloid-Teal-Dark-Compact-Nord"
 
-CINNAMON_THEME_LIB="Colloid-Teal-Compact-Nord"
-CINNAMON_THEME_DOCK_LIGHT="Colloid-Teal-Compact-Nord"
-CINNAMON_THEME_LIGHT="Colloid-Teal-Light-Compact-Nord"
-CINNAMON_THEME_DARK="Colloid-Teal-Dark-Compact-Nord"
+CINNAMON_THEME_LIB="Nexto"
+CINNAMON_THEME_DOCK_LIGHT="Nexto"
+CINNAMON_THEME_LIGHT="Nexto"
+CINNAMON_THEME_DARK="Nexto Dark"
 
 GTK_ICON_LIGHT="Tela-green"
 GTK_ICON_DARK="Tela-green-dark"
-CINNAMON_ICON_LIGHT="Paper"
-CINNAMON_ICON_DARK="Paper-Mono-Dark"
+CINNAMON_ICON_LIGHT="Mint-Y-Grey"
+CINNAMON_ICON_DARK="Mint-Y-Dark-Grey"
 
 Help()
 {

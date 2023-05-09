@@ -28,10 +28,10 @@ Help() {
 }
 
 for arg in $@; do
-    if [ $add = true ]; then
+    if [ "$add" ]; then
         echo $arg >> $QUOTE_PATH
         exit
-    elif [ $author = true ]; then
+    elif [ "$author" ]; then
         cat $QUOTE_PATH | grep $arg
         exit
     elif [ $arg = -h ] || [ $arg = --help ]; then
