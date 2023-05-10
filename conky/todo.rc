@@ -44,6 +44,6 @@ ${voffset -50}${color1}${font IBMPlexSans:bold:size=15}To Do${font} $hr
 ${color0}${font Blex Mono Nerd Font:size=9.5}${execpi 10 td |  sed "s/✕/󱍪  /g" | sed "s/✓/󱍧  /g" | sed "s/ |//g" \
 | sed "s/00:00//g" | sed "s/      //" | sed "s/⏱/\t/g"  | sed "s/`date \"+%a, %d %b\"`//g" | sed "s/🗘/󰕇/g"}
 ${color1}${font IBMPlexSans:bold:size=15}Done${font} $hr
-${color0}${font Blex Mono Nerd Font:size=9.5}${execpi 10 echo -e "`td --done`\n`td --past`" | sort -u | sed "s/✕/󱍦  /g" | sed "s/✓/󱍧  /g" | sed "s/ |//g"  \
+${color0}${font Blex Mono Nerd Font:size=9.5}${execpi 10 grep -F -v -f <(td) <(echo -e "`td --done`\n`td --past`") | sort -u | sed "s/✕/󱍦  /g" | sed "s/✓/󱍧  /g" | sed "s/ |//g"  \
 | sed "s/00:00//g" | sed "s/      //" | sed "s/⏱/\t/g" |  sed "s/`date \"+%a, %d %b\"`//g" | sed "s/🗘/󰕇/g"}${voffset -100}
 ]];
