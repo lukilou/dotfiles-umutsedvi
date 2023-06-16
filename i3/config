@@ -29,8 +29,8 @@ set $bg-inactive   #1c1c1c
 set $text-active   #333333
 set $text-inactive #808080
 set $bg-urgent     #5faf5f
-font pango:IBMPlexSans 9
-title_align center
+font pango:IBMPlexSans bold 9
+title_align left
 # Refresh i3
 set $refresh_i3status killall -SIGUSR1 i3status
 workspace_layout tabbed
@@ -43,6 +43,9 @@ workspace_layout tabbed
 exec --no-startup-id xinput set-prop "PNP0C50:0e 06CB:7E7E Touchpad" "libinput Tapping Enabled" 1
 exec --no-startup-id touchegg
 exec --no-startup-id /usr/libexec/gsd-xsettings
+exec --no-startup-id /usr/libexec/goa-daemon --replace
+# requires beta
+exec --no-startup-id protonmail-bridge --no-window
 exec --no-startup-id colorscheme --refresh
 exec --no-startup-id pickwp 
 exec --no-startup-id polybar main;
@@ -88,10 +91,12 @@ gaps bottom 5
 gaps inner 6
 smart_borders on
 hide_edge_borders smart_no_gaps
-
+default_border pixel 2
+default_floating_border pixel 2
 # Floating Window Exceptions
 
 # Generic Windows
+for_window [all] title_window_icon padding 3px
 for_window [title="(?:Open|Save) (?:File|Folder|As)"] floating enable;
 for_window [title="(?:Open|Save) (?:File|Folder|As)"] resize set 800 600
 for_window [window_role="pop-up"] floating enable
@@ -100,11 +105,9 @@ for_window [window_role="task_dialog"] floating enable
 for_window [window_role="Preferences"] floating enable
 for_window [window_type="dialog"] floating enable
 for_window [window_type="menu"] floating enable
-# for_window [instance="*bout*"] floating enable
 for_window [instance="Reminders"] floating enable
 
 # App Windows
-for_window [class="^.*"] border pixel 3
 for_window [instance="gnome-calculator"] floating enable
 for_window [instance="Gnome-screenshot*"] floating enable
 for_window [instance="xfce4*"] floating enable
@@ -204,7 +207,7 @@ bindsym $mod+Shift+Escape exec ~/.dotfiles/bin/lockscreen
 #    Mods
 #*******************************************************************************
 
-bindsym $mod+r mode "resize mode" 
+bindsym $mod+r mode "resize mode"
     mode "resize mode" {
         # These bindings trigger as soon as you enter the resize mode
         # same bindings, but for the arrow keys
@@ -233,10 +236,10 @@ bindsym $mod+w mode "layout mode (w)stack | (e)split"
         bindsym $mod+w mode "default"
 }
 
-bindsym $mod+p mode "display mode: (1)auto | (2)extend-right | (3)extend-left | (4)set-primary | (5)set-secondary"
-mode "display mode: (1)auto | (2)extend-right | (3)extend-left | (4)set-primary | (5)set-secondary"  {
-        bindsym 1 exec xrandr --auto 
-        bindsym 2 exec xrandr --output $pm --left-of $sm
+bindsym $mod+p mode "display mode: (1)auto | (2)extend-top | (3)extend-left | (4)set-primary | (5)set-secondary"
+mode "display mode: (1)auto | (2)extend-top | (3)extend-left | (4)set-primary | (5)set-secondary"  {
+        bindsym 1 exec xrandr --auto
+        bindsym 2 exec xrandr --output $sm --above $pm
         bindsym 3 exec xrandr --output $pm --right-of $sm
         bindsym 4 exec xrandr --output $pm --primary
         bindsym 5 exec xrandr --output $sm --primary
@@ -244,3 +247,12 @@ mode "display mode: (1)auto | (2)extend-right | (3)extend-left | (4)set-primary 
         bindsym Escape mode "default"
         bindsym $mod+w mode "default"
 }
+
+
+# move the currently focused window to the scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $mod+minus scratchpad show
+

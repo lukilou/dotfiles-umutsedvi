@@ -2,7 +2,6 @@ vim.opt.signcolumn = 'yes' -- Reserve space for diagnostic icons
 local lsp = require('lsp-zero')
 lsp.preset('recommended')
 lsp.ensure_installed({
-    'arduino_language_server',
     'bashls',
     'clangd',
     'cmake',
@@ -15,14 +14,12 @@ lsp.ensure_installed({
     'grammarly',
     'html',
     'jsonls',
-    --    'jdtls', -- Java
+    'jdtls',    -- Java
     'tsserver', -- JavaScript / Typescript
-    'kotlin_language_server',
     'marksman',
     'lua_ls',
     'perlnavigator',
     'pylsp',
-    'jedi_language_server',
     'rust_analyzer',
     'yamlls',
 })
@@ -149,4 +146,3 @@ vim.keymap.set("n", "<A-r>", ":lua vim.lsp.buf.rename() <CR>")
 vim.keymap.set("n", "<C-d>", ":lua vim.diagnostic.open_float() <CR>")
 vim.keymap.set("n", "<A-d>", "<cmd>TroubleToggle document_diagnostics<cr>", { silent = true, noremap = true })
 vim.keymap.set("n", "<A-D>", "<cmd>TroubleToggle workspace_diagnostics<cr>", { silent = true, noremap = true })
-

@@ -149,23 +149,16 @@ require("trouble").setup {
 -- ╰───────────╯
 require('telescope').setup {
     pickers = {
-        find_files = {
-            theme = "dropdown",
-        },
-
-        treesitter = {
-            theme = "dropdown",
-        },
-
-        buffers = {
-            theme = "dropdown",
-        },
-        help_tags = {
-            theme = "dropdown",
-        }
+        find_files = { theme = "dropdown" },
+        treesitter = { theme = "dropdown" },
+        buffers = { theme = "dropdown" },
+        help_tags = { theme = "dropdown" }
     },
 }
 vim.keymap.set("n", "ff", ":Telescope find_files <CR>")
 vim.keymap.set("n", "fd", ":Telescope treesitter <CR>")
 vim.keymap.set("n", "fg", "<cmd>Telescope buffers<CR>")
 vim.keymap.set("n", "fh", "<cmd>Telescope help_tags<CR>")
+
+--Snippet runner
+vim.keymap.set("v", "rr", ":SnipRun <CR>")

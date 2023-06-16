@@ -18,7 +18,6 @@ require('packer').startup({
         use 'tpope/vim-fugitive' -- git Integration
         use {
             'nvim-telescope/telescope.nvim',
-            tag = '0.1.0',
             requires = { 'nvim-lua/plenary.nvim' },
         } -- fzf extension that displays preview
         use 'preservim/nerdtree' -- nerdtree
@@ -27,6 +26,7 @@ require('packer').startup({
         use 'junegunn/vim-easy-align' -- auto align
         use 'LudoPinelli/comment-box.nvim' -- comment box
         use "rebelot/kanagawa.nvim"
+        use "folke/trouble.nvim"
         use { 'junegunn/fzf',
             dir = '~/.fzf',
             run = './install --all'
@@ -38,10 +38,7 @@ require('packer').startup({
             run = 'yarn install',
             ft = 'markdown'
         } -- live markdown renderer server
-        use { 'michaelb/sniprun',
-            run = 'bash install.sh',
-        } -- instant code runner
-        use 'smithbm2316/centerpad.nvim' -- move window the center
+        use { 'michaelb/sniprun', run = 'bash install.sh', } -- instant code runner
         use {
             'VonHeikemen/lsp-zero.nvim',
             requires = {
@@ -63,9 +60,6 @@ require('packer').startup({
                 { 'honza/vim-snippets' },
                 { 'rafamadriz/friendly-snippets' },
             }
-        }
-        use {
-            "folke/trouble.nvim",
         }
     end,
     config = {

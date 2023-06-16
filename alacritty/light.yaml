@@ -1,8 +1,9 @@
+# Colors (Paper Theme)
 colors:
   # Default colors
   primary:
-    background: '0xF1EDCD'
-    foreground: '0x0E1116'
+    background: '#F2EEDE'
+    foreground: '#000000'
 
   # Normal colors
   normal:

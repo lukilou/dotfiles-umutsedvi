@@ -6,11 +6,11 @@
 -- Description: keybindings.lua contains custom keybindings for various things.
 -------------------------------------------------------------------------------
 
+-- ╭───────────────────╮
+-- │   Window Movement │
+-- ╰───────────────────╯
+-- Change vim window focus
 vim.cmd([[
-"  ╭───────────────────╮
-"  │ " Window Movement │
-"  ╰───────────────────╯
-" Change vim window focus
 map <C-h> <C-w>h
 map <C-l> <C-w>l
 map <C-j> <C-w>j
@@ -41,9 +41,6 @@ vim.keymap.set("n", "<leader>ss", ":source $MYVIMRC<CR>")
 vim.keymap.set("n", "<A-n>", ":tabnew .<CR>")
 vim.keymap.set("n", "<A-t>", ":vsplit .<CR>")
 vim.keymap.set("n", "<A-Enter>", ":NERDTreeToggle | TagbarToggle<CR>")
--- vim.keymap.set("n", "<A-Enter>", ":Centerpad<CR>")
-
-
 
 --  ╭──────────╮
 --  │ autofill │
@@ -63,10 +60,6 @@ vim.keymap.set("i", '"<CR>', '"<CR>"<ESC>O')
 vim.keymap.set("i", '";<CR>', '"<CR>";<ESC>O')
 vim.keymap.set("i", "'<CR>", "'<CR>'<ESC>O")
 vim.keymap.set("i", "';<CR>", "'<CR>';<ESC>O")
--- For C,  pressing K on the keyword will pull up the built-in
--- manpage directly. For instance, place the cursor on the printf keyword:
---Snippet runner
-vim.keymap.set("v", "rr", ":SnipRun <CR>")
 -- Better multiple lines tabbing with < and >
 vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")

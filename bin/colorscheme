@@ -11,20 +11,20 @@
 
 color_value=`cat /tmp/.cs 2>/dev/null`
 [ "$color_value" = "" ] && color_value=true
+#  Prof-Gnome-Darker-3.6 
+GKT_THEME_LIB="Skeuos-Cyber-Light"
+GTK_THEME_LIGHT="Skeuos-Cyber-Light"
+GTK_THEME_DARK="Skeuos-Cyber-Dark"
 
-GKT_THEME_LIB="Colloid-Teal-Compact-Nord"
-GTK_THEME_LIGHT="Colloid-Teal-Light-Compact-Nord"
-GTK_THEME_DARK="Colloid-Teal-Dark-Compact-Nord"
-
-CINNAMON_THEME_LIB="Nexto"
-CINNAMON_THEME_DOCK_LIGHT="Nexto"
-CINNAMON_THEME_LIGHT="Nexto"
-CINNAMON_THEME_DARK="Nexto Dark"
+CINNAMON_THEME_LIB="Skeuos-Cyber-Light"
+CINNAMON_THEME_DOCK_LIGHT="Skeuos-Cyber-Light"
+CINNAMON_THEME_LIGHT="Skeuos-Cyber-Light"
+CINNAMON_THEME_DARK="Skeuos-Cyber-Dark"
 
 GTK_ICON_LIGHT="Tela-green"
 GTK_ICON_DARK="Tela-green-dark"
-CINNAMON_ICON_LIGHT="Mint-Y-Grey"
-CINNAMON_ICON_DARK="Mint-Y-Dark-Grey"
+CINNAMON_ICON_LIGHT="Paper-Mono-Dark"
+CINNAMON_ICON_DARK="Paper-Mono-Dark"
 
 Help()
 {
@@ -99,7 +99,7 @@ SetCinnamon()
     Libadwaita
     gsettings set org.cinnamon.theme name "$dock_theme"
     gsettings set org.cinnamon.desktop.interface icon-theme "$gtk_icon"
-    gsettings set org.cinnamon.desktop.interface gtk-theme "$gtk_theme" 
+    gsettings set org.cinnamon.desktop.interface gtk-theme "$gtk_theme"
     gsettings set org.cinnamon.desktop.wm.preferences theme "$dock_theme"
     gsettings set org.gnome.desktop.interface color-scheme "$gnome_prefer"
 }
