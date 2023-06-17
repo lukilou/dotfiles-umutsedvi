@@ -1,0 +1,62 @@
+#!/bin/bash
+#******************************************************************************
+#
+# * File: vpn-status
+#
+# * Author:  Umut Sevdi
+# * Created: 06/17/23
+# * Description: A program that configures and displays Wireguard VPN status
+#*****************************************************************************
+[ "$VPN_STATUS_PATH" = "" ] && VPN_STATUS_PATH=~/.config/vpn.conf
+
+# Returns true if Wireguard VPN is enabled
+
+# Check if wireguard is active [ -z "`wg 2>&1`" ] && current=false || current=true
+
+Verify() {
+    if [ -f "$VPN_STATUS_PATH" ]; then
+        echo "Verifying Wireguard configuration"
+    else
+        echo "Error: Wireguard VPN configuration doesn't exist" 1>&2
+        exit
+    fi
+    provider=`basename  $VPN_STATUS_PATH | sed "s/\..*//g"`
+}
+
+Toggle() {
+    if [ -z "`wg 2>&1`" ]; then
+        # Connect the VPN
+        password=`zenity --password --title="Connect to ${provider^} VPN" --ok-label="Connect"`
+        if [ -n "$password" ]; then 
+            echo $password | sudo -S wg-quick up $VPN_STATUS_PATH 2>&1
+            notify-send -a "Wireguard" -i "network-vpn" \
+                "Wireguard VPN" "Connected to ${provider^}"
+        fi
+    else
+        # Wireguard is already connected
+        password=`zenity --password --title="Disconnect from ${provider^} VPN" --ok-label="Disconnect"`
+        if [ -n "$password" ]; then 
+            echo $password | sudo -S wg-quick down $VPN_STATUS_PATH 2>&1
+            notify-send -a "Wireguard" -i "network-vpn-acquiring" \
+                "Wireguard VPN" "Disconnected from ${provider^}"
+        fi
+    fi
+}
+
+Status() {
+    [ -z "`wg 2>&1`" ] && echo "󱦚 " || echo "󰳌 ${provider^}"
+}
+
+command=Toggle
+for arg in $@;do
+    if [ "$path_next" = true ]; then
+        VPN_STATUS_PATH=$arg
+        path_next=false
+    elif [ "$arg" = "--path" ] || [ "$arg" = "-p" ]; then
+        path_next=true
+    elif   [ "$arg" = "--status" ] || [ "$arg" = "-s" ]; then
+        command=Status
+    fi
+done
+Verify
+$command
