@@ -12,6 +12,11 @@ fi
 stat=`playerctl status -s 2>/dev/null`
 artist="`playerctl metadata artist -s`"
 title=`playerctl metadata title -s`
-current="$artist - $title"
+if [ "$artist" = "" ]; then
+    current=$title
+else
+    [ "$title" = "" ] && current=$artist || \
+        current="$artist - $title"
+fi
 
 [ "$stat" = "" ] && echo || echo "$play_pause  ${current:0:40}"
