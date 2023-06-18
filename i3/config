@@ -91,7 +91,7 @@ gaps bottom 5
 gaps inner 6
 smart_borders on
 hide_edge_borders smart_no_gaps
-default_border pixel 2
+# default_border pixel 2 -- this one breaks the titlebar
 default_floating_border pixel 2
 # Floating Window Exceptions
 
