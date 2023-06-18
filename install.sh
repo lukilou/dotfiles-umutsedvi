@@ -68,7 +68,10 @@ EOF
 #******************************************************************************
 #                         Install Utilities
 #******************************************************************************
-
+    # Install tlp to improve battery
+    dnf install tlp -y
+    systemctl enable tlp
+    systemctl start tlp
     echo Installing and configuring Graphical Utility Tools
     dnf install lightdm -y >> /tmp/install/graphic.logs
     systemctl enable lightdm >> /tmp/install/graphic.logs
