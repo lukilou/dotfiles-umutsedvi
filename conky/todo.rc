@@ -38,7 +38,7 @@ conky.text = [[
 ${color0}${font IBMPlexSans:size=50}${time %b%e}${voffset -25}${alignr}${color1}${font :size=20}${time %A}
 ${voffset -20}${alignr}${font :italic:size=9.5}${alignr}${execpi 3600 weather  | fold --width=20 | sed -z 's/\n/\n${alignr}/g'}
 ${voffset -40}${color0}${font BlexMonoNerdFont:bold:size=75}${time %k:%M}
-${voffset -100}${color3}${font IBMPlexSans:italic:size=12}${execpi 120 fortune | fold -s -w 50}
+${voffset -100}${color3}${font IBMPlexSans:italic:size=12}${execpi 120 q | fold -s -w 50}
 ${color0}${font BlexMonoNerdFont:size=9.5}${alignr}${execpi 3600 cal | sed 1d  \
 | sed -E "s/`date +%e`/\${color1}`date +%e`\${color0}/" | sed -z 's/\n/ \n ${alignr}/g' \
 | sed "s/`date +%a | head --bytes 2`/\${color1}`date +%a | head --bytes 2`\${color0}/g" | head -n -1 }
@@ -47,7 +47,7 @@ ${color0}${font1}${font BlexMonoNerdFont:size=9}${execpi 10 td --color=false |  
 | sed "s/00:00//g" | sed "s/      //" | sed "s/⏱/\t/g"  | sed "s/`date \"+%a, %d %b\"`//g" | sed "s/🗘/󰕇/g"}
 ${color1}
 ${font IBMPlexSans:bold:size=18}${color1}Done$hr${color0}${font1}
-${color0}${font BlexMonoNerdFont:size=9}${execpi 10 echo  -e "`td --color=false --past`\n`td --color=false --done`" | tr -d "[0m" | sort -u | sed "s/✕/󱍦  /g" | sed "s/✓/󱍧  /g" | sed "s/ |//g"   \
-| sed "s/00:00//g" | sed "s/      //" | sed "s/⏱/\t/g" |  sed "s/`date \"+%a, %d %b\"`//g" | sed "s/🗘/󰕇/g"}
+${color0}${font BlexMonoNerdFont:size=9}${execpi 10 echo "`td --past --color=false`\n`td --done --color=false`" | sort -u \
+| sed "s/✕/󱍦  /g" | sed "s/✓/󱍧  /g" | sed "s/ |//g" | sed "s/00:00//g" | sed "s/      //" | sed "s/⏱/\t/g" |  sed "s/`date \"+%a, %d %b\"`//g" | sed "s/🗘/󰕇/g" }
 ${voffset -40}
 ]];
