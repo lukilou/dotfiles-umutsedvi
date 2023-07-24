@@ -26,6 +26,8 @@ Help()
 Fetch()
 {
     cd $HOME/.config
+    rm -rf $HOME/.config/autostart/
+    cp -r $HOME/.dotfiles/autostart/ $HOME/.config/
     rm -rf i3 polybar conky
     echo "package.path = package.path .. ';$HOME/.dotfiles/nvim/?.lua;$HOME/.dotfiles/nvim/pkg/?.lua'
 vim.cmd('source /home/umutsevdi/.dotfiles/nvim/init.lua')" > ~/.config/nvim/init.lua

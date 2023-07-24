@@ -8,6 +8,7 @@ if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
 then
     PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 fi
+export PATH=$PATH:/sbin
 export PATH
 
 # ┌──────────────────────┐
@@ -15,11 +16,11 @@ export PATH
 # └──────────────────────┘
 
 export GOPATH=$HOME/.config/go
-export GOROOT=/lib/go
+export GOROOT=$HOME/.config/go
 export JAVA_HOME="$(ls /lib/jvm | grep java-11-openjdk.)"
 export DOT_PATH=$HOME/.dotfiles/bin
 export PATH="$JAVA_HOME:$GOPATH/bin:$GOROOT/bin:$DOT_PATH::$PATH"
-export EDITOR=/usr/bin/nvim
+export EDITOR=~/.local/share/nvim-linux64/bin/nvim
 export TODO_DB_PATH=$HOME/.config/umutsevdi/env/todo.json
 # ┌──────────────────────┐
 # │ Directory Management │
@@ -54,6 +55,7 @@ unset rc
 [[ $- != *i* ]] && return
 
 [[ $- == *i* ]] && source "/home/umutsevdi/.fzf/shell/completion.bash" 2> /dev/null
+mkdir /tmp/nvim  2>/dev/null
 
 # ┌──────────────────────┐
 # │       Aliases        │

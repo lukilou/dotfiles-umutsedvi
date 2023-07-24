@@ -72,6 +72,8 @@ EOF
     dnf install tlp -y
     systemctl enable tlp
     systemctl start tlp
+    # Systemd timeout fix
+    echo "DefaultTimeoutStopSec=10s" >> /etc/systemd/system.conf
     echo Installing and configuring Graphical Utility Tools
     dnf install lightdm -y >> /tmp/install/graphic.logs
     systemctl enable lightdm >> /tmp/install/graphic.logs
@@ -130,8 +132,6 @@ EOF
     npm install -g neovim
 
     mkdir $HOME/.config/nvim
-    echo "package.path = package.path .. ';$HOME/.dotfiles/nvim/?.lua;$HOME/.dotfiles/nvim/pkg/?.lua'" \ 
-        "\nvim.cmd('source $HOME/.dotfiles/nvim/init.lua')" >> $HOME/.config/nvim/init.lua
     if [ "$get_common" = true ]; then
         echo Installing Common Programs
         echo obs-studio telegram spotify discord teams libreoffice slack \ 

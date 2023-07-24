@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Exec=/usr/bin/conky -c $HOME/.dotfiles/conky/todo.rc
+X-GNOME-Autostart-enabled=true
+NoDisplay=false
+Hidden=false
+Name[en_US]=Conky Todo
+Comment[en_US]=No description
+X-GNOME-Autostart-Delay=0

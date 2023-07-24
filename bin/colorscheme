@@ -12,19 +12,19 @@
 color_value=`cat /tmp/.cs 2>/dev/null`
 [ "$color_value" = "" ] && color_value=true
 #  Prof-Gnome-Darker-3.6 
-GKT_THEME_LIB="Skeuos-Cyber-Light"
-GTK_THEME_LIGHT="Skeuos-Cyber-Light"
-GTK_THEME_DARK="Skeuos-Cyber-Dark"
+GKT_THEME_LIB="Qogir-Light"
+GTK_THEME_LIGHT="Qogir-Light"
+GTK_THEME_DARK="Qogir-Dark"
 
-CINNAMON_THEME_LIB="Skeuos-Cyber-Light"
-CINNAMON_THEME_DOCK_LIGHT="Skeuos-Cyber-Light"
-CINNAMON_THEME_LIGHT="Skeuos-Cyber-Light"
-CINNAMON_THEME_DARK="Skeuos-Cyber-Dark"
+CINNAMON_THEME_LIB="Mcata-light-solid-alt"
+CINNAMON_THEME_DOCK_LIGHT="Qogir-Light"
+CINNAMON_THEME_LIGHT="Qogir-Light"
+CINNAMON_THEME_DARK="Qogir-Dark"
 
-GTK_ICON_LIGHT="Tela-green"
-GTK_ICON_DARK="Tela-green-dark"
-CINNAMON_ICON_LIGHT="Paper-Mono-Dark"
-CINNAMON_ICON_DARK="Paper-Mono-Dark"
+GTK_ICON_LIGHT="Pop-Extended"
+GTK_ICON_DARK="Pop-Extended-dark"
+CINNAMON_ICON_LIGHT="Pop-Extended"
+CINNAMON_ICON_DARK="Pop-Extended-dark"
 
 Help()
 {
@@ -48,6 +48,11 @@ Libadwaita()
     ln -s "$HOME/.themes/${lib_theme}/gtk-4.0/assets" "$HOME/.config/gtk-4.0/assets"
     ln -s "$HOME/.themes/${lib_theme}/assets" "$HOME/.config/assets"
     
+}
+
+Icon()
+{
+    [ "$color_value" = true ] && echo "  " || echo "  "
 }
 
 SetTerminal()
@@ -74,7 +79,7 @@ SetI3()
         gnome_prefer="prefer-dark"
     fi
     lib_theme=$GTK_THEME_LIB
-    Libadwaita
+#    Libadwaita
     gsettings set org.gnome.desktop.interface gtk-theme "$gtk_theme"
     gsettings set org.gnome.desktop.interface icon-theme "$gtk_icon"
     gsettings set org.mate.interface gtk-key-theme "$gtk_theme"
@@ -85,7 +90,7 @@ SetCinnamon()
 {
     if [ "$is_dark" = true ]; then 
         gtk_theme=$CINNAMON_THEME_LIGHT
-        dock_theme=$CINNAMON_THEME_DOCK_LIGHT
+        dock_theme=$CINNAMON_THEME_DOCK_DARK
         gtk_icon=$CINNAMON_ICON_LIGHT
         gnome_prefer="prefer-light"
     else
@@ -95,13 +100,17 @@ SetCinnamon()
         gnome_prefer="prefer-dark"
     fi
 
+
     lib_theme=$GTK_THEME_LIB
-    Libadwaita
-    gsettings set org.cinnamon.theme name "$dock_theme"
+#    Libadwaita
+#    gsettings set org.cinnamon.desktop.interface.theme name "$dock_theme"
     gsettings set org.cinnamon.desktop.interface icon-theme "$gtk_icon"
     gsettings set org.cinnamon.desktop.interface gtk-theme "$gtk_theme"
-    gsettings set org.cinnamon.desktop.wm.preferences theme "$dock_theme"
+    gsettings set org.cinnamon.desktop.interface gtk-key-theme "$gtk_theme"
+# gsettings set org.mate.wm.preferences theme "$dock_theme"
     gsettings set org.gnome.desktop.interface color-scheme "$gnome_prefer"
+    gsettings set org.cinnamon.desktop.wm.preferences theme "$gtk_theme"
+    gsettings set org.cinnamon.theme name "$gtk_theme"
 }
 
 for arg in $@;do
@@ -110,6 +119,9 @@ for arg in $@;do
         exit
     elif [ "$arg" = "-r" ] || [ "$arg" = "--refresh" ]; then 
         refresh=true
+    elif [ "$arg" = "-i" ]; then
+        Icon
+        exit
     else
         echo -e "Error: Invalid arguments" 1>&2
         exit
@@ -124,7 +136,7 @@ else
     echo $write > /tmp/.cs
 fi
 
-echo $XDG_CURRENT_DESKTOP
+echo "{$XDG_CURRENT_DESKTOP}"
 case $XDG_CURRENT_DESKTOP in
     X-Cinnamon)
         SetCinnamon

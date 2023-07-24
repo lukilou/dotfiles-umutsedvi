@@ -13,7 +13,7 @@
     transparency = 0
     separator_height = 2
     padding = 10
-    horizontal_padding = 10
+    horizontal_padding = 5
     text_icon_padding = 0
     frame_width = 1
     frame_color = "#1c1c1c"
@@ -35,12 +35,12 @@
     icon_position = left
     max_icon_size = 32
     enable_recursive_icon_lookup=true
-    icon_theme=Tela-green-dark
+    icon_theme=Pop-Extended-dark 
 #    icon_path =/usr/share/icons/gruvbox_dark/actions/24/:/usr/share/icons/gruvbox_dark/actions/symbolic/:/usr/share/icons/gruvbox_dark/apps/scalable/:/usr/share/icons/gruvbox_dark/categories/scalable/:/usr/share/icons/gruvbox_dark/devices/scalable/:/usr/share/icons/gruvbox_dark/emblems/48/:/usr/share/icons/gruvbox_dark/panel/24/:/usr/share/icons/gruvbox_dark/places/scalable/:/usr/share/icons/gruvbox_dark/status/symbolic/:/usr/share/icons/gruvbox_dark/status/48/
     sticky_history = yes
-    history_length = 20
+    history_length = 8
     always_run_script = true
-    corner_radius = 6
+    corner_radius = 4
     ignore_dbusclose = false
     force_xinerama = false
     mouse_left_click = open_url, do_action, close_current
@@ -51,18 +51,18 @@
     background = "#1c1c1c"
     foreground = "#808080"
     highlight   = "#5fafd7"
-    timeout = 10
+    timeout = 8
 
 [urgency_normal]
     background = "#1c1c1c"
     foreground = "#808080"
     highlight   = "#5fafd7"
-    timeout = 10
+    timeout = 8
 
 [urgency_critical]
     background  = "#5faf5f"
     foreground  = "#333333"
     frame_color = "#cc241d"
     highlight   = "#5fafd7"
-    timeout = 20
+    timeout = 16
     default_icon = /usr/share/icons/gruvbox-plus-icon-pack/actions/16/dialog-warning.svg
