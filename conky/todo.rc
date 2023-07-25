@@ -20,7 +20,7 @@ conky.config = {
     own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
     alignment = 'bottom_left',
     gap_x = 35,
-    gap_y = 55,
+    gap_y = 35,
 
 -- Text settings
     use_xft = true,
@@ -47,7 +47,5 @@ ${color0}${font1}${font BlexMonoNerdFont:size=9}${execpi 10 td --color=false |  
 | sed "s/00:00//g" | sed "s/      //" | sed "s/⏱/\t/g"  | sed "s/`date \"+%a, %d %b\"`//g" | sed "s/🗘/󰕇/g"}
 ${color1}
 ${font IBMPlexSans:bold:size=18}${color1}Done$hr${color0}${font1}
-${color0}${font BlexMonoNerdFont:size=9}${execpi 10 echo "`td --past --color=false`\n`td --done --color=false`" | sort -u \
-| sed "s/✕/󱍦  /g" | sed "s/✓/󱍧  /g" | sed "s/ |//g" | sed "s/00:00//g" | sed "s/      //" | sed "s/⏱/\t/g" |  sed "s/`date \"+%a, %d %b\"`//g" | sed "s/🗘/󰕇/g" }
-${voffset -40}
-]];
+${color0}${font BlexMonoNerdFont:size=9}${execpi 10 td --done --color=false | sort -u \
+| sed "s/✕/󱍦  /g" | sed "s/✓/󱍧  /g" | sed "s/ |//g" | sed "s/00:00//g" | sed "s/      //" | sed "s/⏱/\t/g" |  sed "s/`date \"+%a, %d %b\"`//g" | sed "s/🗘/󰕇/g" }]];

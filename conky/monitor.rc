@@ -20,7 +20,7 @@ conky.config = {
     own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
     alignment = 'bottom_right',
     gap_x = 35,
-    gap_y = 55,
+    gap_y = 35,
 
 -- Text settings
     use_xft = true,

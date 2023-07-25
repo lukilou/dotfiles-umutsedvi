@@ -35,8 +35,8 @@
     icon_position = left
     max_icon_size = 32
     enable_recursive_icon_lookup=true
-    icon_theme=Pop-Extended-dark 
-#    icon_path =/usr/share/icons/gruvbox_dark/actions/24/:/usr/share/icons/gruvbox_dark/actions/symbolic/:/usr/share/icons/gruvbox_dark/apps/scalable/:/usr/share/icons/gruvbox_dark/categories/scalable/:/usr/share/icons/gruvbox_dark/devices/scalable/:/usr/share/icons/gruvbox_dark/emblems/48/:/usr/share/icons/gruvbox_dark/panel/24/:/usr/share/icons/gruvbox_dark/places/scalable/:/usr/share/icons/gruvbox_dark/status/symbolic/:/usr/share/icons/gruvbox_dark/status/48/
+#    icon_theme=Pop-Extended-dark 
+    icon_path =/usr/share/icons/Pop-Extended-dark/:/usr/share/icons/Pop-Extended-dark/16:/usr/share/icons/Pop-Extended-dark/16/actions:/usr/share/icons/Pop-Extended-dark/22:/usr/share/icons/Pop-Extended-dark/22/actions:/usr/share/icons/Pop-Extended-dark/symbolic:/usr/share/icons/Pop-Extended-dark/symbolic/mimetypes:/usr/share/icons/Pop-Extended-dark/symbolic/apps:/usr/share/icons/Pop-Extended-dark/symbolic/actions:/usr/share/icons/Pop-Extended-dark/symbolic/emotes:/usr/share/icons/Pop-Extended-dark/symbolic/devices:/usr/share/icons/Pop-Extended-dark/symbolic/places:/usr/share/icons/Pop-Extended-dark/symbolic/emblems:/usr/share/icons/Pop-Extended-dark/symbolic/status:/usr/share/icons/Pop-Extended-dark/symbolic/categories:/usr/share/icons/Pop-Extended-dark/24:/usr/share/icons/Pop-Extended-dark/24/actions
     sticky_history = yes
     history_length = 8
     always_run_script = true
@@ -65,4 +65,4 @@
     frame_color = "#cc241d"
     highlight   = "#5fafd7"
     timeout = 16
-    default_icon = /usr/share/icons/gruvbox-plus-icon-pack/actions/16/dialog-warning.svg
+    default_icon = /usr/share/icons/Pop-Extended-dark/symbolic/status/dialog-warning-symbolic.svg
