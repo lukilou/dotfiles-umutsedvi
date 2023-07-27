@@ -1,30 +1,34 @@
 # .bashrc
+#******************************************************************************
+#
+# * File: .dotfiles/.bashrc
+#
+# * Author:  Umut Sevdi
+# * Created: 03/31/22
+# * Description: .bashrc configuration
+#*****************************************************************************
+
 # Source global definitions
 if [ -f /etc/bashrc ]; then
     . /etc/bashrc
 fi
-# User specific environment
-if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
-then
-    PATH="$HOME/.local/bin:$HOME/bin:$PATH"
-fi
-export PATH=$PATH:/sbin
-export PATH
 
 # ┌──────────────────────┐
 # │   Path  Management   │
 # └──────────────────────┘
 
+if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
+then
+    PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+fi
 export GOPATH=$HOME/.config/go
 export GOROOT=$HOME/.config/go
 export JAVA_HOME="$(ls /lib/jvm | grep java-11-openjdk.)"
 export DOT_PATH=$HOME/.dotfiles/bin
-export PATH="$JAVA_HOME:$GOPATH/bin:$GOROOT/bin:$DOT_PATH::$PATH"
+export PATH="/sbin:$JAVA_HOME:$GOPATH/bin:$GOROOT/bin:$DOT_PATH::$PATH"
+
 export EDITOR=~/.local/share/nvim-linux64/bin/nvim
 export TODO_DB_PATH=$HOME/.config/umutsevdi/env/todo.json
-# ┌──────────────────────┐
-# │ Directory Management │
-# └──────────────────────┘
 
 alias wget=wget --hsts-file="$HOME/.config/.wget-hsts"
 export QT_QPA_PLATFORMTHEME=gnome
@@ -55,11 +59,17 @@ unset rc
 [[ $- != *i* ]] && return
 
 [[ $- == *i* ]] && source "/home/umutsevdi/.fzf/shell/completion.bash" 2> /dev/null
+
+# Generate the neovim directory for the color changes
 mkdir /tmp/nvim  2>/dev/null
 
 # ┌──────────────────────┐
 # │       Aliases        │
 # └──────────────────────┘
+if [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+fi
+
 FZF_DEFAULT_COMMAND="find -L"
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
@@ -74,8 +84,16 @@ alias open='xdg-open "$(fzf)"'
 
 alias nvim='nvim --listen /tmp/nvim/$((`ls /tmp/nvim | tail -n 1`+1))'
 alias tmux="tmux -f $HOME/.dotfiles/tmux/.tmux.conf"
-xhost +local:docker >> /dev/null
-# alias docker-run='docker run -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix/'
+
+# turns each folder under the src directory into a command that performs fuzzy-find
+# inside the directories
+__fzf_alias() {
+    cd $(find $1 -type d -not -path '*/[@.]*' | fzf -i -x)
+}
+
+for i in `ls $HOME/src/`; do
+    alias $i="__fzf_alias $HOME/src/$i; tmux"
+done
 
 # Typo aliases
 alias sl=ls

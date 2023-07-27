@@ -39,7 +39,7 @@ vim.cmd('source /home/umutsevdi/.dotfiles/nvim/init.lua')" > ~/.config/nvim/init
     [ "$root" = true ] && sudo cp $HOME/.dotfiles/.bashrc /root/.bashrc
     i3-msg restart
     colorscheme -r
-    notify-send 'Window Manager' 'i3wm has been restarted with updated configurations' --app-name="i3" --icon="workspace-overview" --category='window'
+    notify-send 'Window Manager' 'i3wm has been restarted with updated configurations' --app-name="i3" --icon="system-restart" --category='window'
 }
 
 for arg in $@;do

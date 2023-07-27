@@ -14,7 +14,6 @@ lsp.ensure_installed({
     'bashls',
     'clangd',
     'cmake',
-    --    'custom-elements-languageserver',
     'cssls',
     'dockerls',
     'docker_compose_language_service',
@@ -150,27 +149,3 @@ require("nvim-treesitter.configs").setup({
 })
 
 
---  ╭─────────────────────────────────────────────╮
---  │   Language Server Protocol Configurations   │
---  ╰─────────────────────────────────────────────╯
-
--- gi: Lists all the implementations for the symbol under the cursor in the quickfix window.
--- See :help vim.lsp.buf.implementation().
--- go: Jumps to the definition of the type of the symbol under the cursor.
--- See :help vim.lsp.buf.type_definition().
--- gr: Lists all the references to the symbol under the cursor in the quickfix window.
--- See :help vim.lsp.buf.references().
--- Go to reference Ctrl + ]
---  ╭────────────────╮
---  │ Code Formatter │
---  ╰────────────────╯
-vim.keymap.set("n", "<A-f>", ":lua vim.lsp.buf.format() <CR>")
-vim.keymap.set("n", "<A-f>", ":lua vim.lsp.buf.format() <CR>")
--- Code actions
-vim.keymap.set("n", "<A-q>", ":lua vim.lsp.buf.code_action() <CR>")
--- Bulk rename
-vim.keymap.set("n", "<A-r>", ":lua vim.lsp.buf.rename() <CR>")
---Coc Diagnostic Menu
-vim.keymap.set("n", "<C-d>", ":lua vim.diagnostic.open_float() <CR>")
-vim.keymap.set("n", "<A-d>", "<cmd>TroubleToggle document_diagnostics<cr>", { silent = true, noremap = true })
-vim.keymap.set("n", "<A-D>", "<cmd>TroubleToggle workspace_diagnostics<cr>", { silent = true, noremap = true })

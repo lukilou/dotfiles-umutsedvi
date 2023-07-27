@@ -37,7 +37,7 @@ Toggle() {
         password=`zenity --password --title="Disconnect from ${provider^} VPN" --ok-label="Disconnect"`
         if [ -n "$password" ]; then 
             echo $password | sudo -S wg-quick down $VPN_STATUS_PATH 2>&1
-            notify-send -a "Wireguard" -i "network-vpn-acquiring" \
+            notify-send -a "Wireguard" -i "network-vpn-acquiring-symbolic" \
                 "Wireguard VPN" "Disconnected from ${provider^}"
         fi
     fi

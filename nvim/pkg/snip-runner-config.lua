@@ -2,18 +2,6 @@
 --  │ Snippet Runner │
 --  ╰────────────────╯
 require("sniprun").setup({
-   interpreter_options = { -- interpreter-specific options, see docs / :SnipInfo <name>
-      -- use the interpreter name as key
-      GFM_original = {
-         use_on_filetypes = { "markdown.pandoc" }, -- the 'use_on_filetypes' configuration key is
-         -- available for every interpreter
-      },
-      Python3_original = {
-         error_truncate = "auto", -- Truncate runtime errors 'long', 'short' or 'auto'
-         -- the hint is available for every interpreter
-         -- but may not be always respected
-      },
-   },
    -- you can combo different display modes as desired
    display = {
       -- "Classic",                             -- display results in the command-line  area

@@ -6,26 +6,28 @@
 # * Author:  Umut Sevdi
 # * Created: 01/15/23
 # * Description: A script that displays available upgrades for the applications on 
-# DNF and Flatpak.
+# APT and Flatpak.
 # It will create a notification if the amount is greater than 5. Clicking to the
 # notification will prompt a password to upgrade the applications
-# * @require zenity, dnf, flatpak
+# * @require zenity, APT, flatpak
 #*****************************************************************************
 
+apt-get update
 Update() {
     password=`zenity --password --title="Update $UPDATE applications." --ok-label="Update"`
     if [ -n "$password" ]; then 
-        echo $password | sudo -S dnf update -y &
-        flatpak update <<< "Y"
+        flatpak update <<< "Y" &
+        echo $password | sudo -S sh -c 'apt update -y'
+        echo $password | sudo -S sh -c 'apt upgrade -y' &
     fi
 }
 
 Check() {
-    DNF=`dnf check-update 2>/dev/null | awk '{print $1}' | grep [.] | wc -l`
+    APT=`sh -c 'apt list --upgradable' | wc -l`
     FLATPAK=$(( `flatpak update <<< "n" | wc -l` - 5 ))
     (( $FLATPAK < 0 )) && FLATPAK=0
-    UPDATE=$(( $FLATPAK + $DNF ))
-    PKG=$UPDATE/`dnf list installed | wc -l`
+    UPDATE=$(( $FLATPAK + $APT ))
+    PKG=$UPDATE/`sh -c 'apt list --installed' | wc -l`
 
     if (( $UPDATE > 5 )); then
         clicked=`notify-send --app-name="Package Manager" --category="Package Manager" \
@@ -34,9 +36,9 @@ Check() {
         if [ "0" = "$clicked" ]; then
             Update
         fi
-        echo "   $PKG "
+        echo " 󱧘  $PKG "
+    else echo "  "
     fi
-    echo "  "
 }
 
 for arg in $@;do

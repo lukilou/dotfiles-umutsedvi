@@ -33,7 +33,7 @@ end
 --  │ Theme │
 --  ╰───────╯
 require('kanagawa').setup({
-    compile = true, -- enable compiling the colorscheme
+    compile = true,   -- enable compiling the colorscheme
     undercurl = true, -- enable undercurls
     commentStyle = { italic = true },
     functionStyle = { bold = true, italic = true },
@@ -41,15 +41,15 @@ require('kanagawa').setup({
     statementStyle = { bold = false, italic = true },
     string = { italic = true },
     typeStyle = { bold = true },
-    transparent = true, -- do not set background color
-    dimInactive = false, -- dim inactive window `:h hl-NormalNC`
+    transparent = true,    -- do not set background color
+    dimInactive = false,   -- dim inactive window `:h hl-NormalNC`
     terminalColors = true, -- define vim.g.terminal_color_{0,17}
-    colors = { -- add/modify theme and palette colors
+    colors = {             -- add/modify theme and palette colors
         palette = {},
         theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
     },
-    theme = "wave", -- Load "wave" theme when 'background' option is not set
-    background = { -- map the value of 'background' option to a theme
+    theme = "wave",    -- Load "wave" theme when 'background' option is not set
+    background = {     -- map the value of 'background' option to a theme
         dark = "wave", -- try "dragon" !
         light = "lotus"
     },
@@ -103,8 +103,8 @@ require('gitsigns').setup {
         changedelete = { text = '~' },
         untracked    = { text = '┆' },
     },
-    current_line_blame = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
-    signcolumn         = true, -- Toggle with `:Gitsigns toggle_signs`
+    current_line_blame = true,  -- Toggle with `:Gitsigns toggle_current_line_blame`
+    signcolumn         = true,  -- Toggle with `:Gitsigns toggle_signs`
     numhl              = false, -- Toggle with `:Gitsigns toggle_numhl`
     linehl             = false, -- Toggle with `:Gitsigns toggle_linehl`
     word_diff          = false, -- Toggle with `:Gitsigns toggle_word_diff`
@@ -143,7 +143,6 @@ require("trouble").setup {
     },
 }
 
-
 -- ╭───────────╮
 -- │ Telescope │
 -- ╰───────────╯
@@ -155,10 +154,3 @@ require('telescope').setup {
         help_tags = { theme = "dropdown" }
     },
 }
-vim.keymap.set("n", "ff", ":Telescope find_files <CR>")
-vim.keymap.set("n", "fd", ":Telescope treesitter <CR>")
-vim.keymap.set("n", "fg", "<cmd>Telescope buffers<CR>")
-vim.keymap.set("n", "fh", "<cmd>Telescope help_tags<CR>")
-
---Snippet runner
-vim.keymap.set("v", "rr", ":SnipRun <CR>")

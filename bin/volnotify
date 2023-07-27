@@ -16,7 +16,7 @@ is_muted=$(isMuted)
 # Update the notification with the current volume percentage
 if [ "$is_muted" = true ]; then 
     icon="audio-volume-muted-symbolic"
-elif [ "$current_volume" -gt 60 ]; then
+elif [ "$current_volume" -gt 65 ]; then
     icon="audio-volume-high-symbolic"
 elif [ "$current_volume" -gt 30 ]; then
     icon="audio-volume-medium-symbolic"
