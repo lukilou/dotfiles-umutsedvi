@@ -35,7 +35,7 @@
     icon_position = left
     max_icon_size = 32
     enable_recursive_icon_lookup=true
-    icon_theme=elementosh-Silver
+    icon_theme=elementary
 #    icon_path =/usr/share/icons/Pop-Extended-dark/:/usr/share/icons/Pop-Extended-dark/16:/usr/share/icons/Pop-Extended-dark/16/actions:/usr/share/icons/Pop-Extended-dark/22:/usr/share/icons/Pop-Extended-dark/22/actions:/usr/share/icons/Pop-Extended-dark/symbolic:/usr/share/icons/Pop-Extended-dark/symbolic/mimetypes:/usr/share/icons/Pop-Extended-dark/symbolic/apps:/usr/share/icons/Pop-Extended-dark/symbolic/actions:/usr/share/icons/Pop-Extended-dark/symbolic/emotes:/usr/share/icons/Pop-Extended-dark/symbolic/devices:/usr/share/icons/Pop-Extended-dark/symbolic/places:/usr/share/icons/Pop-Extended-dark/symbolic/emblems:/usr/share/icons/Pop-Extended-dark/symbolic/status:/usr/share/icons/Pop-Extended-dark/symbolic/categories:/usr/share/icons/Pop-Extended-dark/24:/usr/share/icons/Pop-Extended-dark/24/actions
     sticky_history = yes
     history_length = 8

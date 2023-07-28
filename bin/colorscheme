@@ -21,10 +21,10 @@ CINNAMON_THEME_DOCK_LIGHT="Qogir-Light"
 CINNAMON_THEME_LIGHT="Qogir-Light"
 CINNAMON_THEME_DARK="Qogir-Dark"
 
-GTK_ICON_LIGHT="elementosh-Silver"
-GTK_ICON_DARK="elementosh-Silver"
-CINNAMON_ICON_LIGHT="elementosh-Silver"
-CINNAMON_ICON_DARK="elementosh-Silver"
+GTK_ICON_LIGHT="elementary"
+GTK_ICON_DARK="elementary"
+CINNAMON_ICON_LIGHT="elementary"
+CINNAMON_ICON_DARK="elementary"
 
 Help()
 {

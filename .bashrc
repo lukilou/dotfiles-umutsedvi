@@ -66,9 +66,14 @@ mkdir /tmp/nvim  2>/dev/null
 # ┌──────────────────────┐
 # │       Aliases        │
 # └──────────────────────┘
-if [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-fi
+case tty in
+    *"tty"*)
+        
+        ;;
+    *)
+        [ -f /etc/bash_completion ] && . /etc/bash_completion
+        ;;
+esac
 
 FZF_DEFAULT_COMMAND="find -L"
 alias ls='ls --color=auto'

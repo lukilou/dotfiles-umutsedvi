@@ -1,0 +1,15 @@
+[Unit]
+Description=Fetch Package Updates
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /home/umutsevdi/.dotfiles/bin/fetchpkg -f 2>&1 >> /tmp/fetchpkg.log
+User=root
+
+[Timer]
+OnBootSec=1h
+OnUnitActiveSec=2h
+
+[Install]
+WantedBy=multi-user.target

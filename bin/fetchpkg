@@ -12,23 +12,38 @@
 # * @require zenity, APT, flatpak
 #*****************************************************************************
 
-apt-get update
+# Fetch function is run by ../services/fetchpkg.service every 2 hours to fetch
+# updated packages
+Service() {
+    apt-get update
+}
+
+Fetch() {
+    APT=`apt list --upgradable | tail -n +2 | grep ".*/" -o | tr -d "/"`
+    FLATPAK=`flatpak update <<<  no | tail -n +4 | head -n -2 | awk '{print $2}'`
+    APT_N=`wc -l <<< "$APT"`
+    FPK_N=`wc -l <<< "$FLATPAK"`
+    UPDATE=$(( $FLATPAK_N + $APT_N ))
+}
+
 Update() {
-    password=`zenity --password --title="Update $UPDATE applications." --ok-label="Update"`
+    # Fetch
+    response=$(zenity --forms --title="Package Manager" \
+        --text="There are $UPDATE updates available" \
+        --add-list="APT($APT_N):" --list-values=`echo  "$APT" | tr " \n" "|"` \
+        --add-list="Flatpak($FPK_N):" --list-values=`echo "$FLATPAK" | tr "\n" "|"` \
+        --add-password="Password")
+    password=`echo $response | sed "s/|/\n/g" | tail -n 1`
     if [ -n "$password" ]; then 
         flatpak update <<< "Y" &
-        echo $password | sudo -S sh -c 'apt update -y'
-        echo $password | sudo -S sh -c 'apt upgrade -y' &
+        echo $password | sudo -S sh -c 'apt update -y' >> /tmp/fetchpkg.log
+        echo $password | sudo -S sh -c 'apt upgrade -y' & >> /tmp/fetchpkg.log
     fi
 }
 
-Check() {
-    APT=`sh -c 'apt list --upgradable' | wc -l`
-    FLATPAK=$(( `flatpak update <<< "n" | wc -l` - 5 ))
-    (( $FLATPAK < 0 )) && FLATPAK=0
-    UPDATE=$(( $FLATPAK + $APT ))
+DisplayUi() {
+    Fetch
     PKG=$UPDATE/`sh -c 'apt list --installed' | wc -l`
-
     if (( $UPDATE > 5 )); then
         clicked=`notify-send --app-name="Package Manager" --category="Package Manager" \
             "Package Manager" "There are $UPDATE updates available." --icon="software-update-available" \
@@ -42,9 +57,13 @@ Check() {
 }
 
 for arg in $@;do
-    if   [ "$arg" = "--force-update" ] || [ "$arg" = "-f" ]; then
+    if   [ "$arg" = "--fetch-only" ] || [ "$arg" = "-f" ]; then
+        Service
+        exit
+    fi
+    if   [ "$arg" = "--upgrade" ] || [ "$arg" = "-u" ]; then
         Update
         exit
     fi
 done
-Check
+DisplayUi

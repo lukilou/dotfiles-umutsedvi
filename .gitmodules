@@ -1,6 +1,3 @@
 [submodule "rofi-applets"]
 	path = rofi-applets
 	url = https://github.com/umutsevdi/rofi-applets
-[submodule "FirefoxSidebar"]
-	path = FirefoxSidebar
-	url = https://github.com/drannex42/FirefoxSidebar.git

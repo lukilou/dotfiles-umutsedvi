@@ -116,6 +116,7 @@ for_window [window_type="menu"] floating enable
 for_window [instance="Reminders"] floating enable
 
 # App Windows
+for_window [instance="zenity"] floating enable
 for_window [instance="gnome-calculator"] floating enable
 for_window [instance="Gnome-screenshot*"] floating enable
 for_window [instance="xfce4*"] floating enable
