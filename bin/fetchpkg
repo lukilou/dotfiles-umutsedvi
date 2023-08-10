@@ -20,24 +20,29 @@ Service() {
 
 Fetch() {
     APT=`apt list --upgradable | tail -n +2 | grep ".*/" -o | tr -d "/"`
+    _fp_raw=`flatpak update <<<  no`
+    [[ `grep "Nothing to do"  <<< $_fp_raw` ]] && FLATPAK= || \
     FLATPAK=`flatpak update <<<  no | tail -n +4 | head -n -2 | awk '{print $2}'`
-    APT_N=`wc -l <<< "$APT"`
-    FPK_N=`wc -l <<< "$FLATPAK"`
+    APT_N=$((`wc -l <<< "$APT"` - 1))
+    FPK_N=$((`wc -l <<< "$FLATPAK"` - 1 ))
     UPDATE=$(( $FLATPAK_N + $APT_N ))
 }
 
 Update() {
-    # Fetch
+    Fetch
     response=$(zenity --forms --title="Package Manager" \
         --text="There are $UPDATE updates available" \
-        --add-list="APT($APT_N):" --list-values=`echo  "$APT" | tr " \n" "|"` \
-        --add-list="Flatpak($FPK_N):" --list-values=`echo "$FLATPAK" | tr "\n" "|"` \
+        --add-list="APT($APT_N):" --list-values=`echo  "$APT" | tr " \n" "|"  | rev | cut -c 2- | rev` \
+        --add-list="Flatpak($FPK_N):" --list-values=`echo "$FLATPAK" | tr "\n" "|" | rev | cut -c 2- | rev` \
         --add-password="Password")
     password=`echo $response | sed "s/|/\n/g" | tail -n 1`
-    if [ -n "$password" ]; then 
-        flatpak update <<< "Y" &
-        echo $password | sudo -S sh -c 'apt update -y' >> /tmp/fetchpkg.log
-        echo $password | sudo -S sh -c 'apt upgrade -y' & >> /tmp/fetchpkg.log
+    if [ -n "$password" ]; then
+        echo $password | sudo -S sh -c 'apt upgrade -y' > /tmp/fetchpkg.log
+        flatpak update -y >> /tmp/fetchpkg.log
+        clicked=`notify-send --app-name="Package Manager" --category="Package Manager" \
+            "Package Manager" "$UPDATE packages have been updated." --icon="system-software-install" \
+            --action="[ACTION]action"`
+        [ "0" = "$clicked" ] && xdg-open /tmp/fetchpkg.log
     fi
 }
 
@@ -48,9 +53,7 @@ DisplayUi() {
         clicked=`notify-send --app-name="Package Manager" --category="Package Manager" \
             "Package Manager" "There are $UPDATE updates available." --icon="software-update-available" \
             --action="[ACTION]action"`
-        if [ "0" = "$clicked" ]; then
-            Update
-        fi
+        [ "0" = "$clicked" ] && Update
         echo " 󱧘  $PKG "
     else echo "  "
     fi

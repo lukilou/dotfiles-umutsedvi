@@ -207,7 +207,7 @@ bindsym Mod4+Shift+c exec dotfetch;
 bindsym Mod4+s            exec xdg-open $HOME
 bindsym Mod4+Escape       exec applet -r powermenu
 bindsym Mod4+d            exec applet -r launcher
-bindsym Mod4+m            exec applet -r player 
+bindsym Mod4+m            exec applet -r player
 bindsym Mod4+semicolon    exec applet -r emoji
 bindsym Mod4+Tab          exec applet -r tab
 bindsym Mod4+Shift+Escape exec lockscreen
@@ -247,9 +247,9 @@ bindsym Mod4+w mode "layout mode (w)stack | (e)split"
 
 bindsym Mod4+p mode "display mode: (1)auto | (2)extend-top | (3)extend-left | (4)set-primary | (5)set-secondary"
 mode "display mode: (1)auto | (2)extend-top | (3)extend-left | (4)set-primary | (5)set-secondary"  {
-        bindsym 1 exec xrandr --auto
-        bindsym 2 exec xrandr --output $sm --above $pm
-        bindsym 3 exec xrandr --output $pm --right-of $sm
+        bindsym 1 exec xrandr --auto && pickwp --same
+        bindsym 2 exec xrandr --output $sm --above $pm && pickwp --same
+        bindsym 3 exec xrandr --output $pm --right-of $sm &&pickwp --same
         bindsym 4 exec xrandr --output $pm --primary
         bindsym 5 exec xrandr --output $sm --primary
         bindsym Return mode "default"

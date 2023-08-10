@@ -35,6 +35,8 @@ Help()
    echo
    echo "Options:"
    echo "-h/--help            Prints this menu."
+   echo "-s/--same            Draws the existing wallpaper again to the \
+       existing monitors."
    echo "-d/--directory \$DIR     Picks wallpaper from custom directory."
    echo
 }
@@ -49,10 +51,13 @@ Pick()
 
     new_img=`find $path/  ! -name '*.xml' -type f  | shuf -n 1  2> /dev/null`
     old_img=`cat /tmp/.img  2> /dev/null`
-
-    while [ $new_img = "$old_img" ]; do
-        new_img=`find $path/  ! -name '*.xml' -type f | shuf -n 1  2> /dev/null`
-    done
+    if [ "$pick_same" = true ] && [ -n "$old_img" ]; then
+        new_img=$old_img
+    else
+        while [ $new_img = "$old_img" ]; do
+            new_img=`find $path/  ! -name '*.xml' -type f | shuf -n 1  2> /dev/null`
+        done
+    fi
 
     echo $new_img > /tmp/.img
     echo "selected wallpaper: $new_img"
@@ -66,6 +71,9 @@ Pick()
 for arg in $@; do
     if [ $arg = -h ] || [ $arg = --help ]; then
         Help
+        exit
+    elif [ $arg = -s ] || [ $arg = --same ]; then
+        pick_same=true
         exit
     elif [ $arg = -d ] || [ $arg = --directory ]; then
         get_dir=true

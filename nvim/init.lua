@@ -10,8 +10,6 @@
 --- {@keybinding.lua} manages keybindings.
 -------------------------------------------------------------------------------
 
-local o = vim.o
-
 vim.cmd([[
 set shell=$SHELL
 set encoding=UTF-8
@@ -37,49 +35,46 @@ set smarttab
 set smartindent
 set spell
 ]])
-o.termguicolors = true
--- Recommended by CoC
-o.hidden = true
-o.updatetime = 200
-o.timeoutlen = 500
+vim.o.termguicolors = true
+vim.o.hidden = true
+vim.o.updatetime = 200
+vim.o.timeoutlen = 500
 -- Disable backup files
-o.backup = false
-o.writebackup = false
+vim.o.backup = false
+vim.o.writebackup = false
 -- set cmdheight=1 height of commandline at the bottom
-o.signcolumn = "yes"
+vim.o.signcolumn = "yes"
 -- show line numbers
-o.number = true
-o.cursorline = true
-o.cursorcolumn = false
-o.ignorecase = true
-o.smartcase = true
+vim.o.number = true
+vim.o.cursorline = true
+vim.o.cursorcolumn = false
+vim.o.ignorecase = true
+vim.o.smartcase = true
 -- Undo and backup options
-o.undofile = true
-o.undodir = "/home/umutsevdi/.config/nvim/undodir"
-o.swapfile = false
-o.history = 50
+vim.o.undofile = true
+vim.o.undodir = "/home/umutsevdi/.config/nvim/undodir"
+vim.o.swapfile = false
+vim.o.history = 50
 -- set inccommand=nosplit
-o.splitright = true
-o.splitbelow = true
+vim.o.splitright = true
+vim.o.splitbelow = true
 -- set conceallevel=0
-
 -- whitespace configuration
-o.tabstop = 4
-o.shiftwidth = 4
-o.softtabstop = 4
-o.relativenumber = true
-o.clipboard = "unnamedplus"
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+vim.o.softtabstop = 4
+vim.o.relativenumber = true
+vim.o.clipboard = "unnamedplus"
 -- Better editor UI
-o.numberwidth = 6
-o.scrolloff = 8
-o.wrap = true
-o.textwidth = 300
-o.list = true
-o.jumpoptions = "view"
-
+vim.o.numberwidth = 6
+vim.o.scrolloff = 8
+vim.o.wrap = true
+vim.o.textwidth = 300
+vim.o.list = true
+vim.o.jumpoptions = "view"
 -- Last status = 0, removes the bottom line text after running a command
-o.ls = 0
-o.ch = 1
+vim.o.ls = 0
+vim.o.ch = 1
 
 
 require("plugins")

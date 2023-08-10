@@ -1,3 +1,0 @@
-#!/bin/bash
-conky -c ~/.dotfiles/conky/todo.rc & 
-conky -c ~/.dotfiles/conky/monitor.rc

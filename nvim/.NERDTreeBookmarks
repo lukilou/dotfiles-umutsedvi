@@ -1,6 +1,6 @@
 dots ~/.dotfiles
 source ~/src
+builds ~/src/build
+playground ~/src/playground
 
-projects ~/src/prj/
-builds ~/src/build/
-playground ~/src/playground/
+projects ~/src/dev/

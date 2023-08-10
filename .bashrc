@@ -37,6 +37,7 @@ export XDG_DATA_HOME=$HOME/.local/share/
 export XDG_CONFIG_HOME=$HOME/.config/
 export XDG_STATE_HOME=$HOME/.local/state
 export XDG_CACHE_HOME=$HOME/.cache
+export XAUTHORITY="$XDG_CONFIG_HOME"/.Xauthority
 export ANDROID_HOME="$XDG_CONFIG_HOME/android"
 export GRADLE_USER_HOME="$XDG_CONFIG_HOME/gradle"
 export XCURSOR_PATH=/usr/share/icons:${XDG_DATA_HOME}/icons
@@ -44,6 +45,8 @@ export HISTFILE=$HOME/.config/history
 export TERMINAL=/bin/alacritty
 export QT_QPA_PLATFORMTHEME=gnome
 export QUOTE_PATH=$HOME/Documents/quotes
+export VPN_STATUS_PATH=$HOME/.config/umutsevdi/env/
+export WINEPREFIX="$XDG_DATA_HOME"/wine
 # sudo alternatives --config java
 
 # User specific aliases and functions
@@ -89,6 +92,7 @@ alias open='xdg-open "$(fzf)"'
 
 alias nvim='nvim --listen /tmp/nvim/$((`ls /tmp/nvim | tail -n 1`+1))'
 alias tmux="tmux -f $HOME/.dotfiles/tmux/.tmux.conf"
+alias vim='vim -u $HOME/.dotfiles/vim/.vimrc'
 
 # turns each folder under the src directory into a command that performs fuzzy-find
 # inside the directories

@@ -5,7 +5,7 @@ window:
     x: 5
     y: 5
   decorations: full
-  decorations_theme_variant: Dark
+# decorations_theme_variant: Dark
   title: Alacritty
 scrolling:
   history: 10000
