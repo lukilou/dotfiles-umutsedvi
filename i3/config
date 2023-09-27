@@ -50,15 +50,16 @@ workspace_layout tabbed
 
 exec --no-startup-id /usr/gnome-keyring-daemon --start --components=ssh,secrets,pkcs11
 exec --no-startup-id xinput set-prop "PNP0C50:0e 06CB:7E7E Touchpad" "libinput Tapping Enabled" 1
+exec --no-startup-id pickwp
 exec --no-startup-id touchegg
 exec --no-startup-id /usr/libexec/gsd-xsettings
 exec --no-startup-id /usr/libexec/goa-daemon --replace
 # requires beta
 exec --no-startup-id flatpak run ch.protonmail.protonmail-bridge --no-window
 exec --no-startup-id colorscheme --refresh
-exec --no-startup-id pickwp 
-exec --no-startup-id polybar main;
+exec --no-startup-id polybar main
 
+exec_always --no-startup-id pickwp --same
 # Following programs are restarted every time the wm is refreshed
 exec_always --no-startup-id killall conky
 exec_always --no-startup-id killall picom;picom -b --config ~/.dotfiles/picom/picom.conf  --experimental-backends 
@@ -247,9 +248,9 @@ bindsym Mod4+w mode "layout mode (w)stack | (e)split"
 
 bindsym Mod4+p mode "display mode: (1)auto | (2)extend-top | (3)extend-left | (4)set-primary | (5)set-secondary"
 mode "display mode: (1)auto | (2)extend-top | (3)extend-left | (4)set-primary | (5)set-secondary"  {
-        bindsym 1 exec xrandr --auto && pickwp --same
-        bindsym 2 exec xrandr --output $sm --above $pm && pickwp --same
-        bindsym 3 exec xrandr --output $pm --right-of $sm &&pickwp --same
+        bindsym 1 exec xrandr --auto
+        bindsym 2 exec xrandr --output $sm --above $pm
+        bindsym 3 exec xrandr --output $pm --right-of $sm
         bindsym 4 exec xrandr --output $pm --primary
         bindsym 5 exec xrandr --output $sm --primary
         bindsym Return mode "default"

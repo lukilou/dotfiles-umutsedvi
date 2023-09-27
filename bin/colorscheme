@@ -12,19 +12,23 @@
 color_value=`cat /tmp/.cs 2>/dev/null`
 [ "$color_value" = "" ] && color_value=true
 #  Prof-Gnome-Darker-3.6 
-GKT_THEME_LIB="Qogir-Light"
-GTK_THEME_LIGHT="Qogir-Light"
-GTK_THEME_DARK="Qogir-Dark"
+# GKT_THEME_LIB="Qogir-Light"
+# GTK_THEME_LIGHT="Qogir-Light"
+# GTK_THEME_DARK="Qogir-Dark"
+GTK_THEME_DOCK_LIGHT="Jasper-Compact"
+GTK_THEME_LIGHT="Jasper-Light-Compact"
+GTK_THEME_DARK="Jasper-Dark-Compact"
 
-CINNAMON_THEME_LIB="Qogir-Dark"
-CINNAMON_THEME_DOCK_LIGHT="Qogir-Dark"
-CINNAMON_THEME_LIGHT="Qogir"
-CINNAMON_THEME_DARK="Qogir-Dark"
+CINNAMON_THEME_DOCK_LIGHT="Jasper-Compact"
+CINNAMON_THEME_LIGHT="Jasper-Light-Compact"
+CINNAMON_THEME_DARK="Jasper-Dark-Compact"
 
-GTK_ICON_LIGHT="elementary"
-GTK_ICON_DARK="elementary"
-CINNAMON_ICON_LIGHT="elementary"
-CINNAMON_ICON_DARK="elementary"
+# GTK_ICON_LIGHT="elementary"
+# GTK_ICON_DARK="elementary"
+GTK_ICON_LIGHT="Pop-Extended"
+GTK_ICON_DARK="Pop-Extended-dark"
+CINNAMON_ICON_LIGHT="Pop-Extended"
+CINNAMON_ICON_DARK="Pop-Extended-dark"
 
 Help()
 {
@@ -69,7 +73,7 @@ SetTerminal()
 # i3 uses Gnome Server in the background
 SetI3()
 {
-    if [ "$is_dark" = true ]; then 
+    if [ "$is_dark" = true ]; then
         gtk_theme=$GTK_THEME_LIGHT
         gtk_icon=$GTK_ICON_LIGHT
         gnome_prefer="prefer-light"
@@ -82,7 +86,7 @@ SetI3()
 #    Libadwaita
     gsettings set org.gnome.desktop.interface gtk-theme "$gtk_theme"
     gsettings set org.gnome.desktop.interface icon-theme "$gtk_icon"
-    gsettings set org.mate.interface gtk-key-theme "$gtk_theme"
+#    gsettings set org.mate.interface gtk-key-theme "$gtk_theme"
     gsettings set org.gnome.desktop.interface color-scheme "$gnome_prefer"
 }
 
@@ -90,7 +94,7 @@ SetCinnamon()
 {
     if [ "$is_dark" = true ]; then 
         gtk_theme=$CINNAMON_THEME_LIGHT
-        dock_theme=$CINNAMON_THEME_DOCK_DARK
+        dock_theme=$CINNAMON_THEME_DOCK_LIGHT
         gtk_icon=$CINNAMON_ICON_LIGHT
         gnome_prefer="prefer-light"
     else
@@ -103,14 +107,13 @@ SetCinnamon()
 
     lib_theme=$GTK_THEME_LIB
 #    Libadwaita
-#    gsettings set org.cinnamon.desktop.interface.theme name "$dock_theme"
     gsettings set org.cinnamon.desktop.interface icon-theme "$gtk_icon"
     gsettings set org.cinnamon.desktop.interface gtk-theme "$gtk_theme"
     gsettings set org.cinnamon.desktop.interface gtk-key-theme "$gtk_theme"
 # gsettings set org.mate.wm.preferences theme "$dock_theme"
     gsettings set org.gnome.desktop.interface color-scheme "$gnome_prefer"
     gsettings set org.cinnamon.desktop.wm.preferences theme "$gtk_theme"
-    gsettings set org.cinnamon.theme name "$gtk_theme"
+    gsettings set org.cinnamon.theme name "$dock_theme"
 }
 
 for arg in $@;do

@@ -22,7 +22,7 @@ Fetch() {
     APT=`apt list --upgradable | tail -n +2 | grep ".*/" -o | tr -d "/"`
     _fp_raw=`flatpak update <<<  no`
     [[ `grep "Nothing to do"  <<< $_fp_raw` ]] && FLATPAK= || \
-    FLATPAK=`flatpak update <<<  no | tail -n +4 | head -n -2 | awk '{print $2}'`
+    FLATPAK=`echo "$_fp_raw" | tail -n +4 | head -n -2 | awk '{print $2}'`
     APT_N=$((`wc -l <<< "$APT"` - 1))
     FPK_N=$((`wc -l <<< "$FLATPAK"` - 1 ))
     UPDATE=$(( $FLATPAK_N + $APT_N ))
