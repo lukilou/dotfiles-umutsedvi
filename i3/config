@@ -62,8 +62,8 @@ exec --no-startup-id polybar main
 exec_always --no-startup-id pickwp --same
 # Following programs are restarted every time the wm is refreshed
 exec_always --no-startup-id killall conky
-exec_always --no-startup-id killall picom;picom -b --config ~/.dotfiles/picom/picom.conf  --experimental-backends 
-exec_always --no-startup-id killall dunst mate-notification-daemon;dunst -conf $HOME/.dotfiles/dunst/dunstrc
+exec_always --no-startup-id killall picom;picom -b --config ~/.dotfiles/config/picom.conf  --experimental-backends 
+exec_always --no-startup-id killall dunst mate-notification-daemon;dunst -conf $HOME/.dotfiles/config/dunst.conf
 # exec_always --no-startup-id polybar bottom & polybar main
 exec_always        --no-startup-id conky --config=$HOME/.dotfiles/conky/todo.rc --daemonize
 exec_always        --no-startup-id conky --config=$HOME/.dotfiles/conky/monitor.rc --daemonize

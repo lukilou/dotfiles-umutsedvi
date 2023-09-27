@@ -91,8 +91,8 @@ alias ff='x=$(fzf);cd $(dirname $x); nvim $(basename $x)'
 alias open='xdg-open "$(fzf)"'
 
 alias nvim='nvim --listen /tmp/nvim/$((`ls /tmp/nvim | tail -n 1`+1))'
-alias tmux="tmux -f $HOME/.dotfiles/tmux/.tmux.conf"
-alias vim='vim -u $HOME/.dotfiles/vim/.vimrc'
+alias tmux="tmux -f $HOME/.dotfiles/config/tmux.conf"
+alias vim='vim -u $HOME/.dotfiles/config/vimrc'
 
 # turns each folder under the src directory into a command that performs fuzzy-find
 # inside the directories
