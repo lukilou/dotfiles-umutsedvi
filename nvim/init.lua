@@ -137,6 +137,13 @@ require('packer').startup({
                 { 'rafamadriz/friendly-snippets' },
             }
         }
+        use {
+            'akinsho/flutter-tools.nvim',
+            requires = {
+                'nvim-lua/plenary.nvim',
+                'stevearc/dressing.nvim', -- optional for vim.ui.select
+            },
+        }
     end,
     config = {
         max_jobs = 30,
@@ -258,11 +265,12 @@ lsp.ensure_installed({
     'gopls',
     'grammarly',
     'html',
+    'templ',
     'jsonls',
     'jdtls',    -- Java
     'tsserver', -- JavaScript / Typescript
     'marksman',
---    'lua_ls',
+    'lua_ls',
     'perlnavigator',
     'pylsp',
     'rust_analyzer',
@@ -284,10 +292,9 @@ lsp.set_preferences({
         info = '🛈'
     }
 })
+require("flutter-tools").setup {} -- use defaults
 
-lsp.configure('clangd', {
-    cmd = { "clangd", "--fallback-style=Webkit" }
-})
+lsp.configure('clangd', { cmd = { "clangd", "--fallback-style=Webkit" } })
 
 lsp.setup()
 local cmp = require('cmp')
@@ -297,7 +304,6 @@ cmp.setup({
     mapping = {
         -- `Enter` key to confirm completion
         ['<CR>'] = cmp.mapping.confirm({ select = false }),
-
         -- Ctrl+Space to trigger completion menu
         ['<C-Space>'] = cmp.mapping.complete(),
 
@@ -335,52 +341,53 @@ vim.diagnostic.config({
 --  ╰──────────────────────────╯
 
 require("nvim-treesitter.configs").setup({
-  ensure_installed = {
-      "c",
-      "cmake",
-      "comment",
-      "cpp",
-      "dockerfile",
-      "go",
-      "gomod",
-      "gdscript",
-      "html",
-      "http",
-      "java",
-      "javascript",
-      "jsdoc",
-      "json",
-      "kotlin",
-      "latex",
-      "lua",
-      "make",
-      "perl",
-      "python",
-      "regex",
-      "ruby",
-      "rust",
-      "scheme",
-      "scss",
-      "svelte",
-      "todotxt",
-      "toml",
-      "tsx",
-      "typescript",
-      "vim",
-      "vue",
-      "yaml",
-  },
+    ensure_installed = {
+        "c",
+        "cmake",
+        "comment",
+        "cpp",
+        "dart",
+        "dockerfile",
+        "go",
+        "gomod",
+        "gdscript",
+        "html",
+        "http",
+        "java",
+        "javascript",
+        "jsdoc",
+        "json",
+        "kotlin",
+        "latex",
+        --        "lua",
+        "make",
+        "perl",
+        "python",
+        "regex",
+        "ruby",
+        "rust",
+        "scheme",
+        "scss",
+        "svelte",
+        "todotxt",
+        "toml",
+        "tsx",
+        "typescript",
+        "vim",
+        "vue",
+        "yaml",
+    },
     sync_install = false,
     ignore_install = {},
     highlight = {
         enable = true,
         use_languagetree = false,
         -- list of language that will be disabled
-        disable = function(_, bufnr)
-          -- neovim get size of buffer
-          local file_size = vim.fn.getfsize(vim.fn.bufname(bufnr))
-          return file_size > 5000
-        end,
+        --      disable = function(_, bufnr)
+        --          -- neovim get size of buffer
+        --          local file_size = vim.fn.getfsize(vim.fn.bufname(bufnr))
+        --          return file_size > 9000
+        --        end,
         -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
         -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
         -- Using this option may slow down your editor, and you may see some duplicate highlights.
@@ -433,8 +440,8 @@ require("sniprun").setup({
 --  ╰───────────────────────╯
 -- Reads current color value
 local function get_color()
-    local gsettings = assert(
-        io.popen('/usr/bin/gsettings get org.gnome.desktop.interface color-scheme ', 'r'))
+    local gsettings = assert(io
+        .popen('/usr/bin/gsettings get org.gnome.desktop.interface color-scheme ', 'r'))
     local v = gsettings:read('*all'):gsub("\n", ""):gsub("'", "")
     gsettings:close()
     return v == "prefer-dark"
@@ -443,7 +450,7 @@ end
 -- Replaces the background color based on argument.
 -- If true switches to dark mode
 -- Else switches to light mode
-function SetColors()
+function set_colors()
     if get_color() then
         vim.cmd [[ set background=dark ]]
     else
@@ -454,34 +461,34 @@ end
 --  ╭───────╮
 --  │ Theme │
 --  ╰───────╯
-    require('kanagawa').setup({
-        compile = true,   -- enable compiling the colorscheme
-        undercurl = true, -- enable undercurls
-        commentStyle = { italic = true },
-        functionStyle = { bold = true, italic = true },
-        keywordStyle = { italic = false, bold = true },
-        statementStyle = { bold = false, italic = true },
-        string = { italic = true },
-        typeStyle = { bold = true },
-        transparent = true,    -- do not set background color
-        dimInactive = false,   -- dim inactive window `:h hl-NormalNC`
-        terminalColors = true, -- define vim.g.terminal_color_{0,17}
-        colors = {             -- add/modify theme and palette colors
-            palette = {},
-            theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
-        },
-        theme = "wave",    -- Load "wave" theme when 'background' option is not set
-        background = {     -- map the value of 'background' option to a theme
-            dark = "wave", -- try "dragon" !
-            light = "lotus"
-        },
-    })
+require('kanagawa').setup({
+    compile = true,   -- enable compiling the colorscheme
+    undercurl = true, -- enable undercurls
+    commentStyle = { italic = true },
+    functionStyle = { bold = true, italic = true },
+    keywordStyle = { italic = false, bold = true },
+    statementStyle = { bold = false, italic = true },
+    string = { italic = true },
+    typeStyle = { bold = true },
+    transparent = true,    -- do not set background color
+    dimInactive = false,   -- dim inactive window `:h hl-NormalNC`
+    terminalColors = true, -- define vim.g.terminal_color_{0,17}
+    colors = {             -- add/modify theme and palette colors
+        palette = {},
+        theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
+    },
+    theme = "wave",    -- Load "wave" theme when 'background' option is not set
+    background = {     -- map the value of 'background' option to a theme
+        dark = "wave", -- try "dragon" !
+        light = "lotus"
+    },
+})
 
 
-    vim.cmd([[colorscheme kanagawa-lotus]])
+vim.cmd([[colorscheme kanagawa-lotus]])
 --  vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 --  vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-SetColors()
+set_colors()
 
 --  ╭───────────────────────────────────────────────╮
 --  │ if NERDTree is the only window left remove it │
@@ -634,10 +641,10 @@ vim.g.tagbar_scopestrs = {
 -- ╰───────────────────╯
 -- Change vim window focus
 vim.cmd([[
-map <C-h> <C-w>h
-map <C-l> <C-w>l
-map <C-j> <C-w>j
-map <C-k> <C-w>k
+" map <C-h> <C-w>h
+" map <C-l> <C-w>l
+" map <C-j> <C-w>j
+" map <C-k> <C-w>k
 " Tabs
 " Move around tabs
 map <silent> <A-h> :tabprevious<CR>
@@ -653,8 +660,6 @@ map <silent> <A-0> :tablast<cr>
 vim.keymap.set("n", "qq", ":q!<CR>")
 --quit after saving
 vim.keymap.set("n", "qw", ":wq<CR>")
---source $MYVIMRC
-vim.keymap.set("n", "<leader>ss", ":source $MYVIMRC<CR>")
 -- tab management
 vim.keymap.set("n", "<A-n>", ":tabnew .<CR>")
 vim.keymap.set("n", "<A-t>", ":vsplit .<CR>")
@@ -709,7 +714,6 @@ vim.keymap.set("v", "rr", ":SnipRun <CR>")
 --  ╭────────────────╮
 --  │ Code Formatter │
 --  ╰────────────────╯
-vim.keymap.set("n", "<A-f>", ":lua vim.lsp.buf.format() <CR>")
 vim.keymap.set("n", "<A-f>", ":lua vim.lsp.buf.format() <CR>")
 -- Code actions
 vim.keymap.set("n", "<A-q>", ":lua vim.lsp.buf.code_action() <CR>")

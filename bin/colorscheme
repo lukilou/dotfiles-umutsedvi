@@ -12,12 +12,12 @@
 color_value=`cat /tmp/.cs 2>/dev/null`
 [ "$color_value" = "" ] && color_value=true
 #  Prof-Gnome-Darker-3.6 
-# GKT_THEME_LIB="Qogir-Light"
-# GTK_THEME_LIGHT="Qogir-Light"
-# GTK_THEME_DARK="Qogir-Dark"
-GTK_THEME_DOCK_LIGHT="Jasper-Compact"
-GTK_THEME_LIGHT="Jasper-Light-Compact"
-GTK_THEME_DARK="Jasper-Dark-Compact"
+GTK_THEME_LIB="Qogir-Light"
+GTK_THEME_LIGHT="Qogir-Light"
+GTK_THEME_DARK="Qogir-Dark"
+#    GTK_THEME_DOCK_LIGHT="Jasper-Compact"
+#    GTK_THEME_LIGHT="Jasper-Light-Compact"
+#    GTK_THEME_DARK="Jasper-Dark-Compact"
 
 CINNAMON_THEME_DOCK_LIGHT="Jasper-Compact"
 CINNAMON_THEME_LIGHT="Jasper-Light-Compact"
@@ -88,6 +88,7 @@ SetI3()
     gsettings set org.gnome.desktop.interface icon-theme "$gtk_icon"
 #    gsettings set org.mate.interface gtk-key-theme "$gtk_theme"
     gsettings set org.gnome.desktop.interface color-scheme "$gnome_prefer"
+    gsettings set org.x.apps.portal color-scheme "$gnome_prefer"
 }
 
 SetCinnamon()
@@ -114,6 +115,7 @@ SetCinnamon()
     gsettings set org.gnome.desktop.interface color-scheme "$gnome_prefer"
     gsettings set org.cinnamon.desktop.wm.preferences theme "$gtk_theme"
     gsettings set org.cinnamon.theme name "$dock_theme"
+    gsettings set org.x.apps.portal color-scheme "$gnome_prefer"
 }
 
 for arg in $@;do

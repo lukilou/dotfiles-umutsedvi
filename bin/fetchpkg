@@ -51,7 +51,7 @@ DisplayUi() {
     PKG=$UPDATE/`sh -c 'apt list --installed' | wc -l`
     if (( $UPDATE > 5 )); then
         clicked=`notify-send --app-name="Package Manager" --category="Package Manager" \
-            "Package Manager" "There are $UPDATE updates available." --icon="software-update-available" \
+            "Package Manager" "There are $UPDATE updates available." --icon="system-software-update" \
             --action="[ACTION]action"`
         [ "0" = "$clicked" ] && Update
         echo " 󱧘  $PKG "

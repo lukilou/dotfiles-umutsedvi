@@ -8,5 +8,5 @@ file:///home/umutsevdi/src Source
 file:///home/umutsevdi/src/dev Development
 file:///home/umutsevdi/src/build Build
 file:///home/umutsevdi/src/playground Playground
-sftp://pi@192.168.1.10/home/pi Pi
-sftp://root@remote.umutsevdi.com umutsevdi.com
+file:///home/umutsevdi/src/dev/smartwatch/build/src src
+sftp://pi@home.local/home/pi pi

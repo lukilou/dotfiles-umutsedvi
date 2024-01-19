@@ -14,7 +14,10 @@
 exec --no-startup-id dex --autostart --environment i3
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- lockscreen --nofork
+
+# lockscreen command already exists so no longer needed
+
+# exec --no-startup-id xss-lock --transfer-sleep-lock -- lockscreen --nofork
 # move tiling windows via drag & drop by left-clicking into the title bar,
 # or left-clicking anywhere into the window while holding the floating modifier.
 

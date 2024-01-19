@@ -20,7 +20,7 @@ conky.config = {
     own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
     alignment = 'bottom_left',
     gap_x = 35,
-    gap_y = 35,
+    gap_y = 25,
 
 -- Text settings
     use_xft = true,
@@ -47,6 +47,6 @@ ${color0}${font1}${font BlexMonoNerdFont:size=9}${execpi 10 td --pending --color
 | sed "s/00:00//g" | sed "s/      //"  | sed "s/`date \"+%a, %d %b\"`//g" }
 ${color1}
 ${font IBMPlexSans:bold:size=18}${color1}Done$hr${color0}${font1}
-${color0}${font BlexMonoNerdFont:size=9}${execpi 10 echo \
-"`td --expired --color=false --nerd=true`\n`td --done  --color=false --nerd=true`" \
+${color0}${font BlexMonoNerdFont:size=9}${execpi 10 echo -e \
+"`td --expired --color=false --nerd=true 1`\n`td --done  --color=false --nerd=true`" \
 | sort -u |  sed "s/ |//g" | sed "s/00:00//g" | sed "s/      //"  |  sed "s/`date \"+%a, %d %b\"`//g" }]];
