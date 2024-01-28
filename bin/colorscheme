@@ -11,24 +11,12 @@
 
 color_value=`cat /tmp/.cs 2>/dev/null`
 [ "$color_value" = "" ] && color_value=true
-#  Prof-Gnome-Darker-3.6 
-GTK_THEME_LIB="Qogir-Light"
-GTK_THEME_LIGHT="Qogir-Light"
-GTK_THEME_DARK="Qogir-Dark"
-#    GTK_THEME_DOCK_LIGHT="Jasper-Compact"
-#    GTK_THEME_LIGHT="Jasper-Light-Compact"
-#    GTK_THEME_DARK="Jasper-Dark-Compact"
+GTK_THEME_DOCK_LIGHT="Jasper-Compact"
+GTK_THEME_LIGHT="Jasper-Light-Compact"
+GTK_THEME_DARK="Jasper-Dark-Compact"
 
-CINNAMON_THEME_DOCK_LIGHT="Jasper-Compact"
-CINNAMON_THEME_LIGHT="Jasper-Light-Compact"
-CINNAMON_THEME_DARK="Jasper-Dark-Compact"
-
-# GTK_ICON_LIGHT="elementary"
-# GTK_ICON_DARK="elementary"
-GTK_ICON_LIGHT="Pop-Extended"
-GTK_ICON_DARK="Pop-Extended-dark"
-CINNAMON_ICON_LIGHT="Pop-Extended"
-CINNAMON_ICON_DARK="Pop-Extended-dark"
+GTK_ICON_LIGHT="Adwaita" #"Pop-Extended"
+GTK_ICON_DARK="Adwaita" #"Pop-Extended"
 
 Help()
 {
@@ -67,11 +55,10 @@ SetTerminal()
         cat $HOME/.dotfiles/alacritty/base.yaml $HOME/.dotfiles/alacritty/dark.yaml > $HOME/.config/alacritty/alacritty.yml
     fi
     # Change themes of all actively running NeoVim instances
-    for i in `ls /tmp/nvim/`; do nvim --server /tmp/nvim/$i --remote-send ":lua SetColors() <CR>" > /dev/null; done
+    for i in `ls /tmp/nvim/`; do nvim --server /tmp/nvim/$i --remote-send ":lua set_colors() <CR>" > /dev/null; done
 }
 
-# i3 uses Gnome Server in the background
-SetI3()
+SetAll()
 {
     if [ "$is_dark" = true ]; then
         gtk_theme=$GTK_THEME_LIGHT
@@ -83,7 +70,6 @@ SetI3()
         gnome_prefer="prefer-dark"
     fi
     lib_theme=$GTK_THEME_LIB
-#    Libadwaita
     gsettings set org.gnome.desktop.interface gtk-theme "$gtk_theme"
     gsettings set org.gnome.desktop.interface icon-theme "$gtk_icon"
 #    gsettings set org.mate.interface gtk-key-theme "$gtk_theme"
@@ -147,7 +133,7 @@ case $XDG_CURRENT_DESKTOP in
         SetCinnamon
         ;;
     *)
-        SetI3
+        SetAll
         ;;
 esac
 SetTerminal &

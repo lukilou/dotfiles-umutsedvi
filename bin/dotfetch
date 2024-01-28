@@ -28,13 +28,8 @@ Fetch()
     cd $HOME/.config
     rm -rf $HOME/.config/autostart/
     cp -r $HOME/.dotfiles/autostart/ $HOME/.config/
-    rm -rf i3 polybar conky
-    echo "package.path = package.path .. ';$HOME/.dotfiles/nvim/?.lua;$HOME/.dotfiles/nvim/pkg/?.lua'
-vim.cmd('source /home/umutsevdi/.dotfiles/nvim/init.lua')" > ~/.config/nvim/init.lua
     cp $HOME/.NERDTreeBookmarks $HOME/.dotfiles/nvim/
     cp -r $HOME/.dotfiles/config/bookmarks $HOME/.config/gtk-3.0/
-    cp -r $HOME/.dotfiles/i3 $HOME/.config/
-    cp -r $HOME/.dotfiles/polybar $HOME/.config/
     cp -r $HOME/.dotfiles/.bashrc $HOME/.bashrc
     [ "$root" = true ] && sudo cp $HOME/.dotfiles/.bashrc /root/.bashrc
     i3-msg restart

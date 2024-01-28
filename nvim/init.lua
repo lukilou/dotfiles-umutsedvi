@@ -117,21 +117,19 @@ require('packer').startup({
         use { 'michaelb/sniprun', run = 'bash install.sh', } -- instant code runner
         use {
             'VonHeikemen/lsp-zero.nvim',
+            branch = 'v3.x',
             requires = {
-                -- LSP Support
-                { 'neovim/nvim-lspconfig' },
+                --- Uncomment the two plugins below if you want to manage the language servers from neovim
                 { 'williamboman/mason.nvim' },
                 { 'williamboman/mason-lspconfig.nvim' },
 
+                -- LSP Support
+                { 'neovim/nvim-lspconfig' },
                 -- Autocompletion
                 { 'hrsh7th/nvim-cmp' },
-                { 'hrsh7th/cmp-buffer' },
-                { 'hrsh7th/cmp-path' },
-                { 'saadparwaiz1/cmp_luasnip' },
                 { 'hrsh7th/cmp-nvim-lsp' },
-                { 'hrsh7th/cmp-nvim-lua' },
-
-                -- Snippets
+                { 'L3MON4D3/LuaSnip' },
+                --              -- Snippets
                 { 'L3MON4D3/LuaSnip' },
                 { 'honza/vim-snippets' },
                 { 'rafamadriz/friendly-snippets' },
@@ -241,43 +239,48 @@ require("lualine").setup({
     tabline = {},
     extensions = {},
 })
-vim.opt.signcolumn = 'yes' -- Reserve space for diagnostic icons
-local lsp = require('lsp-zero').preset({})
+vim.opt.signcolumn = 'yes'        -- Reserve space for diagnostic icons
 
-lsp.on_attach(function(client, bufnr)
-    -- see :help lsp-zero-keybindings
-    -- to learn the available actions
-    lsp.default_keymaps({
+require("flutter-tools").setup {} -- use defaults
+
+local lsp_zero = require('lsp-zero')
+lsp_zero.on_attach(function(client, bufnr)
+    lsp_zero.default_keymaps({
+        -- see :help lsp-zero-keybindings
+        -- to learn the available actions
         buffer = bufnr,
         preserve_mappings = false
     })
 end)
 
-lsp.ensure_installed({
-    'bashls',
-    'clangd',
-    'cmake',
-    'cssls',
-    'dockerls',
-    'docker_compose_language_service',
-    'eslint',
-    'diagnosticls',
-    'gopls',
-    'grammarly',
-    'html',
-    'templ',
-    'jsonls',
-    'jdtls',    -- Java
-    'tsserver', -- JavaScript / Typescript
-    'marksman',
-    'lua_ls',
-    'perlnavigator',
-    'pylsp',
-    'rust_analyzer',
-    'yamlls',
-})
-lsp.nvim_workspace()
-lsp.set_preferences({
+
+require('mason').setup({})
+require('mason-lspconfig').setup {
+    ensure_installed = {
+        'bashls',
+        'clangd',
+        'cmake',
+        'cssls',
+        'diagnosticls',
+        'docker_compose_language_service',
+        'dockerls',
+        'gopls',
+        'grammarly',
+        'html',
+        'jdtls',
+        'jsonls',
+        'lua_ls',
+        'marksman',
+        'perlnavigator',
+        'pyre',
+        'templ',
+        'tsserver', -- JavaScript / Typescript
+        'yamlls',
+    },
+    handlers = { lsp_zero.default_setup },
+}
+
+lsp_zero.set_preferences({
     suggest_lsp_servers = true,
     setup_servers_on_start = true,
     set_lsp_keymaps = true,
@@ -292,25 +295,20 @@ lsp.set_preferences({
         info = '🛈'
     }
 })
-require("flutter-tools").setup {} -- use defaults
+lsp_zero.configure('clangd', { cmd = { "clangd", "--fallback-style=Webkit" } })
+lsp_zero.setup()
 
-lsp.configure('clangd', { cmd = { "clangd", "--fallback-style=Webkit" } })
-
-lsp.setup()
 local cmp = require('cmp')
 local cmp_action = require('lsp-zero').cmp_action()
 
 cmp.setup({
-    mapping = {
-        -- `Enter` key to confirm completion
-        ['<CR>'] = cmp.mapping.confirm({ select = false }),
-        -- Ctrl+Space to trigger completion menu
+    mapping = cmp.mapping.preset.insert({
+        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<C-Space>'] = cmp.mapping.complete(),
-
-        -- Navigate between snippet placeholder
-        ['<C-f>'] = cmp_action.luasnip_jump_forward(),
-        ['<C-b>'] = cmp_action.luasnip_jump_backward(),
-    }
+        ['<C-e>'] = cmp.mapping.abort(),
+        ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    }),
 })
 
 
@@ -359,7 +357,7 @@ require("nvim-treesitter.configs").setup({
         "json",
         "kotlin",
         "latex",
-        --        "lua",
+        "lua",
         "make",
         "perl",
         "python",
@@ -376,23 +374,6 @@ require("nvim-treesitter.configs").setup({
         "vim",
         "vue",
         "yaml",
-    },
-    sync_install = false,
-    ignore_install = {},
-    highlight = {
-        enable = true,
-        use_languagetree = false,
-        -- list of language that will be disabled
-        --      disable = function(_, bufnr)
-        --          -- neovim get size of buffer
-        --          local file_size = vim.fn.getfsize(vim.fn.bufname(bufnr))
-        --          return file_size > 9000
-        --        end,
-        -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-        -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-        -- Using this option may slow down your editor, and you may see some duplicate highlights.
-        -- Instead of true it can also be a list of languages
-        additional_vim_regex_highlighting = false,
     },
 })
 
@@ -543,9 +524,11 @@ require('gitsigns').setup {
 --  │ Snippet Configuration │
 --  ╰───────────────────────╯
 require("luasnip.loaders.from_vscode").lazy_load()
-require("luasnip.loaders.from_snipmate").lazy_load({ paths = { "~/.dotfiles/nvim/snippets/" } })
 require("luasnip.loaders.from_snipmate").lazy_load({
-    paths = { "~/.local/share/nvim/site/pack/packer/start/vim-snippets/" } })
+    paths = {
+        "~/.dotfiles/nvim/snippets/",
+        "~/.local/share/nvim/site/pack/packer/start/vim-snippets/" }
+})
 
 
 --  ╭─────────╮

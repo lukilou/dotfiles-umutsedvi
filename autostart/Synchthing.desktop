@@ -4,6 +4,7 @@ Exec=flatpak run me.kozec.syncthingtk -m
 X-GNOME-Autostart-enabled=true
 NoDisplay=false
 Hidden=false
+Icon=synchthing
 Name[en_US]=Synchthing
 Comment[en_US]=No description
 X-GNOME-Autostart-Delay=0

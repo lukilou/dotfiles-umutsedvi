@@ -102,7 +102,7 @@ fi
 export GOPATH=$HOME/.config/go
 export JAVA_HOME="$(ls /lib/jvm | grep java-11-openjdk.)"
 export DOT_PATH=$HOME/.dotfiles/bin
-export FLUTTER_PATH=$HOME/.local/share/bin/flutter/bin
+export FLUTTER_PATH=$HOME/.local/bin/flutter/bin
 export PATH="/sbin:$JAVA_HOME:$GOPATH/bin:$GOROOT/bin:$DOT_PATH::$FLUTTER_PATH:$PATH"
 
 
@@ -110,10 +110,12 @@ export EDITOR=~/.local/share/nvim-linux64/bin/nvim
 export TODO_DB_PATH=$HOME/.config/shared/todo.json
 
 alias wget=wget --hsts-file="$HOME/.config/.wget-hsts"
+export CHROME_EXECUTABLE=firefox
 export QT_QPA_PLATFORMTHEME=gnome
 export LESSHISTFILE=$HOME/.config/.lesshst
-export XDG_DATA_HOME=$HOME/.local/share/
-export XDG_CONFIG_HOME=$HOME/.config/
+export GTK2_RC_FILES="$XDG_CONFIG_HOME"/gtk-2.0/gtkrc
+export XDG_DATA_HOME=$HOME/.local/share
+export XDG_CONFIG_HOME=$HOME/.config
 export XDG_STATE_HOME=$HOME/.local/state
 export XDG_CACHE_HOME=$HOME/.cache
 export XAUTHORITY="$XDG_CONFIG_HOME"/.Xauthority
@@ -151,7 +153,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 alias ff='x=$(fzf);cd $(dirname $x); nvim $(basename $x)'
 alias open='xdg-open "$(fzf)"'
 
-alias nvim='nvim --listen /tmp/nvim/$((`ls /tmp/nvim | tail -n 1`+1))'
+alias nvim='nvim -u ~/.dotfiles/nvim/init.lua --listen /tmp/nvim/$((`ls /tmp/nvim | tail -n 1`+1))'
 alias tmux="tmux -f $HOME/.dotfiles/config/tmux.conf"
 alias vim='vim -u $HOME/.dotfiles/config/vimrc'
 
@@ -172,6 +174,13 @@ alias v=vim
 alias n=nvim
 alias nivm=nvim
 alias cs=colorscheme
+
+if [ "$XDG_SESSION_TYPE" == "wayland" ]; then
+    # Wayland is enabled, export environment variables
+    export GDK_BACKEND="wayland,x11"
+    export WAYLAND_DISPLAY="wayland-0"
+    export DISPLAY="wayland-0"
+fi
 
 # ┌──────────────────────┐
 # │       Setup PS1      │

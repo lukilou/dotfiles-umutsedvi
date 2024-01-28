@@ -1,5 +1,6 @@
 [Desktop Entry]
 Type=Application
+Icon=geary
 Exec=geary --gapplication-service
 X-GNOME-Autostart-enabled=true
 NoDisplay=false
