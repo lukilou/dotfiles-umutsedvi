@@ -106,7 +106,11 @@ export FLUTTER_PATH=$HOME/.local/bin/flutter/bin
 export PATH="/sbin:$JAVA_HOME:$GOPATH/bin:$GOROOT/bin:$DOT_PATH::$FLUTTER_PATH:$PATH"
 
 
-export EDITOR=~/.local/share/nvim-linux64/bin/nvim
+# Generate the neovim directory for the color changes
+mkdir /tmp/nvim  2>/dev/null
+
+alias nvim="nvim -u ~/.dotfiles/nvim/init.lua --listen /tmp/nvim/$((`ls /tmp/nvim | tail -n 1`+1))"
+export EDITOR=nvim
 export TODO_DB_PATH=$HOME/.config/shared/todo.json
 
 alias wget=wget --hsts-file="$HOME/.config/.wget-hsts"
@@ -134,9 +138,6 @@ unset rc
 [[ $- != *i* ]] && return
 [[ $- == *i* ]] && source "/home/umutsevdi/.fzf/shell/completion.bash" 2> /dev/null
 
-# Generate the neovim directory for the color changes
-mkdir /tmp/nvim  2>/dev/null
-
 # ┌──────────────────────┐
 # │       Aliases        │
 # └──────────────────────┘
@@ -153,7 +154,6 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 alias ff='x=$(fzf);cd $(dirname $x); nvim $(basename $x)'
 alias open='xdg-open "$(fzf)"'
 
-alias nvim='nvim -u ~/.dotfiles/nvim/init.lua --listen /tmp/nvim/$((`ls /tmp/nvim | tail -n 1`+1))'
 alias tmux="tmux -f $HOME/.dotfiles/config/tmux.conf"
 alias vim='vim -u $HOME/.dotfiles/config/vimrc'
 
@@ -188,7 +188,7 @@ fi
 ps_t="\[\e[34;1m\]\t"
 ps_dir="\[\e[33;3m\]\W"
 ps_git="\[\e[;0m\]\[\e[33;3m\]\$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/')"
-ps_arrow=" → \[\e[39;0m\]"
+ps_arrow="$ \[\e[39;0m\]"
 export PS1="$ps_t $ps_dir$ps_git $ps_arrow"
 $HOME/.dotfiles/bin/pots
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash

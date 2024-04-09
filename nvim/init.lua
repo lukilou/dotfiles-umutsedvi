@@ -110,10 +110,10 @@ require('packer').startup({
         use { 'nvim-treesitter/nvim-treesitter',
             run = ':TSUpdate'
         } -- syntax highlighting
-        use { 'instant-markdown/vim-instant-markdown',
-            run = 'yarn install',
-            ft = 'markdown'
-        }                                                    -- live markdown renderer server
+        use({
+            "iamcco/markdown-preview.nvim",
+            run = function() vim.fn["mkdp#util#install"]() end,
+        })
         use { 'michaelb/sniprun', run = 'bash install.sh', } -- instant code runner
         use {
             'VonHeikemen/lsp-zero.nvim',
@@ -127,20 +127,14 @@ require('packer').startup({
                 { 'neovim/nvim-lspconfig' },
                 -- Autocompletion
                 { 'hrsh7th/nvim-cmp' },
+                { 'saadparwaiz1/cmp_luasnip' },
                 { 'hrsh7th/cmp-nvim-lsp' },
-                { 'L3MON4D3/LuaSnip' },
-                --              -- Snippets
+
+                -- Snippets
                 { 'L3MON4D3/LuaSnip' },
                 { 'honza/vim-snippets' },
                 { 'rafamadriz/friendly-snippets' },
             }
-        }
-        use {
-            'akinsho/flutter-tools.nvim',
-            requires = {
-                'nvim-lua/plenary.nvim',
-                'stevearc/dressing.nvim', -- optional for vim.ui.select
-            },
         }
     end,
     config = {
@@ -239,9 +233,7 @@ require("lualine").setup({
     tabline = {},
     extensions = {},
 })
-vim.opt.signcolumn = 'yes'        -- Reserve space for diagnostic icons
-
-require("flutter-tools").setup {} -- use defaults
+vim.opt.signcolumn = 'yes' -- Reserve space for diagnostic icons
 
 local lsp_zero = require('lsp-zero')
 lsp_zero.on_attach(function(client, bufnr)
@@ -255,7 +247,7 @@ end)
 
 
 require('mason').setup({})
-require('mason-lspconfig').setup {
+local lspconfig = require('mason-lspconfig').setup {
     ensure_installed = {
         'bashls',
         'clangd',
@@ -295,22 +287,40 @@ lsp_zero.set_preferences({
         info = '🛈'
     }
 })
-lsp_zero.configure('clangd', { cmd = { "clangd", "--fallback-style=Webkit" } })
+require('lspconfig').clangd.setup(
+    { cmd = { "clangd", "--clang-tidy" } }
+)
+
 lsp_zero.setup()
 
 local cmp = require('cmp')
 local cmp_action = require('lsp-zero').cmp_action()
 
+require("luasnip.loaders.from_vscode").lazy_load()
+require("luasnip.loaders.from_snipmate").lazy_load({
+    paths = { "~/.dotfiles/nvim/snippets/",
+        "~/.local/share/nvim/site/pack/packer/start/vim-snippets/" }
+})
+
 cmp.setup({
+    sources = {
+        { name = 'nvim_lsp' },
+        { name = 'luasnip' },
+        { name = 'path' },
+        { name = 'buffer' },
+    },
     mapping = cmp.mapping.preset.insert({
-        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-f>'] = cmp_action.luasnip_jump_forward(),
+        ['<C-b>'] = cmp_action.luasnip_jump_backward(),
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.abort(),
         ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     }),
 })
 
+--  ╭───────────────────────╮
+--  │ Snippet Configuration │
+--  ╰───────────────────────╯
 
 vim.diagnostic.config({
     --    virtual_text = true,
@@ -337,6 +347,13 @@ vim.diagnostic.config({
 --  ╭──────────────────────────╮
 --  │ Treesitter Language List │
 --  ╰──────────────────────────╯
+
+require 'nvim-treesitter.configs'.setup {
+    highlight = {
+        enable = true,
+        additional_vim_regex_highlighting = false,
+    },
+}
 
 require("nvim-treesitter.configs").setup({
     ensure_installed = {
@@ -420,19 +437,21 @@ require("sniprun").setup({
 --  │ Color scheme settings │
 --  ╰───────────────────────╯
 -- Reads current color value
-local function get_color()
-    local gsettings = assert(io
-        .popen('/usr/bin/gsettings get org.gnome.desktop.interface color-scheme ', 'r'))
-    local v = gsettings:read('*all'):gsub("\n", ""):gsub("'", "")
-    gsettings:close()
-    return v == "prefer-dark"
+function GetColor()
+    local handle = io.popen("/usr/bin/gsettings get org.gnome.desktop.interface color-scheme")
+    if handle == nil then
+        return false
+    end
+    local result = handle:read("*a") -- Read all output
+    handle:close()
+    return string.find(result, "prefer-dark", 1, true) ~= nil
 end
 
 -- Replaces the background color based on argument.
 -- If true switches to dark mode
 -- Else switches to light mode
-function set_colors()
-    if get_color() then
+function SetColors()
+    if GetColor() then
         vim.cmd [[ set background=dark ]]
     else
         vim.cmd [[ set background=light ]]
@@ -449,7 +468,6 @@ require('kanagawa').setup({
     functionStyle = { bold = true, italic = true },
     keywordStyle = { italic = false, bold = true },
     statementStyle = { bold = false, italic = true },
-    string = { italic = true },
     typeStyle = { bold = true },
     transparent = true,    -- do not set background color
     dimInactive = false,   -- dim inactive window `:h hl-NormalNC`
@@ -466,10 +484,10 @@ require('kanagawa').setup({
 })
 
 
-vim.cmd([[colorscheme kanagawa-lotus]])
+vim.cmd([[colorscheme kanagawa-wave]])
 --  vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 --  vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-set_colors()
+SetColors()
 
 --  ╭───────────────────────────────────────────────╮
 --  │ if NERDTree is the only window left remove it │
@@ -483,20 +501,9 @@ vim.g.NERDTreeDirArrowCollapsible = ""
 --  ╭─────────────────────────────────────╮
 --  │ vim instant markdown configurations │
 --  ╰─────────────────────────────────────╯
-vim.filetype.plugin = true
---Uncomment to override defaults:
-vim.g.instant_markdown_slow = 1
-vim.g.instant_markdown_autostart = 0
---vim.g.instant_markdown_open_to_the_world = 1
---vim.g.instant_markdown_allow_unsafe_content = 1
-vim.g.instant_markdown_allow_external_content = 1
---vim.g.instant_markdown_mathjax = 1
---vim.g.instant_markdown_mermaid = 1
---vim.g.instant_markdown_logfile = '/tmp/instant_markdown.log'
-vim.g.instant_markdown_autoscroll = 1
---vim.g.instant_markdown_port = 8888
---vim.g.instant_markdown_python = 1
-vim.g.instant_markdown_browser = "epiphany"
+vim.g.mkdp_browser = "epiphany"
+vim.g.mkdp_filetypes = { 'markdown' }
+vim.g.mkdp_refresh_slow = 1
 
 --  ╭─────────────────╮
 --  │ GitSigns Config │
@@ -520,16 +527,6 @@ require('gitsigns').setup {
         follow_files = true
     },
 }
---  ╭───────────────────────╮
---  │ Snippet Configuration │
---  ╰───────────────────────╯
-require("luasnip.loaders.from_vscode").lazy_load()
-require("luasnip.loaders.from_snipmate").lazy_load({
-    paths = {
-        "~/.dotfiles/nvim/snippets/",
-        "~/.local/share/nvim/site/pack/packer/start/vim-snippets/" }
-})
-
 
 --  ╭─────────╮
 --  │ Trouble │

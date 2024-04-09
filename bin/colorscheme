@@ -11,12 +11,12 @@
 
 color_value=`cat /tmp/.cs 2>/dev/null`
 [ "$color_value" = "" ] && color_value=true
-GTK_THEME_DOCK_LIGHT="Jasper-Compact"
-GTK_THEME_LIGHT="Jasper-Light-Compact"
-GTK_THEME_DARK="Jasper-Dark-Compact"
+GTK_THEME_DOCK_LIGHT="Jasper-Purple-Compact"
+GTK_THEME_LIGHT="Jasper-Purple-Light-Compact"
+GTK_THEME_DARK="Jasper-Purple-Dark-Compact"
 
-GTK_ICON_LIGHT="Adwaita" #"Pop-Extended"
-GTK_ICON_DARK="Adwaita" #"Pop-Extended"
+GTK_ICON_LIGHT="Yaru-sage-dark" #"Pop-Extended"
+GTK_ICON_DARK="Yaru-sage-dark" #"Pop-Extended"
 
 Help()
 {
@@ -55,7 +55,7 @@ SetTerminal()
         cat $HOME/.dotfiles/alacritty/base.yaml $HOME/.dotfiles/alacritty/dark.yaml > $HOME/.config/alacritty/alacritty.yml
     fi
     # Change themes of all actively running NeoVim instances
-    for i in `ls /tmp/nvim/`; do nvim --server /tmp/nvim/$i --remote-send ":lua set_colors() <CR>" > /dev/null; done
+    for i in `ls /tmp/nvim/`; do nvim --server /tmp/nvim/$i --remote-send ":lua SetColors() <CR>" > /dev/null; done
 }
 
 SetAll()
@@ -70,38 +70,12 @@ SetAll()
         gnome_prefer="prefer-dark"
     fi
     lib_theme=$GTK_THEME_LIB
+    gsettings set org.gnome.desktop.wm.preferences theme "$gtk_theme"
     gsettings set org.gnome.desktop.interface gtk-theme "$gtk_theme"
     gsettings set org.gnome.desktop.interface icon-theme "$gtk_icon"
-#    gsettings set org.mate.interface gtk-key-theme "$gtk_theme"
+    gsettings set org.gnome.shell.extensions.user-theme name "$gtk_theme"
     gsettings set org.gnome.desktop.interface color-scheme "$gnome_prefer"
-    gsettings set org.x.apps.portal color-scheme "$gnome_prefer"
-}
-
-SetCinnamon()
-{
-    if [ "$is_dark" = true ]; then 
-        gtk_theme=$CINNAMON_THEME_LIGHT
-        dock_theme=$CINNAMON_THEME_DOCK_LIGHT
-        gtk_icon=$CINNAMON_ICON_LIGHT
-        gnome_prefer="prefer-light"
-    else
-        gtk_theme=$CINNAMON_THEME_DARK
-        dock_theme=$CINNAMON_THEME_DARK
-        gtk_icon=$CINNAMON_ICON_DARK
-        gnome_prefer="prefer-dark"
-    fi
-
-
-    lib_theme=$GTK_THEME_LIB
-#    Libadwaita
-    gsettings set org.cinnamon.desktop.interface icon-theme "$gtk_icon"
-    gsettings set org.cinnamon.desktop.interface gtk-theme "$gtk_theme"
-    gsettings set org.cinnamon.desktop.interface gtk-key-theme "$gtk_theme"
-# gsettings set org.mate.wm.preferences theme "$dock_theme"
-    gsettings set org.gnome.desktop.interface color-scheme "$gnome_prefer"
-    gsettings set org.cinnamon.desktop.wm.preferences theme "$gtk_theme"
-    gsettings set org.cinnamon.theme name "$dock_theme"
-    gsettings set org.x.apps.portal color-scheme "$gnome_prefer"
+    # gsettings set org.x.apps.portal color-scheme "$gnome_prefer"
 }
 
 for arg in $@;do
@@ -129,9 +103,6 @@ fi
 
 echo "{$XDG_CURRENT_DESKTOP}"
 case $XDG_CURRENT_DESKTOP in
-    X-Cinnamon)
-        SetCinnamon
-        ;;
     *)
         SetAll
         ;;
