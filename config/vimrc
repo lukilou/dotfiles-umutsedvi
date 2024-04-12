@@ -18,6 +18,7 @@ set expandtab
 set smarttab
 set smartindent
 set spell
+set colorcolumn=80
 
 " Enable termguicolors
 set termguicolors
