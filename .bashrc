@@ -20,7 +20,7 @@ case $- in
 esac
 
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
-find .ssh/ | grep \.pub | sed "s/.pub//" | xargs ssh-add > /dev/null 2>&1
+find ~/.ssh/ | grep \.pub | sed "s/.pub//" | xargs ssh-add > /dev/null 2>&1
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
