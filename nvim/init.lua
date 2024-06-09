@@ -78,8 +78,14 @@ require('packer').startup({
             requires = { 'nvim-lua/plenary.nvim' },
         } -- fzf extension that displays preview
         use {
-            'nvim-tree/nvim-tree.lua',
-            requires = { 'nvim-tree/nvim-web-devicons' },
+            "nvim-neo-tree/neo-tree.nvim",
+            branch = "v3.x",
+            requires = {
+                "nvim-lua/plenary.nvim",
+                "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+                "MunifTanjim/nui.nvim",
+                -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+            }
         }
         use 'nvim-lualine/lualine.nvim'    -- bottom bar
         use 'LudoPinelli/comment-box.nvim' -- comment box
@@ -175,15 +181,20 @@ require('mason').setup {}
 require('mason-lspconfig').setup {
     ensure_installed = {
         'bashls', 'clangd', 'cmake', 'cssls', 'diagnosticls',
-        'docker_compose_language_service', 'dockerls', 'gopls', 'grammarly',
-        'html', 'jdtls', 'jsonls', 'lua_ls', 'marksman', 'perlnavigator',
-        'pyre', 'tsserver', 'yamlls' },
+        'docker_compose_language_service', 'dockerls', 'gopls',
+        'grammarly', 'html', 'jdtls', 'jsonls', 'lua_ls', 'marksman',
+        'perlnavigator', 'pyre', 'tsserver', 'yamlls' },
     handlers = { lsp_zero.default_setup },
 }
 
 require('lspconfig').clangd.setup(
     { cmd = { "clangd", "--clang-tidy" } }
 )
+
+require('lspconfig').gdscript.setup {
+    filetypes = { 'gd', 'gdscript', 'gdscript3' },
+}
+
 lsp_zero.setup()
 
 local cmp = require('cmp')
@@ -242,8 +253,8 @@ require 'nvim-treesitter.configs'.setup {
 require("nvim-treesitter.configs").setup({
     ensure_installed = {
         "c", "cmake", "comment", "cpp", "dart", "dockerfile", "go", "gomod",
-        "html", "http", "java", "javascript", "jsdoc", "json", "kotlin",
-        "latex", "lua", "make", "perl", "python", "regex", "ruby",
+        "gdscript", "html", "http", "java", "javascript", "jsdoc", "json",
+        "kotlin", "latex", "lua", "make", "perl", "python", "regex", "ruby",
         "rust", "toml", "tsx", "typescript", "vim", "vue", "yaml" },
 })
 
@@ -317,21 +328,13 @@ require('kanagawa').setup({
     terminalColors = true, -- define vim.g.terminal_color_{0,17}
     theme = "wave",
     background = {         -- map the value of 'background' option to a theme
-        dark = "wave",     -- try "dragon" !
+        dark = "dragon",   -- try "dragon" !
         light = "lotus"
     },
 })
 vim.cmd([[colorscheme kanagawa]])
+SetColors()
 
-
-
--- ┌──────────┐
--- │ NvimTree │
--- └──────────┘
-
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-require("nvim-tree").setup()
 
 --  ╭─────────────────────────────────────╮
 --  │ vim instant markdown configurations │
@@ -404,13 +407,13 @@ map <silent> <A-0> :tablast<cr>
 ]])
 
 --quit without saving
-vim.keymap.set("n", "qq", ":q!<CR>")
+vim.keymap.set("n", "qq", ":q! <CR>")
 --quit after saving
-vim.keymap.set("n", "qw", ":wq<CR>")
+vim.keymap.set("n", "qw", ":wq <CR>")
 -- tab management
-vim.keymap.set("n", "<A-n>", ":tabnew .<CR>")
-vim.keymap.set("n", "<A-t>", ":vsplit <CR>")
-vim.keymap.set("n", "<A-Enter>", ":NvimTreeFindFileToggle<CR>")
+vim.keymap.set("n", "<A-n>", ":tabnew | Neotree current <CR>")
+vim.keymap.set("n", "<A-t>", ":vsplit | Neotree current <CR>")
+vim.keymap.set("n", "<A-Enter>", ":Neotree toggle left <CR>")
 
 --  ╭──────────╮
 --  │ autofill │

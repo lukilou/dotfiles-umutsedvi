@@ -12,19 +12,19 @@ scrolling:
 font:
   normal:
     # Font family
-    family: BlexMonoNerdFont
+    family: UbuntuMonoNerdFont
     style: Regular
   bold:
-    family: BlexMonoNerdFont
+    family: UbuntuMonoNerdFont
     style: Bold
 
   italic:
-    family: BlexMonoNerdFont
+    family: UbuntuMonoNerdFont
     style: Italic
   bold_italic:
-    family: BlexMonoNerdFont
+    family: UbuntuMonoNerdFont
     style: Bold Italic
-  size: 9.5
+  size: 10
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
   offset:

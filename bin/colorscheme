@@ -15,8 +15,12 @@ GTK_THEME_DOCK_LIGHT="Jasper-Purple-Compact"
 GTK_THEME_LIGHT="Jasper-Purple-Light-Compact"
 GTK_THEME_DARK="Jasper-Purple-Dark-Compact"
 
-GTK_ICON_LIGHT="Yaru-sage-dark" #"Pop-Extended"
-GTK_ICON_DARK="Yaru-sage-dark" #"Pop-Extended"
+GTK_ICON_LIGHT="Breeze" #"Pop-Extended"
+GTK_ICON_DARK="BreezeDark" #"Pop-Extended"
+
+QT_THEME_LIGHT="BreezeLight"
+QT_THEME_DARK="BreezeDark"
+
 
 Help()
 {
@@ -78,6 +82,19 @@ SetAll()
     # gsettings set org.x.apps.portal color-scheme "$gnome_prefer"
 }
 
+SetKDE()
+{
+    if [ "$is_dark" = true ]; then
+        qt_theme=$QT_THEME_LIGHT
+        gnome_prefer="prefer-light"
+    else
+        qt_theme=$QT_THEME_DARK
+        gnome_prefer="prefer-dark"
+    fi
+    plasma-apply-colorscheme $qt_theme
+    gsettings set org.gnome.desktop.interface color-scheme "$gnome_prefer"
+}
+
 for arg in $@;do
     if   [ "$arg" = "-h" ] || [ "$arg" = "--help" ]; then
         Help
@@ -103,6 +120,9 @@ fi
 
 echo "{$XDG_CURRENT_DESKTOP}"
 case $XDG_CURRENT_DESKTOP in
+    KDE)
+        SetKDE
+        ;;
     *)
         SetAll
         ;;

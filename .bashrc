@@ -19,6 +19,9 @@ case $- in
       *) return;;
 esac
 
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+find .ssh/ | grep \.pub | sed "s/.pub//" | xargs ssh-add > /dev/null 2>&1
+
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
@@ -38,24 +41,6 @@ fi
 case "$TERM" in
     xterm-color|*-256color) color_prompt=yes;;
 esac
-
-# uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt
-force_color_prompt=yes
-
-if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
-    else
-	color_prompt=
-    fi
-fi
-
-unset color_prompt force_color_prompt
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -150,15 +135,14 @@ alias ..='cd ..'
 alias gs='git status'
 alias mv='mv -i'
 alias rm='rm -i'
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias ff='x=$(fzf);cd $(dirname $x); nvim $(basename $x)'
 alias open='xdg-open "$(fzf)"'
 
 alias tmux="tmux -f $HOME/.dotfiles/config/tmux.conf"
 alias vim='vim -u $HOME/.dotfiles/config/vimrc'
 
-# turns each folder under the src directory into a command that performs fuzzy-find
-# inside the directories
+# turns each folder under the src directory into a command that performs 
+# fuzzy-find inside the directories
 __fzf_alias() {
     cd $(find $1 -type d -not -path '*/[@.]*' | fzf -i -x)
 }
