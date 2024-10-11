@@ -28,7 +28,6 @@ Fetch()
     cd $HOME/.config
     rm -rf $HOME/.config/autostart/
     cp -r $HOME/.dotfiles/autostart/ $HOME/.config/
-    cp $HOME/.NERDTreeBookmarks $HOME/.dotfiles/nvim/
     cp -r $HOME/.dotfiles/config/bookmarks $HOME/.config/gtk-3.0/
     cp -r $HOME/.dotfiles/.bashrc $HOME/.bashrc
     [ "$root" = true ] && sudo cp $HOME/.dotfiles/.bashrc /root/.bashrc

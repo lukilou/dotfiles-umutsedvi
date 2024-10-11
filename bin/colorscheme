@@ -15,11 +15,11 @@ GTK_THEME_DOCK_LIGHT="Jasper-Purple-Compact"
 GTK_THEME_LIGHT="Jasper-Purple-Light-Compact"
 GTK_THEME_DARK="Jasper-Purple-Dark-Compact"
 
-GTK_ICON_LIGHT="Breeze" #"Pop-Extended"
-GTK_ICON_DARK="BreezeDark" #"Pop-Extended"
+GTK_ICON_LIGHT="Ars-Dark-Icons" #"Pop-Extended"
+GTK_ICON_DARK="Ars-Light-Icons" #"Pop-Extended"
 
-QT_THEME_LIGHT="BreezeLight"
-QT_THEME_DARK="BreezeDark"
+PLASMA_COLOR_LIGHT="Adapta"
+PLASMA_COLOR_DARK="AdaptaNokto"
 
 
 Help()
@@ -54,9 +54,9 @@ Icon()
 SetTerminal()
 {
     if [ "$is_dark" = true ]; then
-        cat $HOME/.dotfiles/alacritty/base.yaml $HOME/.dotfiles/alacritty/light.yaml > $HOME/.config/alacritty/alacritty.yml
+        cat $HOME/.dotfiles/alacritty/base.toml $HOME/.dotfiles/alacritty/light.toml > $HOME/.config/alacritty/alacritty.toml
     else
-        cat $HOME/.dotfiles/alacritty/base.yaml $HOME/.dotfiles/alacritty/dark.yaml > $HOME/.config/alacritty/alacritty.yml
+        cat $HOME/.dotfiles/alacritty/base.toml $HOME/.dotfiles/alacritty/dark.toml > $HOME/.config/alacritty/alacritty.toml
     fi
     # Change themes of all actively running NeoVim instances
     for i in `ls /tmp/nvim/`; do nvim --server /tmp/nvim/$i --remote-send ":lua SetColors() <CR>" > /dev/null; done
@@ -85,13 +85,15 @@ SetAll()
 SetKDE()
 {
     if [ "$is_dark" = true ]; then
-        qt_theme=$QT_THEME_LIGHT
+        qt_color=$PLASMA_COLOR_LIGHT
         gnome_prefer="prefer-light"
+        icon=$QT_ICON_LIGHT
     else
-        qt_theme=$QT_THEME_DARK
+        qt_color=$PLASMA_COLOR_DARK
         gnome_prefer="prefer-dark"
+        icon=$QT_ICON_DARK
     fi
-    plasma-apply-colorscheme $qt_theme
+    plasma-apply-colorscheme $qt_color
     gsettings set org.gnome.desktop.interface color-scheme "$gnome_prefer"
 }
 
