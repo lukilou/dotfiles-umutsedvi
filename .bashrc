@@ -30,7 +30,7 @@ find ~/.ssh/ | grep \.pub | sed "s/.pub//" | xargs ssh-add > /dev/null 2>&1
 # Generate the neovim directory for the color changes
 mkdir /tmp/nvim  2>/dev/null
 # aliases
-alias nvim="nvim -u ~/.dotfiles/nvim/init.lua --listen /tmp/nvim/$((`ls /tmp/nvim | tail -n 1`+1))"
+alias nvim="nvim -u ~/.dotfiles/nvim/init.lua --listen /tmp/nvim/\$((\`ls /tmp/nvim | tail -n 1\`+1))"
 export EDITOR=nvim
 export TODO_DB_PATH=$HOME/.config/shared/todo.json
 alias wget=wget --hsts-file="$HOME/.config/.wget-hsts"

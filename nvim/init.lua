@@ -94,7 +94,7 @@ require('packer').startup({
         use 'nvim-lualine/lualine.nvim'    -- bottom bar
         use 'LudoPinelli/comment-box.nvim' -- comment box
         use 'm4xshen/autoclose.nvim'
-        use { "folke/trouble.nvim"}
+        use { "folke/trouble.nvim" }
         use { 'junegunn/fzf',
             dir = '~/.fzf',
             run = './install --all'
@@ -104,12 +104,12 @@ require('packer').startup({
         }
         use "rebelot/kanagawa.nvim"
         use {
- 'VonHeikemen/lsp-zero.nvim', branch = 'v4.x',
+            'VonHeikemen/lsp-zero.nvim', branch = 'v4.x',
             requires = {
-                {'neovim/nvim-lspconfig'},
-                {'hrsh7th/nvim-cmp'},
-                {'hrsh7th/cmp-nvim-lsp'},
-                {'L3MON4D3/LuaSnip'},
+                { 'neovim/nvim-lspconfig' },
+                { 'hrsh7th/nvim-cmp' },
+                { 'hrsh7th/cmp-nvim-lsp' },
+                { 'L3MON4D3/LuaSnip' },
 
                 { 'williamboman/mason.nvim' },
                 { 'williamboman/mason-lspconfig.nvim' },
@@ -213,29 +213,29 @@ require("glow").setup {}
 
 local cmp = require('cmp')
 cmp.setup({
-  sources = {
+    sources = {
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
         { name = 'path' },
         { name = 'buffer' },
-  },
-  snippet = {
-    expand = function(args)
-      require('luasnip').lsp_expand(args.body)
-      require("luasnip.loaders.from_vscode").lazy_load()
-      require("luasnip.loaders.from_snipmate").lazy_load({
-          paths = { "~/.dotfiles/nvim/snippets/",
-              "~/.local/share/nvim/site/pack/packer/start/vim-snippets/" }
-      })
-    end,
-  },
-  mapping = cmp.mapping.preset.insert({
---      ['<C-f>'] = cmp_action.luasnip_jump_forward(),
---      ['<C-b>'] = cmp_action.luasnip_jump_backward(),
+    },
+    snippet = {
+        expand = function(args)
+            require('luasnip').lsp_expand(args.body)
+            require("luasnip.loaders.from_vscode").lazy_load()
+            require("luasnip.loaders.from_snipmate").lazy_load({
+                paths = { "~/.dotfiles/nvim/snippets/",
+                    "~/.local/share/nvim/site/pack/packer/start/vim-snippets/" }
+            })
+        end,
+    },
+    mapping = cmp.mapping.preset.insert({
+        --      ['<C-f>'] = cmp_action.luasnip_jump_forward(),
+        --      ['<C-b>'] = cmp_action.luasnip_jump_backward(),
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.abort(),
-        ['<CR>'] = cmp.mapping.confirm({ select = true }),
-  }),
+        ['<CR>'] = cmp.mapping.confirm({ select = false }),
+    }),
 })
 
 
@@ -243,106 +243,57 @@ local lsp_zero = require('lsp-zero')
 require('mason').setup {}
 
 local lsp_attach = function(client, bufnr)
-  -- see :help lsp-zero-keybindings
-  -- to learn the available actions
-  lsp_zero.default_keymaps({buffer = bufnr})
+    -- see :help lsp-zero-keybindings
+    -- to learn the available actions
+    lsp_zero.default_keymaps({ buffer = bufnr })
 end
 
 lsp_zero.extend_lspconfig({
-  capabilities = require('cmp_nvim_lsp').default_capabilities(),
-  lsp_attach = lsp_attach,
-  float_border = 'rounded',
-  sign_text = true,
+    capabilities = require('cmp_nvim_lsp').default_capabilities(),
+    lsp_attach = lsp_attach,
+    float_border = 'rounded',
+    sign_text = true,
 })
 
 
 require('mason-lspconfig').setup {
-    ensure_installed = { 'cmake', 'gopls', 'marksman', 'pyre' },
+    ensure_installed = {
+        'bashls', 'cmake', 'cssls', 'lua_ls',
+        'gopls', 'grammarly', 'html', 'marksman',
+        'pylsp', 'ts_ls'
+    },
     handlers = { lsp_zero.default_setup },
-}
-
-require('lspconfig').clangd.setup {
-    { cmd = { "clangd", "--clang-tidy" } }
-}
-
-require('lspconfig').bashls.setup {
-    cmd = { "bash-language-server", "start" },
-    filetypes = { "sh" },
-}
-
-require('lspconfig').diagnosticls.setup {
-    cmd = { "diagnostic-languageserver", "--stdio" },
-    filetypes = {},
-}
-
-require('lspconfig').grammarly.setup {
-    cmd = { "grammarly-languageserver", "--stdio" },
-    filetypes = { "markdown" },
 }
 
 require 'lspconfig'.lua_ls.setup {
     on_init = function(client)
-        local path = client.workspace_folders[1].name
-        if vim.loop.fs_stat(path .. '/.luarc.json') or
-            vim.loop.fs_stat(path .. '/.luarc.jsonc') then
-            return
+        if client.workspace_folders then
+            local path = client.workspace_folders[1].name
+            if vim.uv.fs_stat(path .. '/.luarc.json') or
+                vim.uv.fs_stat(path .. '/.luarc.jsonc') then
+                return
+            end
         end
-
         client.config.settings.Lua = vim.tbl_deep_extend('force',
-        client.config.settings.Lua, {
-            runtime = { version = 'LuaJIT' },
-            workspace = {
-                checkThirdParty = false,
-                library = { vim.env.VIMRUNTIME }
-            }
-        })
+            client.config.settings.Lua, {
+                runtime = {
+                    version = 'LuaJIT'
+                },
+                workspace = {
+                    checkThirdParty = false,
+                    library = {
+                        vim.env.VIMRUNTIME
+                    }
+                }
+            })
     end,
     settings = {
         Lua = {}
     }
 }
 
--- VS Code language server
-require('lspconfig').html.setup {
-    cmd = { "vscode-html-language-server", "--stdio" },
-    filetypes = { "html", "templ" },
-    init_options = {
-        configurationSection = { "html", "css", "javascript" },
-        embeddedLanguages = {
-            css = true,
-            javascript = true
-        },
-        provideFormatter = true
-    }
-}
 
-require('lspconfig').cssls.setup {
-    cmd = { "vscode-css-language-server", "--stdio" },
-    filetypes = { "html", "css", "scss", "less" },
-}
-
-require('lspconfig').ts_ls.setup {
-    cmd = { "typescript-language-server", "--stdio" },
-    filetypes = { "javascript", "javascriptreact", "javascript.jsx",
-        "typescript", "typescriptreact", "typescript.tsx" },
-}
-
-require('lspconfig').jsonls.setup {
-    cmd = { "vscode-json-language-server", "--stdio" },
-    filetypes = { "json", "jsonc" },
-    init_options = {
-        provideFormatter = true
-    }
-}
-
-lsp_zero.extend_lspconfig({
-  capabilities = require('cmp_nvim_lsp').default_capabilities(),
-  lsp_attach = lsp_attach,
-  float_border = 'rounded',
-  sign_text = true,
-})
-
-
+require('lspconfig').clangd.setup { { cmd = { "clangd", "--clang-tidy" } } }
 
 
 -- ╭───────────╮
@@ -522,7 +473,7 @@ require('gitsigns').setup {
 --  ╰─────────╯
 
 require("trouble").setup {
-    icons =  {
+    icons = {
         indent = {
             fold_open = "", -- icon used for open folds
             fold_closed = "", -- icon used for closed folds
