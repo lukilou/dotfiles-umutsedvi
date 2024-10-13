@@ -222,23 +222,20 @@ cmp.setup({
     snippet = {
         expand = function(args)
             require('luasnip').lsp_expand(args.body)
-            require("luasnip.loaders.from_vscode").lazy_load()
-            require("luasnip.loaders.from_snipmate").lazy_load({
-                paths = { "~/.dotfiles/nvim/snippets/",
-                    "~/.local/share/nvim/site/pack/packer/start/vim-snippets/" }
-            })
         end,
     },
     mapping = cmp.mapping.preset.insert({
-        --      ['<C-f>'] = cmp_action.luasnip_jump_forward(),
-        --      ['<C-b>'] = cmp_action.luasnip_jump_backward(),
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.abort(),
         ['<CR>'] = cmp.mapping.confirm({ select = false }),
     }),
 })
 
-
+require("luasnip.loaders.from_vscode").lazy_load()
+require("luasnip.loaders.from_snipmate").lazy_load({
+    paths = { "~/.dotfiles/nvim/snippets/",
+        "~/.local/share/nvim/site/pack/packer/start/vim-snippets/" }
+})
 local lsp_zero = require('lsp-zero')
 require('mason').setup {}
 
@@ -530,16 +527,14 @@ vim.keymap.set("n", "fh", "<cmd>Telescope man_pages sections=2,3<CR>")
 --  ╭─────────────────────────────────────────────╮
 --  │   Language Server Protocol Configurations   │
 --  ╰─────────────────────────────────────────────╯
-vim.keymap.set("n", "<C-d>", ":lua require(\"dapui\").toggle() <CR>")
-vim.keymap.set("n", "<C-b>", "<cmd>DapToggleBreakpoint <CR>")
+vim.keymap.set("n", "<C-d>d", ":lua require(\"dapui\").toggle() <CR>")
+vim.keymap.set("n", "<C-d>b", "<cmd>DapToggleBreakpoint <CR>")
 vim.keymap.set("n", "<A-f>", ":lua vim.lsp.buf.format() <CR>")
 -- Code actions
 vim.keymap.set("n", "<A-q>", ":lua vim.lsp.buf.code_action() <CR>")
 -- Bulk rename
 vim.keymap.set("n", "<A-r>", ":lua vim.lsp.buf.rename() <CR>")
-vim.keymap.set("n", "<A-d>", "<cmd>TroubleToggle document_diagnostics<cr>",
-    { silent = true, noremap = true })
-vim.keymap.set("n", "<A-D>", "<cmd>TroubleToggle workspace_diagnostics<cr>",
+vim.keymap.set("n", "<A-d>", "<cmd>Trouble diagnostics toggle<cr>",
     { silent = true, noremap = true })
 
 
