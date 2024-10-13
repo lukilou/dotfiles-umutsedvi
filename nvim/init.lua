@@ -258,7 +258,7 @@ lsp_zero.extend_lspconfig({
 
 require('mason-lspconfig').setup {
     ensure_installed = {
-        'bashls', 'cmake', 'cssls', 'lua_ls',
+        'bashls', 'clangd', 'cmake', 'cssls', 'lua_ls',
         'gopls', 'grammarly', 'html', 'marksman',
         'pylsp', 'ts_ls'
     },
@@ -291,9 +291,6 @@ require 'lspconfig'.lua_ls.setup {
         Lua = {}
     }
 }
-
-
-require('lspconfig').clangd.setup { { cmd = { "clangd", "--clang-tidy" } } }
 
 
 -- ╭───────────╮
@@ -529,7 +526,7 @@ vim.keymap.set("n", "ff", ":Telescope find_files <CR>")
 vim.keymap.set("n", "fs", ":Telescope live_grep <CR>")
 vim.keymap.set("n", "fd", ":Telescope lsp_references <CR>")
 vim.keymap.set("n", "fg", "<cmd>Telescope buffers<CR>")
-vim.keymap.set("n", "fh", "<cmd>Telescope man_pages<CR>")
+vim.keymap.set("n", "fh", "<cmd>Telescope man_pages sections=2,3<CR>")
 --  ╭─────────────────────────────────────────────╮
 --  │   Language Server Protocol Configurations   │
 --  ╰─────────────────────────────────────────────╯
