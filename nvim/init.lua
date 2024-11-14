@@ -28,41 +28,31 @@ vim.cmd([[
 vim.o.termguicolors = false
 vim.o.hidden = true
 vim.o.updatetime = 200
---vim.o.timeoutlen = 500
 -- Disable backup files
 vim.o.backup = false
 vim.o.writebackup = false
 vim.o.signcolumn = 'yes'
--- show line numbers
 vim.o.number = true
 vim.o.cursorline = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
--- Undo and backup options
 vim.o.undofile = true
 vim.o.undodir = "/home/umutsevdi/.config/nvim/undodir"
 vim.o.swapfile = false
 vim.o.history = 50
 vim.o.splitright = true
 vim.o.splitbelow = true
--- whitespace configuration
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 vim.o.softtabstop = 4
 vim.o.relativenumber = true
 vim.o.clipboard = "unnamedplus"
--- Better editor UI
 vim.o.numberwidth = 6
 vim.o.scrolloff = 8
 vim.o.wrap = false
 vim.o.textwidth = 300
 vim.o.list = true
 vim.o.jumpoptions = "view"
-
-
---  ╭────────────────╮
---  │     Plugins    │
---  ╰────────────────╯
 
 vim.cmd [[packadd packer.nvim]]
 require('packer').startup({
@@ -72,58 +62,30 @@ require('packer').startup({
         use {
             'nvim-telescope/telescope.nvim',
             requires = { 'nvim-lua/plenary.nvim' },
-        } -- fzf extension that displays preview
-        use {
-            "nvim-neo-tree/neo-tree.nvim",
-            requires = {
-                "nvim-lua/plenary.nvim",
-                "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-                "MunifTanjim/nui.nvim",
-            },
-            config = function()
-                require("neo-tree").setup({
-                    filesystem = {
-                        filtered_items = {
-                            hide_dotfiles = false
-                        }
-                    }
-                })
-            end
         }
-        use "ellisonleao/glow.nvim"
+        use {
+            "preservim/nerdtree",
+            requires = { 'ryanoasis/vim-devicons' },
+        }
         use 'nvim-lualine/lualine.nvim'    -- bottom bar
         use 'LudoPinelli/comment-box.nvim' -- comment box
         use 'm4xshen/autoclose.nvim'
-        use { "folke/trouble.nvim" }
-        use { 'junegunn/fzf',
-            dir = '~/.fzf',
-            run = './install --all'
-        } -- fzf
-        use { 'nvim-treesitter/nvim-treesitter',
-            run = ':TSUpdate'
-        }
         use "rebelot/kanagawa.nvim"
+        use "folke/trouble.nvim"
+        use { 'junegunn/fzf', dir = '~/.fzf', run = './install --all' }
+        use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
         use {
-            'VonHeikemen/lsp-zero.nvim', branch = 'v4.x',
+            'VonHeikemen/lsp-zero.nvim',
             requires = {
                 { 'neovim/nvim-lspconfig' },
-                { 'hrsh7th/nvim-cmp' },
                 { 'hrsh7th/cmp-nvim-lsp' },
-                { 'L3MON4D3/LuaSnip' },
 
                 { 'williamboman/mason.nvim' },
                 { 'williamboman/mason-lspconfig.nvim' },
-
-                { 'L3MON4D3/LuaSnip' },
-                { 'rafamadriz/friendly-snippets' },
-            }
-        }
-        -- debugger
-        use { "rcarriga/nvim-dap-ui",
-            requires = {
-                "mfussenegger/nvim-dap",
-                "nvim-neotest/nvim-nio",
-                "folke/neodev.nvim"
+                { "L3MON4D3/LuaSnip" },
+                { 'hrsh7th/nvim-cmp' },
+                { 'saadparwaiz1/cmp_luasnip' },
+                { "rafamadriz/friendly-snippets" }, -- provides snippets
             }
         }
     end,
@@ -132,6 +94,127 @@ require('packer').startup({
         auto_reload_compiled = true,
         compile_on_sync = true
     }
+})
+
+require("luasnip.loaders.from_vscode").lazy_load()
+require("luasnip.loaders.from_snipmate").lazy_load({
+    paths = { "~/.dotfiles/nvim/snippets/" }
+})
+
+local cmp = require("cmp")
+local luasnip = require("luasnip")
+local select_opts = { behavior = cmp.SelectBehavior.Select }
+cmp.setup({
+    snippet = {
+        expand = function(args)
+            luasnip.lsp_expand(args.body)
+        end
+    },
+    sources = {
+        { name = 'luasnip' },
+        { name = 'nvim_lsp' },
+        { name = 'path' },
+        { name = 'buffer' },
+    },
+    window = {
+        documentation = cmp.config.window.bordered()
+    },
+    formatting = {
+        fields = { 'menu', 'abbr', 'kind' },
+        format = function(entry, item)
+            local menu_icon = {
+                nvim_lsp = '󰌷',
+                luasnip = '󱡠',
+                buffer = '',
+                path = '',
+            }
+            item.menu = menu_icon[entry.source.name]
+            return item
+        end,
+    },
+    mapping = {
+        ['<C-p>'] = cmp.mapping.select_prev_item(select_opts),
+        ['<C-n>'] = cmp.mapping.select_next_item(select_opts),
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<C-e>'] = cmp.mapping.abort(),
+        ['<CR>'] = cmp.mapping.confirm({ select = false }),
+
+        ['<C-f>'] = cmp.mapping(function(fallback)
+            if luasnip.jumpable(1) then
+                luasnip.jump(1)
+            else
+                fallback()
+            end
+        end, { 'i', 's' }),
+        ['<C-b>'] = cmp.mapping(function(fallback)
+            if luasnip.jumpable(-1) then
+                luasnip.jump(-1)
+            else
+                fallback()
+            end
+        end, { 'i', 's' }),
+    },
+})
+
+local lspconfig_defaults = require('lspconfig').util.default_config
+lspconfig_defaults.capabilities = vim.tbl_deep_extend(
+    'force',
+    lspconfig_defaults.capabilities,
+    require('cmp_nvim_lsp').default_capabilities()
+)
+
+require('mason').setup {}
+require('mason-lspconfig').setup {
+    ensure_installed = {
+        'bashls', 'clangd', 'cmake', 'cssls', 'lua_ls',
+        'gopls', 'grammarly', 'html', 'marksman',
+        'pylsp', 'ts_ls'
+    },
+    handlers = {
+        function(server_name)
+            require('lspconfig')[server_name].setup {
+            }
+        end,
+    }
+}
+
+require('lspconfig').lua_ls.setup({
+    on_init = function(client)
+        if client.workspace_folders then
+            local path = client.workspace_folders[1].name
+            if vim.uv.fs_stat(path .. '/.luarc.json') or
+                vim.uv.fs_stat(path .. '/.luarc.jsonc') then
+                return
+            end
+        end
+        client.config.settings.Lua = vim.tbl_deep_extend('force',
+            client.config.settings.Lua, {
+                runtime = {
+                    version = 'LuaJIT'
+                },
+                workspace = {
+                    checkThirdParty = false,
+                    library = {
+                        vim.env.VIMRUNTIME
+                    }
+                }
+            })
+    end,
+    settings = {
+        diagnostics = { globals = { "vim" } }
+    }
+})
+
+require("nvim-treesitter.configs").setup({
+    highlight = {
+        enable = true,
+        additional_vim_regex_highlighting = false,
+    },
+    ensure_installed = {
+        "c", "cmake", "comment", "cpp", "dart", "dockerfile", "go", "gomod",
+        "gdscript", "html", "http", "java", "javascript", "jsdoc", "json",
+        "lua", "make", "perl", "python", "regex", "rust", "toml",
+        "tsx", "typescript", "yaml", "vim", "vimdoc" },
 })
 
 require('kanagawa').setup({
@@ -143,28 +226,15 @@ require('kanagawa').setup({
     statementStyle = {},
     typeStyle = { bold = true },
     transparent = true,    -- do not set background color
-    dimInactive = false,   -- dim inactive window `:h hl-NormalNC`
     terminalColors = true, -- define vim.g.terminal_color_{0,17}
-    colors = {             -- add/modify theme and palette colors
-        palette = {},
-        theme = { wave = {}, lotus = {}, dragon = {}, all = {} },
-    },
-    overrides = function(colors) -- add/modify highlights
-        return {}
-    end,
-    theme = "wave",    -- Load "wave" theme when 'background' option is not set
-    background = {     -- map the value of 'background' option to a theme
-        dark = "wave", -- try "dragon" !
+    theme = "wave",        -- Load "wave" theme when 'background' option is not set
+    background = {         -- map the value of 'background' option to a theme
+        dark = "wave",     -- try "dragon" !
         light = "lotus"
     },
 })
-
 vim.cmd("colorscheme kanagawa")
 
-
---  ╭─────────╮
---  │ Lualine │
---  ╰─────────╯
 require("lualine").setup({
     sections = {
         lualine_a = { "mode", "branch" },
@@ -209,239 +279,47 @@ require("lualine").setup({
     extensions = {}
 })
 
-require("glow").setup {}
-
-local cmp = require('cmp')
-cmp.setup({
-    sources = {
-        { name = 'nvim_lsp' },
-        { name = 'luasnip' },
-        { name = 'path' },
-        { name = 'buffer' },
-    },
-    snippet = {
-        expand = function(args)
-            require('luasnip').lsp_expand(args.body)
-        end,
-    },
-    mapping = cmp.mapping.preset.insert({
-        ['<C-Space>'] = cmp.mapping.complete(),
-        ['<C-e>'] = cmp.mapping.abort(),
-        ['<CR>'] = cmp.mapping.confirm({ select = false }),
-    }),
-})
-
-require("luasnip.loaders.from_vscode").lazy_load()
-require("luasnip.loaders.from_snipmate").lazy_load({
-    paths = { "~/.dotfiles/nvim/snippets/",
-        "~/.local/share/nvim/site/pack/packer/start/vim-snippets/" }
-})
-local lsp_zero = require('lsp-zero')
-require('mason').setup {}
-
-local lsp_attach = function(client, bufnr)
-    -- see :help lsp-zero-keybindings
-    -- to learn the available actions
-    lsp_zero.default_keymaps({ buffer = bufnr })
-end
-
-lsp_zero.extend_lspconfig({
-    capabilities = require('cmp_nvim_lsp').default_capabilities(),
-    lsp_attach = lsp_attach,
-    float_border = 'rounded',
-    sign_text = true,
-})
-
-
-require('mason-lspconfig').setup {
-    ensure_installed = {
-        'bashls', 'clangd', 'cmake', 'cssls', 'lua_ls',
-        'gopls', 'grammarly', 'html', 'marksman',
-        'pylsp', 'ts_ls'
-    },
-    handlers = { lsp_zero.default_setup },
-}
-
-require 'lspconfig'.lua_ls.setup {
-    on_init = function(client)
-        if client.workspace_folders then
-            local path = client.workspace_folders[1].name
-            if vim.uv.fs_stat(path .. '/.luarc.json') or
-                vim.uv.fs_stat(path .. '/.luarc.jsonc') then
-                return
-            end
-        end
-        client.config.settings.Lua = vim.tbl_deep_extend('force',
-            client.config.settings.Lua, {
-                runtime = {
-                    version = 'LuaJIT'
-                },
-                workspace = {
-                    checkThirdParty = false,
-                    library = {
-                        vim.env.VIMRUNTIME
-                    }
-                }
-            })
-    end,
-    settings = {
-        Lua = {}
+require("trouble").setup {
+    warn_no_results = true,
+    open_no_results = true,
+    focus = true,
+    modes = {
+        workspace_diagnostics = {
+            mode = "diagnostics", -- inherit from diagnostics mode
+            filter = {
+                any = {
+                    buf = 0, {
+                    severity = { min = vim.diagnostic.severity.WARN },
+                    function(item)
+                        return item.filename:find((vim.loop or vim.uv).cwd(),
+                            1, true)
+                    end,
+                } } },
+        }
     }
 }
 
-
--- ╭───────────╮
--- │ Debuggers │
--- ╰───────────╯
-local dap = require("dap")
-require("neodev").setup({
-    library = { plugins = { "nvim-dap-ui" }, types = true },
-})
-require("dapui").setup()
-dap.adapters.gdb = {
-    type = "executable",
-    command = "gdb",
-    args = { "--interpreter=dap", "--eval-command", "set print pretty on" }
-}
-dap.adapters.delve = {
-    type = 'server',
-    port = '${port}',
-    executable = {
-        command = 'dlv',
-        args = { 'dap', '-l', '127.0.0.1:${port}' },
-        -- add this if on windows, otherwise server won't open successfully
-        -- detached = false
-    }
-}
-dap.configurations.cpp = {
-    {
-        name = "Launch",
-        type = "gdb",
-        request = "launch",
-        program = function()
-            return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-        end,
-        cwd = "${workspaceFolder}",
-        stopAtBeginningOfMainSubprogram = false,
-    },
-    {
-        name = "Select and attach to process",
-        type = "gdb",
-        request = "attach",
-        program = function()
-            return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-        end,
-        pid = function()
-            local name = vim.fn.input('Executable name (filter): ')
-            return require("dap.utils").pick_process({ filter = name })
-        end,
-        cwd = '${workspaceFolder}'
-    },
-    {
-        name = 'Attach to gdbserver :1234',
-        type = 'gdb',
-        request = 'attach',
-        target = 'localhost:1234',
-        program = function()
-            require("dapui").open()
-            return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-        end,
-        cwd = '${workspaceFolder}'
+require('telescope').setup {
+    pickers = {
+        find_files = { theme = "dropdown" },
+        treesitter = { theme = "dropdown" },
+        buffers = { theme = "dropdown" },
+        help_tags = { theme = "dropdown" }
     },
 }
-
--- https://github.com/go-delve/delve/blob/master/Documentation/usage/dlv_dap.md
-dap.configurations.go = {
-    {
-        type = "delve",
-        name = "Debug",
-        request = "launch",
-        program = function()
-            return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-        end,
-    },
-    {
-        type = "delve",
-        name = "Debug test", -- configuration for debugging test files
-        request = "launch",
-        mode = "test",
-        program = "${file}"
-    },
-    -- works with go.mod packages and sub packages
-    {
-        type = "delve",
-        name = "Debug test (go.mod)",
-        request = "launch",
-        mode = "test",
-        program = "./${relativeFileDirname}"
-    }
-}
-
-
---  ╭───────────────────────╮
---  │ Snippet Configuration │
---  ╰───────────────────────╯
 
 vim.diagnostic.config({
-    virtual_text = { prefix = ' ', spacing = 0 },
-    signs = true,
-    update_in_insert = false,
-    underline = true,
-    severity_sort = true,
-    float = false,
-})
-
---  ╭──────────────────────────╮
---  │ Treesitter Language List │
---  ╰──────────────────────────╯
-
-require 'nvim-treesitter.configs'.setup {
-    highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = false,
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = "⊗",
+            [vim.diagnostic.severity.WARN]  = "",
+            [vim.diagnostic.severity.HINT]  = "⚑",
+            [vim.diagnostic.severity.INFO]  = "🛈",
+        }
     },
-}
-
-require("nvim-treesitter.configs").setup({
-    ensure_installed = {
-        "c", "cmake", "comment", "cpp", "dart", "dockerfile", "go", "gomod",
-        "gdscript", "html", "http", "java", "javascript", "jsdoc", "json",
-        "lua", "make", "perl", "python", "regex", "rust", "toml",
-        "tsx", "typescript", "yaml", "vim", "vimdoc" },
+    virtual_text = true,
 })
 
---  ╭───────────────────────╮
---  │ Color scheme settings │
---  ╰───────────────────────╯
-
--- Reads current color value
-local function getColor()
-    local handle = io.popen(
-        "/usr/bin/gsettings get org.gnome.desktop.interface color-scheme")
-    if handle == nil then
-        return false
-    end
-    local result = handle:read("*a") -- Read all output
-    handle:close()
-    return string.find(result, "prefer-dark", 1, true) ~= nil
-end
-
--- Replaces the background color based on argument.
--- If true switches to dark mode
--- Else switches to light mode
-function SetColors()
-    if getColor() then
-        vim.cmd [[ set background=dark ]]
-    else
-        vim.cmd [[ set background=light ]]
-    end
-end
-
-SetColors()
-
---  ╭─────────────────╮
---  │ GitSigns Config │
---  ╰─────────────────╯
 require('gitsigns').setup {
     signs              = {
         add          = { text = '┃' },
@@ -461,39 +339,15 @@ require('gitsigns').setup {
         follow_files = true
     },
 }
+vim.g.NERDTreeShowHidden = 1
+vim.g.NERDTreeWinPos = 'right'
+vim.g.NERDTreeDirArrowCollapsible = ""
+vim.g.NERDTreeDirArrowExpandable = ""
 
---  ╭─────────╮
---  │ Trouble │
---  ╰─────────╯
-
-require("trouble").setup {
-    icons = {
-        indent = {
-            fold_open = "", -- icon used for open folds
-            fold_closed = "", -- icon used for closed folds
-        },
-        folder_open = "", -- icon used for open folds
-        folder_closed = "", -- icon used for closed folds
-        signs = { error = "⊗", warning = "", hint = "⚑", information = "🛈" },
-    },
-}
-
--- ╭───────────╮
--- │ Telescope │
--- ╰───────────╯
-require('telescope').setup {
-    pickers = {
-        find_files = { theme = "dropdown" },
-        treesitter = { theme = "dropdown" },
-        buffers = { theme = "dropdown" },
-        help_tags = { theme = "dropdown" }
-    },
-}
-
--- ╭───────────────────╮
--- │   Window Movement │
--- ╰───────────────────╯
--- Change vim window focus
+--  ┌─────────────┐
+--  │ Keybindings │
+--  └─────────────┘
+require("autoclose").setup()
 vim.cmd([[
     map <silent> <A-h> :tabprevious<CR>
     map <silent> <A-l> :tabnext<CR>
@@ -502,18 +356,10 @@ vim.cmd([[
     map <silent> <A-1> :tabfirst <cr>
     map <silent> <A-0> :tablast<cr>
 ]])
-
 vim.keymap.set("n", "qq", ":q! <CR>")
--- tab management
-vim.keymap.set("n", "<A-n>", ":tabnew | Neotree current <CR>")
-vim.keymap.set("n", "<A-t>", ":vsplit | Neotree current <CR>")
-vim.keymap.set("n", "<A-Enter>", ":Neotree toggle right <CR>")
-
---  ╭──────────╮
---  │ autofill │
---  ╰──────────╯
--- Better multiple lines tabbing with < and >
-require("autoclose").setup()
+vim.keymap.set("n", "<A-n>", ":tabnew | NERDTreeExplore<CR>")
+vim.keymap.set("n", "<A-t>", ":vsplit | NERDTreeExplore<CR>")
+vim.keymap.set("n", "<A-Enter>", ":NERDTreeToggle <CR>")
 vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
 -- ╭───────────╮
@@ -527,31 +373,44 @@ vim.keymap.set("n", "fh", "<cmd>Telescope man_pages sections=2,3<CR>")
 --  ╭─────────────────────────────────────────────╮
 --  │   Language Server Protocol Configurations   │
 --  ╰─────────────────────────────────────────────╯
-vim.keymap.set("n", "<C-d>d", ":lua require(\"dapui\").toggle() <CR>")
-vim.keymap.set("n", "<C-d>b", "<cmd>DapToggleBreakpoint <CR>")
 vim.keymap.set("n", "<A-f>", ":lua vim.lsp.buf.format() <CR>")
--- Code actions
 vim.keymap.set("n", "<A-q>", ":lua vim.lsp.buf.code_action() <CR>")
--- Bulk rename
 vim.keymap.set("n", "<A-r>", ":lua vim.lsp.buf.rename() <CR>")
-vim.keymap.set("n", "<A-d>", "<cmd>Trouble diagnostics toggle<cr>",
+vim.keymap.set("n", "<A-d>", "<cmd>Trouble workspace_diagnostics toggle<CR>",
     { silent = true, noremap = true })
 
+-- Windows only
+if vim.fn.executable("clip.exe") == 1 then
+    vim.g.clipboard = {
+        name = 'WslClipboard',
+        copy = {
+            ['+'] = 'clip.exe',
+            ['*'] = 'clip.exe',
+        },
+        paste = {
+            ['+'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+            ['*'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+        },
+        cache_enabled = 0,
+    }
+end
+-- Linux only
+local function getColor()
+    local handle = io.popen(
+        "/usr/bin/gsettings get org.gnome.desktop.interface color-scheme")
+    if handle == nil then
+        return false
+    end
+    local result = handle:read("*a") -- Read all output
+    handle:close()
+    return string.find(result, "prefer-dark", 1, true) ~= nil
+end
+function SetColors()
+    if getColor() then
+        vim.cmd [[ set background=dark ]]
+    else
+        vim.cmd [[ set background=light ]]
+    end
+end
 
--- if WINDOWS modify clipboard
-vim.cmd([[
-if executable('clip.exe')
-    let g:clipboard = {
-        \   'name': 'WslClipboard',
-        \   'copy': {
-        \      '+': 'clip.exe',
-        \      '*': 'clip.exe',
-        \    },
-        \   'paste': {
-        \      '+': 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
-        \      '*': 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
-        \   },
-        \   'cache_enabled': 0,
-    \ }
-endif
-]])
+SetColors()
