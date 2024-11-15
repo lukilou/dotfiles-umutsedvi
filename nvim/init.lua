@@ -54,47 +54,69 @@ vim.o.textwidth = 300
 vim.o.list = true
 vim.o.jumpoptions = "view"
 
-vim.cmd [[packadd packer.nvim]]
-require('packer').startup({
-    function(use)
-        use 'wbthomason/packer.nvim'  -- packer can manage itself
-        use 'lewis6991/gitsigns.nvim' -- git symbols on the left
-        use {
-            'nvim-telescope/telescope.nvim',
-            requires = { 'nvim-lua/plenary.nvim' },
-        }
-        use {
-            "preservim/nerdtree",
-            requires = { 'ryanoasis/vim-devicons' },
-        }
-        use 'nvim-lualine/lualine.nvim'    -- bottom bar
-        use 'LudoPinelli/comment-box.nvim' -- comment box
-        use 'm4xshen/autoclose.nvim'
-        use "rebelot/kanagawa.nvim"
-        use "folke/trouble.nvim"
-        use { 'junegunn/fzf', dir = '~/.fzf', run = './install --all' }
-        use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
-        use {
-            'VonHeikemen/lsp-zero.nvim',
-            requires = {
-                { 'neovim/nvim-lspconfig' },
-                { 'hrsh7th/cmp-nvim-lsp' },
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+    vim.fn.system({
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable",
+        lazypath
+    })
+end
+vim.opt.rtp:prepend(lazypath)
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 
-                { 'williamboman/mason.nvim' },
-                { 'williamboman/mason-lspconfig.nvim' },
-                { "L3MON4D3/LuaSnip" },
-                { 'hrsh7th/nvim-cmp' },
-                { 'saadparwaiz1/cmp_luasnip' },
-                { "rafamadriz/friendly-snippets" }, -- provides snippets
-            }
+require('lazy').setup({
+    'wbthomason/packer.nvim',       -- packer can manage itself
+    'lewis6991/gitsigns.nvim',      -- git symbols on the left
+    'nvim-lualine/lualine.nvim',    -- bottom bar
+    'LudoPinelli/comment-box.nvim', -- comment box
+    'm4xshen/autoclose.nvim',
+    "rebelot/kanagawa.nvim",
+    "folke/trouble.nvim",
+    {
+        'nvim-telescope/telescope.nvim',
+        dependencies = { 'nvim-lua/plenary.nvim' },
+    },
+    {
+        "nvim-neo-tree/neo-tree.nvim",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+            "MunifTanjim/nui.nvim",
+        },
+        cmd = { "Neotree" },
+        config = function()
+            require("neo-tree").setup({
+                filesystem = {
+                    filtered_items = {
+                        hide_dotfiles = false
+                    }
+                }
+            })
+        end
+    },
+    { 'junegunn/fzf',                    dir = '~/.fzf',     build = './install --all' },
+    { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
+    {
+        'VonHeikemen/lsp-zero.nvim',
+        dependencies = {
+            { 'neovim/nvim-lspconfig' },
+            { 'hrsh7th/cmp-nvim-lsp' },
+
+            { 'williamboman/mason.nvim' },
+            { 'williamboman/mason-lspconfig.nvim' },
+            { "L3MON4D3/LuaSnip" },
+            { 'hrsh7th/nvim-cmp' },
+            { 'saadparwaiz1/cmp_luasnip' },
+            { "rafamadriz/friendly-snippets" }, -- provides snippets
         }
-    end,
-    config = {
-        max_jobs = 30,
-        auto_reload_compiled = true,
-        compile_on_sync = true
-    }
+    },
 })
+IS_WINDOWS = vim.fn.executable("clip.exe") == 1 and true or false
 
 require("luasnip.loaders.from_vscode").lazy_load()
 require("luasnip.loaders.from_snipmate").lazy_load({
@@ -122,12 +144,18 @@ cmp.setup({
     formatting = {
         fields = { 'menu', 'abbr', 'kind' },
         format = function(entry, item)
-            local menu_icon = {
-                nvim_lsp = '󰌷',
-                luasnip = '󱡠',
-                buffer = '',
-                path = '',
-            }
+            local menu_icon =
+                IS_WINDOWS and {
+                    nvim_lsp = '⎀',
+                    luasnip = '⎓',
+                    buffer = '⎙',
+                    path = '⌘',
+                } or {
+                    nvim_lsp = '󰌷',
+                    luasnip = '󱡠',
+                    buffer = '',
+                    path = '',
+                }
             item.menu = menu_icon[entry.source.name]
             return item
         end,
@@ -339,11 +367,6 @@ require('gitsigns').setup {
         follow_files = true
     },
 }
-vim.g.NERDTreeShowHidden = 1
-vim.g.NERDTreeWinPos = 'right'
-vim.g.NERDTreeDirArrowCollapsible = ""
-vim.g.NERDTreeDirArrowExpandable = ""
-
 --  ┌─────────────┐
 --  │ Keybindings │
 --  └─────────────┘
@@ -357,9 +380,9 @@ vim.cmd([[
     map <silent> <A-0> :tablast<cr>
 ]])
 vim.keymap.set("n", "qq", ":q! <CR>")
-vim.keymap.set("n", "<A-n>", ":tabnew | NERDTreeExplore<CR>")
-vim.keymap.set("n", "<A-t>", ":vsplit | NERDTreeExplore<CR>")
-vim.keymap.set("n", "<A-Enter>", ":NERDTreeToggle <CR>")
+vim.keymap.set("n", "<A-n>", ":tabnew | Neotree current <CR>")
+vim.keymap.set("n", "<A-t>", ":vsplit | Neotree current <CR>")
+vim.keymap.set("n", "<A-Enter>", ":Neotree toggle right <CR>")
 vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
 -- ╭───────────╮
@@ -379,8 +402,7 @@ vim.keymap.set("n", "<A-r>", ":lua vim.lsp.buf.rename() <CR>")
 vim.keymap.set("n", "<A-d>", "<cmd>Trouble workspace_diagnostics toggle<CR>",
     { silent = true, noremap = true })
 
--- Windows only
-if vim.fn.executable("clip.exe") == 1 then
+if IS_WINDOWS then
     vim.g.clipboard = {
         name = 'WslClipboard',
         copy = {
@@ -393,24 +415,24 @@ if vim.fn.executable("clip.exe") == 1 then
         },
         cache_enabled = 0,
     }
-end
--- Linux only
-local function getColor()
-    local handle = io.popen(
-        "/usr/bin/gsettings get org.gnome.desktop.interface color-scheme")
-    if handle == nil then
-        return false
+else
+    local function getColor()
+        local handle = io.popen(
+            "/usr/bin/gsettings get org.gnome.desktop.interface color-scheme")
+        if handle == nil then
+            return false
+        end
+        local result = handle:read("*a") -- Read all output
+        handle:close()
+        return string.find(result, "prefer-dark", 1, true) ~= nil
     end
-    local result = handle:read("*a") -- Read all output
-    handle:close()
-    return string.find(result, "prefer-dark", 1, true) ~= nil
-end
-function SetColors()
-    if getColor() then
-        vim.cmd [[ set background=dark ]]
-    else
-        vim.cmd [[ set background=light ]]
+    function SetColors()
+        if getColor() then
+            vim.cmd [[ set background=dark ]]
+        else
+            vim.cmd [[ set background=light ]]
+        end
     end
-end
 
-SetColors()
+    SetColors()
+end
