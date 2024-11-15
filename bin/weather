@@ -1,6 +1,0 @@
-#!/bin/bash 
-data=`curl "wttr.in?format=%t+%C" 2>/dev/null`
-(( `echo $data | grep "html" -c` >= 1 )) && \
-    echo || \
-    echo "$data"
-#?format=3

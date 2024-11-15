@@ -18,8 +18,8 @@ GTK_THEME_DARK="Jasper-Purple-Dark-Compact"
 GTK_ICON_LIGHT="Ars-Dark-Icons" #"Pop-Extended"
 GTK_ICON_DARK="Ars-Light-Icons" #"Pop-Extended"
 
-PLASMA_COLOR_LIGHT="Adapta"
-PLASMA_COLOR_DARK="AdaptaNokto"
+PLASMA_COLOR_LIGHT="FlatRemixGreen"
+PLASMA_COLOR_DARK="FlatRemixGreenDarkest"
 
 
 Help()
