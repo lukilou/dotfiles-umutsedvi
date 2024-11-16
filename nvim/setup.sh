@@ -8,6 +8,25 @@
 # * Description: Neovim setup script.
 #*****************************************************************************
 
+PROGRAM_LIST="lua luarocks npm node python3 pip"
+INSTALL_LIST=
+
+pkg_install() {
+if [ "$#" -eq 0 ]; then
+    echo "Error: No package names provided."
+    return 1
+fi
+echo "Installing $INSTALL_LIST"
+if [ -f /etc/debian_version ]; then
+    sudo apt install -y $INSTALL_LIST
+elif [ -f /etc/fedora-release ]; then
+    sudo dnf install -y $INSTALL_LIST
+elif [ -f /etc/arch-release ]; then
+    sudo pacman -Syu --noconfirm $INSTALL_LIST
+else
+    exit 1
+fi
+}
 
 get_nvim() {
     cd /tmp
@@ -15,28 +34,8 @@ get_nvim() {
     tar -xvf nvim-linux64.tar.gz -C ~/.local/bin/
 }
 
-get_packer() {
-    git clone --depth 1 https://github.com/wbthomason/packer.nvim\
-     ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-}
-
-# clangd bashls cssls diagnosticsls dockerls grammarly html jsonls tsserver
-get_pnpm() {
-    curl -fsSL https://get.pnpm.io/install.sh | sh -
-    pnpm add bash-language-server diagnostic-languageserver \
-    grammarly-languageserver typescript-language-server \
-    vscode-langservers-extracted -g
-    go install github.com/go-delve/delve/cmd/dlv@latest
-}
-
-run() {
-    if [ -f "$HOME/.local/bin/nvim-linux64/bin/nvim" ]; then
-        "$HOME/.local/bin/nvim-linux64/bin/nvim" --headless -c 'PackerSync' -c 'PackerUpdate' -c 'qall'
-    fi
-}
-
 usage(){
-   echo "Usage: $0 --{neovim|packer|pnpm|prepare}"
+   echo "Usage: $0 --{neovim|check-health|install}"
 }
 
 help() {
@@ -44,11 +43,36 @@ help() {
    echo "Runs selected steps to install neovim with plugins."
    echo
    usage
-   echo
    echo "Options:"
-   echo "-a/--all       Performs all of the given actions in a sequence."
-   echo "-h/--help      Prints this menu."
+   echo "-a/--all         Performs all of the given actions in a sequence."
+   echo "--neovim         Installs neovim."
+   echo "--check-health   Checks for required packages."
+   echo "--install        Installs LSP dependencies."
+   echo "-h/--help        Prints this menu."
    echo
+}
+
+
+check_health() {
+    echo "Dependencies"
+
+    if command -v "nvim" &> /dev/null; then
+        nvim --version
+    else
+        echo "Neovim not found"
+    fi
+    for i in $PROGRAM_LIST; do
+        if command -v "$i" &> /dev/null; then
+            echo "[X] $i"
+            continue
+        else
+            echo "[ ] $i"
+            if $i == "nodejs"; then  INSTALL_LIST+=" nodejs"
+            fi
+            INSTALL_LIST+=" $i "
+        fi
+    done
+    [ "$INSTALL_LIST" = "" ] && echo "All dependencies are found."
 }
 
 if [ $# -eq 0 ]; then
@@ -58,24 +82,22 @@ fi
 
 while [ -n "$1" ]; do
     case $1 in
+        --check-health)
+            check_health
+            ;;
         --neovim)
             get_nvim
             ;;
-        --packer)
-            get_packer
-            ;;
-        --pnpm)
-            get_pnpm && source "$HOME/.bashrc"
-            ;;
-        --prepare)
-            run
+        --install)
+            check_health
+            [ "$INSTALL_LIST" = "" ] || pkg_install $INSTALL_LIST
+            exit
             ;;
         --all|-a)
             get_nvim && \
-            get_pnpm && \
             source "$HOME/.bashrc" \
-            get_packer && \
-            run
+             check_health \
+            [ "$INSTALL_LIST" = "" ] || pkg_install $INSTALL_LIST
             ;;
         *)
             help && exit 1
