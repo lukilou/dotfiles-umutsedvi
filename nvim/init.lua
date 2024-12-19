@@ -54,6 +54,7 @@ vim.o.textwidth = 300
 vim.o.list = true
 vim.o.jumpoptions = "view"
 
+-- Install Lazy.nvim if not exists
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
     vim.fn.system({
@@ -80,26 +81,17 @@ require('lazy').setup({
     {
         'nvim-telescope/telescope.nvim',
         dependencies = { 'nvim-lua/plenary.nvim' },
+        cmd = { "Telescope" },
     },
     {
-        "nvim-neo-tree/neo-tree.nvim",
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-            "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-            "MunifTanjim/nui.nvim",
-        },
-        cmd = { "Neotree" },
-        config = function()
-            require("neo-tree").setup({
-                filesystem = {
-                    filtered_items = {
-                        hide_dotfiles = false
-                    }
-                }
-            })
-        end
+        'stevearc/oil.nvim',
+        ---@module 'oil'
+        ---@type oil.SetupOpts
+        opts = {},
+        cmd = { "Oil" },
+        dependencies = { "nvim-tree/nvim-web-devicons" },
     },
-    { 'junegunn/fzf',                    dir = '~/.fzf',     build = './install --all' },
+    --    { 'junegunn/fzf',                    dir = '~/.fzf',     build = './install --all' },
     { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
     {
         'VonHeikemen/lsp-zero.nvim',
@@ -194,9 +186,9 @@ lspconfig_defaults.capabilities = vim.tbl_deep_extend(
 require('mason').setup {}
 require('mason-lspconfig').setup {
     ensure_installed = {
-        'bashls', 'clangd', 'cmake', 'cssls', 'lua_ls',
+        'bashls', 'clangd', 'cssls', 'lua_ls',
         'gopls', 'grammarly', 'html', 'marksman',
-        'pylsp', 'ts_ls'
+        'pylsp', 'ts_ls' --, 'cmake'
     },
     handlers = {
         function(server_name)
@@ -255,15 +247,17 @@ require('kanagawa').setup({
     typeStyle = { bold = true },
     transparent = true,    -- do not set background color
     terminalColors = true, -- define vim.g.terminal_color_{0,17}
-    theme = "wave",        -- Load "wave" theme when 'background' option is not set
     background = {         -- map the value of 'background' option to a theme
-        dark = "wave",     -- try "dragon" !
+        dark = "dragon",   -- try "dragon" !
         light = "lotus"
     },
 })
 vim.cmd("colorscheme kanagawa")
 
 require("lualine").setup({
+    options = {
+        theme = '16color',
+    },
     sections = {
         lualine_a = { "mode", "branch" },
         lualine_b = {
@@ -380,9 +374,8 @@ vim.cmd([[
     map <silent> <A-0> :tablast<cr>
 ]])
 vim.keymap.set("n", "qq", ":q! <CR>")
-vim.keymap.set("n", "<A-n>", ":tabnew | Neotree current <CR>")
-vim.keymap.set("n", "<A-t>", ":vsplit | Neotree current <CR>")
-vim.keymap.set("n", "<A-Enter>", ":Neotree toggle right <CR>")
+vim.keymap.set("n", "<A-n>", ":tabnew | Oil <CR>")
+vim.keymap.set("n", "<A-t>", ":vsplit | Oil <CR>")
 vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
 -- ╭───────────╮
