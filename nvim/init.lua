@@ -28,7 +28,6 @@ vim.cmd([[
 vim.o.termguicolors = false
 vim.o.hidden = true
 vim.o.updatetime = 200
--- Disable backup files
 vim.o.backup = false
 vim.o.writebackup = false
 vim.o.signcolumn = 'yes'
@@ -37,7 +36,7 @@ vim.o.cursorline = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.undofile = true
-vim.o.undodir = "/home/umutsevdi/.config/nvim/undodir"
+vim.o.undodir = vim.fn.stdpath("config") .. "/undodir"
 vim.o.swapfile = false
 vim.o.history = 50
 vim.o.splitright = true
@@ -54,7 +53,7 @@ vim.o.textwidth = 300
 vim.o.list = true
 vim.o.jumpoptions = "view"
 
--- Install Lazy.nvim if not exists
+-- Install Lazy if not exists
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
     vim.fn.system({
@@ -71,22 +70,49 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 require('lazy').setup({
-    'wbthomason/packer.nvim',       -- packer can manage itself
-    'lewis6991/gitsigns.nvim',      -- git symbols on the left
+    {
+        'lewis6991/gitsigns.nvim',
+        opts = {
+            signs              = {
+                change       = { text = '┇' },
+                changedelete = { text = '╍' },
+                untracked    = { text = '┊' },
+            },
+            current_line_blame = true,
+        }
+    },                              -- git symbols on the left
     'nvim-lualine/lualine.nvim',    -- bottom bar
     'LudoPinelli/comment-box.nvim', -- comment box
-    'm4xshen/autoclose.nvim',
-    "rebelot/kanagawa.nvim",
-    "folke/trouble.nvim",
+    { 'm4xshen/autoclose.nvim',          opts = {} },
+    {
+        "rebelot/kanagawa.nvim",
+        opts = {
+            compile = true,   -- enable compiling the colorscheme
+            undercurl = true, -- enable undercurls
+            commentStyle = { italic = true },
+            functionStyle = { bold = true, italic = true },
+            keywordStyle = { italic = false, bold = true },
+            statementStyle = {},
+            typeStyle = { bold = true },
+            transparent = true,    -- do not set background color
+            terminalColors = true, -- define vim.g.terminal_color_{0,17}
+            background = {         -- map the value of 'background' option to a theme
+                dark = "wave",   -- try "dragon" !
+                light = "lotus"
+            },
+            colors = { theme = { all = { ui = { bg_gutter = "none" } } } }
+        }
+    },
     {
         'nvim-telescope/telescope.nvim',
-        dependencies = { 'nvim-lua/plenary.nvim' },
+        dependencies = {
+            'nvim-lua/plenary.nvim',
+            'nvim-telescope/telescope-ui-select.nvim'
+        },
         cmd = { "Telescope" },
     },
     {
         'stevearc/oil.nvim',
-        ---@module 'oil'
-        ---@type oil.SetupOpts
         opts = {},
         cmd = { "Oil" },
         dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -237,22 +263,22 @@ require("nvim-treesitter.configs").setup({
         "tsx", "typescript", "yaml", "vim", "vimdoc" },
 })
 
-require('kanagawa').setup({
-    compile = true,   -- enable compiling the colorscheme
-    undercurl = true, -- enable undercurls
-    commentStyle = { italic = true },
-    functionStyle = { bold = true, italic = true },
-    keywordStyle = { italic = false, bold = true },
-    statementStyle = {},
-    typeStyle = { bold = true },
-    transparent = true,    -- do not set background color
-    terminalColors = true, -- define vim.g.terminal_color_{0,17}
-    background = {         -- map the value of 'background' option to a theme
-        dark = "dragon",   -- try "dragon" !
-        light = "lotus"
-    },
-})
 vim.cmd("colorscheme kanagawa")
+
+require("telescope").setup {
+    defaults = {
+        layout_config = {
+            --            vertical = { width = 0.5 }
+            -- other layout configuration here
+        }
+    },
+    opts = {
+        extensions = {
+            ["ui-select"] = require("telescope.themes").get_cursor {}
+        },
+    }
+}
+require("telescope").load_extension("ui-select")
 
 require("lualine").setup({
     options = {
@@ -285,7 +311,7 @@ require("lualine").setup({
             },
         },
         lualine_y = { "tabs", "location" },
-        lualine_z = { "encoding", "filetype" },
+        lualine_z = { "filetype" },
     },
     inactive_sections = {
         lualine_a = {},
@@ -293,7 +319,7 @@ require("lualine").setup({
         lualine_c = {},
         lualine_x = {},
         lualine_y = {},
-        lualine_z = { 'filetype', 'filename' }
+        lualine_z = { 'filename' }
     },
     tabline = {},
     winbar = {},
@@ -301,36 +327,8 @@ require("lualine").setup({
     extensions = {}
 })
 
-require("trouble").setup {
-    warn_no_results = true,
-    open_no_results = true,
-    focus = true,
-    modes = {
-        workspace_diagnostics = {
-            mode = "diagnostics", -- inherit from diagnostics mode
-            filter = {
-                any = {
-                    buf = 0, {
-                    severity = { min = vim.diagnostic.severity.WARN },
-                    function(item)
-                        return item.filename:find((vim.loop or vim.uv).cwd(),
-                            1, true)
-                    end,
-                } } },
-        }
-    }
-}
 
-require('telescope').setup {
-    pickers = {
-        find_files = { theme = "dropdown" },
-        treesitter = { theme = "dropdown" },
-        buffers = { theme = "dropdown" },
-        help_tags = { theme = "dropdown" }
-    },
-}
-
-vim.diagnostic.config({
+vim.diagnostic.config {
     signs = {
         text = {
             [vim.diagnostic.severity.ERROR] = "⊗",
@@ -340,31 +338,11 @@ vim.diagnostic.config({
         }
     },
     virtual_text = true,
-})
-
-require('gitsigns').setup {
-    signs              = {
-        add          = { text = '┃' },
-        change       = { text = '┇' },
-        delete       = { text = '╴' },
-        topdelete    = { text = '╸' },
-        changedelete = { text = '╍' },
-        untracked    = { text = '┊' },
-    },
-    current_line_blame = true,
-    signcolumn         = true,
-    numhl              = false,
-    linehl             = false,
-    word_diff          = false,
-    watch_gitdir       = {
-        interval = 1000,
-        follow_files = true
-    },
 }
---  ┌─────────────┐
---  │ Keybindings │
---  └─────────────┘
-require("autoclose").setup()
+
+-- ╭────────────────────╮
+-- │ Keyboard shortcuts │
+-- ╰────────────────────╯
 vim.cmd([[
     map <silent> <A-h> :tabprevious<CR>
     map <silent> <A-l> :tabnext<CR>
@@ -378,23 +356,20 @@ vim.keymap.set("n", "<A-n>", ":tabnew | Oil <CR>")
 vim.keymap.set("n", "<A-t>", ":vsplit | Oil <CR>")
 vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
--- ╭───────────╮
--- │ Telescope │
--- ╰───────────╯
-vim.keymap.set("n", "ff", ":Telescope find_files <CR>")
-vim.keymap.set("n", "fs", ":Telescope live_grep <CR>")
-vim.keymap.set("n", "fd", ":Telescope lsp_references <CR>")
-vim.keymap.set("n", "fg", "<cmd>Telescope buffers<CR>")
+vim.keymap.set("n", "ff", ":Telescope find_files theme=ivy <CR>")
+vim.keymap.set("n", "fs", ":Telescope live_grep theme=dropdown<CR>")
+vim.keymap.set("n", "fd", ":Telescope lsp_references theme=cursor <CR>")
+vim.keymap.set("n", "fg", "<cmd>Telescope buffers theme=ivy<CR>")
 vim.keymap.set("n", "fh", "<cmd>Telescope man_pages sections=2,3<CR>")
---  ╭─────────────────────────────────────────────╮
---  │   Language Server Protocol Configurations   │
---  ╰─────────────────────────────────────────────╯
+vim.keymap.set("n", "<A-d>", "<cmd>:Telescope diagnostics theme=ivy<CR>",
+    { silent = true, noremap = true })
 vim.keymap.set("n", "<A-f>", ":lua vim.lsp.buf.format() <CR>")
 vim.keymap.set("n", "<A-q>", ":lua vim.lsp.buf.code_action() <CR>")
 vim.keymap.set("n", "<A-r>", ":lua vim.lsp.buf.rename() <CR>")
-vim.keymap.set("n", "<A-d>", "<cmd>Trouble workspace_diagnostics toggle<CR>",
-    { silent = true, noremap = true })
 
+-- ╭───────────────────╮
+-- │ Platform Specific │
+-- ╰───────────────────╯
 if IS_WINDOWS then
     vim.g.clipboard = {
         name = 'WslClipboard',
